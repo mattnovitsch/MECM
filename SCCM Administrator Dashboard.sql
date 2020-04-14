@@ -269,7 +269,7 @@ join [CM_Nov].dbo.v_Collection vC
 	on vC.CollectionID = vFCM.CollectionID
 where vrs.client0 = 1
        and vrs.Operating_System_Name_and0 like '%Workstation%'
-	   and vFCM.CollectionID in ('NOV00015')
+	   and vFCM.CollectionID in ('NOV00017')
 group by
 	vC.Name,
     uur.UpdateName,
@@ -333,7 +333,7 @@ join [CM_Nov].dbo.v_Collection vC
 	on vC.CollectionID = vFCM.CollectionID
 where vrs.client0 = 1
        and vrs.Operating_System_Name_and0 like '%Server%'
-	   and vFCM.CollectionID in ('NOV00016')
+	   and vFCM.CollectionID in ('NOV00015')
 group by
 	vC.Name,
     uur.UpdateName,
@@ -417,19 +417,6 @@ exec [SCCM_PBI_Reporting].dbo.usp_PBI_SoftwareUpdates_byCollections_Servers
 exec [SCCM_PBI_Reporting].dbo.usp_PBI_SoftwareUpdates_byCollections_Other
 
 /******End of Patching data******/
-
---Uninstall SCCM PBI_Reporting database
-/*
---Sets database to single user mode so it drops all other connections
-USE [master]
-GO
-ALTER DATABASE [SCCM_PBI_Reporting] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
-GO
-
---Deletes the database from SQL Server
-Drop database [SCCM_PBI_Reporting]
-*/
-
 
 /******Start of Client Health******/
 /****** Object:  Table [dbo].[ust_clientHealth]******/
@@ -706,4 +693,205 @@ END
 GO
 
 exec [SCCM_PBI_Reporting].dbo.usp_OSVersions
-/******End of Installed SCCM Roles******/
+/******End of OS Versions******/
+
+/******Start of  SystemSecurity******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_SystemSecurity]
+(
+	[System] [nvarchar](max) NULL,
+	[Make] [nvarchar](max) NULL,
+	[Model] [nvarchar](max) NULL,
+	[TPM Version] [nvarchar](max) NULL,
+	[TPM Enabled] [nvarchar](max) NULL,
+	[UEFI Enabled] [nvarchar](max) NULL,
+	[Secure Boot] [nvarchar](max) NULL,
+	[VBS Status] [nvarchar](max) NULL,
+	[Cred Guard Enabled] [nvarchar](max) NULL,
+	[Cred Guard Running] [nvarchar](max) NULL,
+	[BitLocker Enabled] [nvarchar](max) NULL,
+	[LastHWScan] [nvarchar](max) NULL
+) ON [PRIMARY]
+GO
+
+USE [SCCM_PBI_Reporting]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE dbo.usp_SystemSecurity
+AS
+BEGIN
+truncate table [SCCM_PBI_Reporting].dbo.[ust_SystemSecurity]
+
+Insert into [SCCM_PBI_Reporting].dbo.[ust_SystemSecurity]
+SELECT DISTINCT
+    Sys.Netbios_Name0 as 'System', 
+    CASE
+            When CS.Manufacturer0 = 'HP' THEN 'HP'
+        When CS.Manufacturer0 = 'Hewlett-Packard' THEN 'HP'
+            When CS.Manufacturer0 = 'Dell Inc.' Then 'Dell'
+            When CS.Manufacturer0 = 'VMware, Inc.' Then 'VMware'
+            When CS.Manufacturer0 = 'Microsoft Corporation' Then 'Microsoft'
+            Else CS.Manufacturer0
+    END as 'Make',
+   CS.Model0 as 'Model', 
+    CASE
+           When tpm.SpecVersion0 like '1.2%' Then '1.2'
+            When tpm.SpecVersion0 like '2.0%' Then '2.0'
+            else 'Not Available'
+    END as 'TPM Version',
+    CASE
+            When tpm.IsEnabled_InitialValue0 = '1' Then 'Yes'
+            else 'No'
+    END as 'TPM Enabled',
+    CASE
+            When frm.UEFI0 = '0' Then 'BIOS Legacy'
+            When frm.UEFI0 = '1' Then 'UEFI'
+            Else 'Not Available'
+    END as 'UEFI Enabled',
+    CASE
+            When frm.SecureBoot0 = '0' Then 'Off'
+            When frm.SecureBoot0 = '1' Then 'On'
+            Else 'Not Available'
+    END as 'Secure Boot',
+    CASE
+            When Cred.VirtualizationBasedSecurityS0 = '0' then 'VBS not enabled'
+            When Cred.VirtualizationBasedSecurityS0 = '1' then 'VBS enabled but not running'
+            When Cred.VirtualizationBasedSecurityS0 = '2' then 'VBS enabled and running'
+        Else 'Not Available'
+    END as 'VBS Status',
+    CASE
+            When Cred.SecurityServicesConfigured0 like '%0%' then 'No'
+            When Cred.SecurityServicesConfigured0 like '%1%' then 'Yes'
+            Else 'Not Available'
+    END as 'Cred Guard Enabled',
+    CASE
+            When Cred.SecurityServicesRunning0 like '%0%' then 'No'
+            When Cred.SecurityServicesRunning0 like '%1%' then 'Yes'
+            Else 'Not Available'
+    END as 'Cred Guard Running',
+    CASE 
+            When EV.ProtectionStatus0 = 1 THEN 'Yes'
+            Else 'No'
+    END as 'BitLocker Enabled',
+    hw.LastHWScan
+FROM 
+    [CM_NOV].dbo.v_GS_OPERATING_SYSTEM OS 
+    join [CM_NOV].dbo.v_R_System_Valid Sys on Sys.resourceid = OS.ResourceID and Operating_System_Name_and0 like '%Workstation%'
+    left join [CM_NOV].dbo.v_GS_TPM tpm on tpm.ResourceID = Sys.ResourceID
+    left join [CM_NOV].dbo.v_GS_ENCRYPTABLE_VOLUME ev on ev.ResourceID = Sys.ResourceID and [PersistentVolumeID0] <> ''
+    left join [CM_NOV].dbo.v_GS_COMPUTER_SYSTEM CS on CS.ResourceID = Sys.ResourceID
+    left join [CM_NOV].dbo.v_GS_FIRMWARE FRM on FRM.ResourceID = Sys.ResourceID
+    left join [CM_NOV].dbo.v_GS_DEVICE_GUARD Cred on Cred.ResourceID = Sys.ResourceID
+    join [CM_NOV].dbo.v_FullCollectionMembership fcm on fcm.Resourceid=Sys.Resourceid
+    left join [CM_NOV].dbo.v_GS_WORKSTATION_STATUS hw on hw.ResourceID=Sys.ResourceID
+
+Select * from [SCCM_PBI_Reporting].dbo.[ust_SystemSecurity]
+
+SET NOCOUNT ON;
+END
+GO
+
+exec [SCCM_PBI_Reporting].dbo.usp_SystemSecurity
+
+/******End of SystemSecurity******/
+
+/******Start of  Bitlocker******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_BitlockerData]
+(
+	[System] [nvarchar](max) NULL,
+	[DriveLetter] [nvarchar](max) NULL,
+	[EncryptionMethod] [nvarchar](max) NULL,
+	[IsAutoUnlockEnabled] [nvarchar](max) NULL,
+	[ProtectionStatus] [nvarchar](max) NULL,
+	[Encryption Status] [nvarchar](max) NULL,
+) ON [PRIMARY]
+GO
+
+USE [SCCM_PBI_Reporting]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE dbo.usp_BitlockerData
+AS
+BEGIN
+truncate table [SCCM_PBI_Reporting].dbo.[ust_BitlockerData]
+
+Insert into [SCCM_PBI_Reporting].dbo.[ust_BitlockerData]
+SELECT 
+	vrs.name0 'System',
+    [DriveLetter0] 'DriveLetter',
+    case
+		when [EncryptionMethod0] = 0 then 'None'
+		when [EncryptionMethod0] = 1 then 'AES_128_WITH_DIFFUSER'
+		when [EncryptionMethod0] = 2 then 'AES_256_WITH_DIFFUSER'
+		when [EncryptionMethod0] = 3 then 'AES_128'
+		when [EncryptionMethod0] = 4 then 'AES 256'
+		when [EncryptionMethod0] = 5 then 'HARDWARE_ENCRYPTION'
+		when [EncryptionMethod0] = 6 then 'XTS_AES_128'
+		when [EncryptionMethod0] = 7 then 'XTS_AES_256'
+		else 'Not Available' 
+		end as 'EncryptionMethod',
+	case
+		when [IsAutoUnlockEnabled0] = 0 then 'Disabled'
+		when [IsAutoUnlockEnabled0] = 1 then 'Enabled'
+		else 'Not Available'
+		end as 'IsAutoUnlockEnabled',
+    case
+		when [ProtectionStatus0] = 0 then 'Protection Off'
+		when [ProtectionStatus0] = 1 then 'Protection On'
+		else 'Protection Unknown'
+		end as 'ProtectionStatus',
+	case 
+		when [ConversionStatus0] = 0 then 'Fully Decrypted'
+		when [ConversionStatus0] = 1 then 'Fully Encrypted'
+		when [ConversionStatus0] = 2 then 'Encryption InProgress'
+		when [ConversionStatus0] = 3 then 'Decryption InProgress'
+		when [ConversionStatus0] = 4 then 'Encryption Paused'
+		when [ConversionStatus0] = 5 then 'Decryption Paused'
+		else 'Encryption Unknown'
+		end as 'Encryption Status'
+FROM [CM_NOV].dbo.[v_GS_BITLOCKER_DETAILS] bit
+join [CM_NOV].dbo.v_r_system vrs
+	on bit.ResourceID = vrs.ResourceID
+
+Select * from [SCCM_PBI_Reporting].dbo.[ust_BitlockerData]
+
+SET NOCOUNT ON;
+END
+GO
+
+exec [SCCM_PBI_Reporting].dbo.usp_BitlockerData
+
+/******End of Bitlocker******/
+
+--Uninstall SCCM PBI_Reporting database
+/*
+--Sets database to single user mode so it drops all other connections
+USE [master]
+GO
+ALTER DATABASE [SCCM_PBI_Reporting] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+GO
+
+--Deletes the database from SQL Server
+Drop database [SCCM_PBI_Reporting]
+*/
