@@ -557,43 +557,12 @@ truncate table [SCCM_PBI_Reporting].dbo.ust_installedserverroles
 Insert into [SCCM_PBI_Reporting].dbo.ust_installedserverroles
 select
 	Netbios_Name0,
-	ConfigurationItemName
+	REPLACE(ConfigurationItemName, 'Installed Server Roles - ', '')
 from [CM_NOV].dbo.v_CIComplianceStatusDetail a
 where ConfigurationItemName in(
 	select distinct displayname
 	from [CM_NOV].dbo.v_LocalizedCIProperties
-	where displayname in ('Branchcache for Network Files',
-		'Active Directory Certificate Services',
-		'Active Directory Domain Services',
-		'Active Directory Federation Services',
-		'Active Directory Rights Management Services',
-		'Data Deduplication',
-		'Device Health Attestation',
-		'DFS Namespaces',
-		'DFS Replication',
-		'DHCP Server',
-		'DNS Server',
-		'Fax Server',
-		'File Server',
-		'File Server Resource Manager',
-		'File Server VSS Agent Service',
-		'Host Guardian Service',
-		'Hyper-V',
-		'iSCSI Target Server',
-		'iSCSI Target Storage Provider (VDS and VSS hardware providers)',
-		'Network Controller',
-		'Network Policy and Access Services',
-		'Print and Document Services',
-		'Remote Access',
-		'Remote Desktop Services',
-		'Server for NFS',
-		'Storage Services',
-		'Volume Activation Service',
-		'Web Server (IIS)',
-		'Windows Deployment Services',
-		'Windows Server Update Services',
-		'Work Folders')
-	)
+	where displayname like 'Installed Server Roles - %' and DisplayName not in('Installed Server Roles - File Server', 'Installed Server Roles - Storage Services'))
 order by Netbios_Name0
 
 Select * from [SCCM_PBI_Reporting].dbo.ust_installedserverroles
