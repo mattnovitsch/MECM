@@ -853,6 +853,361 @@ exec [SCCM_PBI_Reporting].dbo.usp_BitlockerData
 
 /******End of Bitlocker******/
 
+/****** Object:  Table [dbo].[ust_CollectionsSchedules]******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_CollectionsSchedules]
+(
+	SiteCode [nvarchar](3),
+	Name [nvarchar](255) NULL,
+	MemberCount int NULL,
+	refreshtype [nvarchar](255) NULL,
+	LastChangeTime datetime Null,
+	LastRefreshTime datetime Null,
+	LastMemberChangeTime datetime Null
+
+) ON [PRIMARY]
+GO
+
+USE [SCCM_PBI_Reporting]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE dbo.usp_CollectionsSchedules
+AS
+BEGIN
+truncate table [SCCM_PBI_Reporting].dbo.ust_CollectionsSchedules
+
+Insert into [SCCM_PBI_Reporting].dbo.ust_CollectionsSchedules
+SELECT LEFT(CollectionID,3) 'SiteCode', 
+       Name, 
+       MemberCount, 
+       CASE refreshtype 
+         WHEN 1 THEN 'No Scheduled Update' 
+         WHEN 2 THEN 'Full Scheduled Update' 
+         WHEN 4 THEN 'Incremental Update (Only)' 
+         WHEN 6 THEN 'Incremental and Full Scheduled Update' 
+       END AS 'Refresh Type',
+	   LastChangeTime,
+	   LastRefreshTime,
+	   LastMemberChangeTime
+FROM   [CM_NOV].dbo.v_Collection
+WHERE  CollectionID NOT LIKE 'SMS%'
+
+Select * from [SCCM_PBI_Reporting].dbo.ust_CollectionsSchedules
+
+SET NOCOUNT ON;
+END
+GO
+
+exec [SCCM_PBI_Reporting].dbo.usp_CollectionsSchedules
+/******End of Collections Schedules******/
+
+/****** Object:  Table [dbo].[ust_CollectionTopModifier]******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_CollectionTopModifier]
+(
+	Total int null,
+	Mod datetime null
+
+) ON [PRIMARY]
+GO
+
+USE [SCCM_PBI_Reporting]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE dbo.usp_CollectionTopModifier
+AS
+BEGIN
+truncate table [SCCM_PBI_Reporting].dbo.ust_CollectionTopModifier
+
+Insert into [SCCM_PBI_Reporting].dbo.ust_CollectionTopModifier
+SELECT DISTINCT TOP (1) 
+	Count(stat.RecordID) AS Total,
+	UPPER(ins.InsStrValue) As Mod                       
+FROM [CM_NOV].dbo.v_statusmessage AS stat 
+LEFT JOIN [CM_NOV].dbo.v_statmsginsstrings AS ins 
+	ON stat.recordid = ins.recordid 
+LEFT JOIN [CM_NOV].dbo.v_statmsgattributes AS att1
+	ON stat.recordid = att1.recordid 
+WHERE
+	stat.messagetype = 768 AND
+	stat.messageid >= 30015 AND
+	stat.messageid <= 30017 AND
+	stat.time > DATEADD(DAY, -7, GETDATE()) AND
+	ins.InsStrValue LIKE '%\%'
+GROUP BY ins.InsStrValue
+
+Select * from [SCCM_PBI_Reporting].dbo.ust_CollectionTopModifier
+
+SET NOCOUNT ON;
+END
+GO
+
+exec [SCCM_PBI_Reporting].dbo.usp_CollectionTopModifier
+/******End of Collections Top Modifier******/
+
+/****** Object:  Table [dbo].[ust_Collectionsunder10seconds]******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_Collectionsunder10seconds]
+(
+	CollectionID [int], 
+	SiteID [nvarchar](8),
+	CollectionName [nvarchar](max),
+	MemberChanges [int],
+	MemberCount [int],
+	LastMemberChangeTime [datetime],
+	WQL [nvarchar](max),
+	SQL [nvarchar](max),
+	Current_Status [nvarchar](max),
+	Time_Spent_On_Eval [decimal],
+	SiteCode [nvarchar](3)
+) ON [PRIMARY]
+GO
+
+USE [SCCM_PBI_Reporting]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE dbo.usp_Collectionsunder10seconds
+AS
+BEGIN
+truncate table [SCCM_PBI_Reporting].dbo.ust_Collectionsunder10seconds
+
+Insert into [SCCM_PBI_Reporting].dbo.ust_Collectionsunder10seconds
+Select TOP 100 
+	T1.CollectionID, 
+	T2.SiteID,
+	T2.CollectionName,
+	T1.MemberChanges,
+	vc.MemberCount,
+	vc.LastMemberChangeTime,
+	crs.WQL,
+	crs.SQL,
+	CASE t1.CurrentStatus
+		WHEN 0 THEN 'NONE'
+		WHEN 1 THEN 'READY'
+		WHEN 2 THEN 'REFRESHING'
+		WHEN 3 THEN 'SAVING'
+		WHEN 4 THEN 'EVALUATING'
+		WHEN 5 THEN 'AWAITING REFRESH'
+		WHEN 6 THEN 'DELETING'
+		WHEN 7 THEN 'APPENDING MEMBER'
+		WHEN 8 THEN 'QUERYING'
+	END 'Current_Status',
+	(CAST(T1.EvaluationLength as float)/1000) as 'Time_Spent_On_Eval',
+	SC.SiteCode
+FROM [CM_NOV].dbo.Collections_L as T1
+INNER JOIN [CM_NOV].dbo.Collections_G as T2
+	ON T2.CollectionID = T1.CollectionID
+INNER JOIN [CM_NOV].dbo.v_Collections AS vc
+	ON vc.CollectionID = T1.CollectionID 
+INNER JOIN [CM_NOV].dbo.Collection_Rules_SQL crs
+	ON crs.CollectionID = T1.CollectionID
+INNER JOIN [CM_NOV].dbo.v_SC_SiteDefinition AS SC
+	ON SC.SiteNumber = T1.SiteNumber
+WHERE 
+	(CAST(T1.EvaluationLength as float)/1000) < 10
+
+
+Select * from [SCCM_PBI_Reporting].dbo.ust_Collectionsunder10seconds
+
+SET NOCOUNT ON;
+END
+GO
+
+exec [SCCM_PBI_Reporting].dbo.usp_Collectionsunder10seconds
+/******End of Collections Under 10 Seconds******/
+
+
+/****** Object:  Table [dbo].[ust_Collectionsbetween10and20seconds]******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_Collectionsbetween10and20seconds]
+(
+	CollectionID [int], 
+	SiteID [nvarchar](8),
+	CollectionName [nvarchar](max),
+	MemberChanges [int],
+	MemberCount [int],
+	LastMemberChangeTime [datetime],
+	WQL [nvarchar](max),
+	SQL [nvarchar](max),
+	Current_Status [nvarchar](max),
+	Time_Spent_On_Eval [decimal],
+	SiteCode [nvarchar](3)
+) ON [PRIMARY]
+GO
+
+USE [SCCM_PBI_Reporting]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE dbo.usp_Collectionsbetween10and20seconds
+AS
+BEGIN
+truncate table [SCCM_PBI_Reporting].dbo.ust_Collectionsbetween10and20seconds
+
+Insert into [SCCM_PBI_Reporting].dbo.ust_Collectionsbetween10and20seconds
+Select 
+	T1.CollectionID, 
+	T2.SiteID,
+	T2.CollectionName,
+	t1.MemberChanges,
+	vc.MemberCount,
+	vc.LastMemberChangeTime,
+	crs.WQL,
+	crs.SQL,
+	CASE t1.CurrentStatus
+		WHEN 0 THEN 'NONE'
+		WHEN 1 THEN 'READY'
+		WHEN 2 THEN 'REFRESHING'
+		WHEN 3 THEN 'SAVING'
+		WHEN 4 THEN 'EVALUATING'
+		WHEN 5 THEN 'AWAITING REFRESH'
+		WHEN 6 THEN 'DELETING'
+		WHEN 7 THEN 'APPENDING MEMBER'
+		WHEN 8 THEN 'QUERYING'
+	END 'Current Status',
+	(CAST(T1.EvaluationLength as float)/1000) as 'TimeSpentOnEval',
+	SC.SiteCode
+FROM [CM_NOV].dbo.Collections_L as T1
+INNER JOIN [CM_NOV].dbo.Collections_G as T2 
+	ON T2.CollectionID = T1.CollectionID
+INNER JOIN [CM_NOV].dbo.v_Collections AS vc 
+	ON vc.CollectionID = T1.CollectionID 
+INNER JOIN [CM_NOV].dbo.Collection_Rules_SQL crs 
+	ON crs.CollectionID = T1.CollectionID
+INNER JOIN [CM_NOV].dbo.v_SC_SiteDefinition AS SC 
+	ON SC.SiteNumber = T1.SiteNumber
+WHERE 
+	(CAST(T1.EvaluationLength as float)/1000) BETWEEN 10 AND 20
+
+
+Select * from [SCCM_PBI_Reporting].dbo.ust_Collectionsbetween10and20seconds
+
+SET NOCOUNT ON;
+END
+GO
+
+exec [SCCM_PBI_Reporting].dbo.usp_Collectionsbetween10and20seconds
+/******End of Collectionsbetween10and20seconds******/
+
+/****** Object:  Table [dbo].[ust_Collectionsover20seconds]******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_Collectionsover20seconds]
+(
+	CollectionID [int], 
+	SiteID [nvarchar](8),
+	CollectionName [nvarchar](max),
+	MemberChanges [int],
+	MemberCount [int],
+	LastMemberChangeTime [datetime],
+	WQL [nvarchar](max),
+	SQL [nvarchar](max),
+	Current_Status [nvarchar](max),
+	Time_Spent_On_Eval [decimal],
+	SiteCode [nvarchar](3)
+) ON [PRIMARY]
+GO
+
+USE [SCCM_PBI_Reporting]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE dbo.usp_Collectionsover20seconds
+AS
+BEGIN
+truncate table [SCCM_PBI_Reporting].dbo.ust_Collectionsover20seconds
+
+Insert into [SCCM_PBI_Reporting].dbo.ust_Collectionsover20seconds
+Select 
+	T1.CollectionID, 
+	T2.SiteID,
+	T2.CollectionName,
+	t1.MemberChanges,
+	vc.MemberCount,
+	vc.LastMemberChangeTime,
+	crs.WQL,
+	crs.SQL,
+	CASE t1.CurrentStatus
+		WHEN 0 THEN 'NONE'
+		WHEN 1 THEN 'READY'
+		WHEN 2 THEN 'REFRESHING'
+		WHEN 3 THEN 'SAVING'
+		WHEN 4 THEN 'EVALUATING'
+		WHEN 5 THEN 'AWAITING REFRESH'
+		WHEN 6 THEN 'DELETING'
+		WHEN 7 THEN 'APPENDING MEMBER'
+		WHEN 8 THEN 'QUERYING'
+	END 'Current Status',
+	(CAST(T1.EvaluationLength as float)/1000) as 'TimeSpentOnEval',
+	SC.SiteCode
+FROM [CM_NOV].dbo.Collections_L as T1
+INNER JOIN [CM_NOV].dbo.Collections_G as T2 
+	ON T2.CollectionID = T1.CollectionID
+INNER JOIN [CM_NOV].dbo.v_Collections AS vc 
+	ON vc.CollectionID = T1.CollectionID 
+INNER JOIN [CM_NOV].dbo.Collection_Rules_SQL crs 
+	ON crs.CollectionID = T1.CollectionID
+INNER JOIN [CM_NOV].dbo.v_SC_SiteDefinition AS SC 
+	ON SC.SiteNumber = T1.SiteNumber
+WHERE 
+	(CAST(T1.EvaluationLength as float)/1000) > 20
+
+Select * from [SCCM_PBI_Reporting].dbo.ust_Collectionsover20seconds
+
+SET NOCOUNT ON;
+END
+GO
+
+exec [SCCM_PBI_Reporting].dbo.usp_Collectionsover20seconds
+/******End of Collectionsover20seconds******/
+
 --Uninstall SCCM PBI_Reporting database
 /*
 --Sets database to single user mode so it drops all other connections
