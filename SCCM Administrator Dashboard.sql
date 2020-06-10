@@ -921,7 +921,7 @@ GO
 CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_CollectionTopModifier]
 (
 	Total int null,
-	Mod datetime null
+	Mod nvarchar(max) null
 
 ) ON [PRIMARY]
 GO
