@@ -431,7 +431,6 @@ CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_clientHealth]
 	[Name0] [nvarchar](255) NULL,
 	[Client_Version0] [nvarchar](255) NULL,
 	[ClientActiveStatus] [int]  NULL,
-	[LastEvaluationHealthy] [int] NULL,
 	[LastPolicyRequest] [datetime] NULL,
 	[LastPolicyRequestStatus] [nvarchar](255) NULL,
 	[LastDDR] [datetime] NULL,
@@ -442,8 +441,7 @@ CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_clientHealth]
 	[LastHWStatus] [nvarchar](255) NULL,
 	[LastSW] [datetime] NULL,
 	[LastSWStatus] [nvarchar](255) NULL,
-	[LastHealthEvaluation] [datetime] NULL,
-	[LastHealthEvaluationStatus] [nvarchar](255) NULL,
+	[LastHealthEvaluationStatus] [nvarchar](255) NULL
 ) ON [PRIMARY]
 GO
 
@@ -466,38 +464,36 @@ Select
 	vrs.Name0, 
 	vrs.Client_Version0,
 	vcc.ClientActiveStatus,
-	vcc.LastEvaluationHealthy,
 	max(vcc.LastPolicyRequest) as LastPolicyRequest,
 	case
-			when vcc.LastPolicyRequest > getdate()-110 then 'Healthy'
+			when vcc.LastPolicyRequest > getdate()-7 then 'Healthy'
 		else 'Unhealthy'
 	end as LastPolicyRequestStatus,
 	max(vcc.LastDDR) as LastDDR,
 	case
-			when vcc.LastDDR > getdate()-110 then 'Healthy'
+			when vcc.LastDDR > getdate()-7 then 'Healthy'
 		else 'Unhealthy'
 	end as LastDDRStatus,
 	max(vcc.LastActiveTime) as LastActiveTime,
 	case
-			when vcc.LastActiveTime > getdate()-110 then 'Healthy'
+			when vcc.LastActiveTime > getdate()-7 then 'Healthy'
 		else 'Unhealthy'
 	end as LastActiveTimeStatus,
 	max(vcc.LastHW) as LastHW,
 	case
-			when vcc.LastHW > getdate()-110 then 'Healthy'
+			when vcc.LastHW > getdate()-7 then 'Healthy'
 		else 'Unhealthy'
 	end as LastHWStatus,
 	max(vcc.LastSW) as LastSW,
 	case
-			when vcc.LastSW > getdate()-110 then 'Healthy'
+			when vcc.LastSW > getdate()-7 then 'Healthy'
 		else 'Unhealthy'
 	end as LastSWStatus,
-	max(vcc.LastHealthEvaluation) as LastHealthEvaluation,
 	case
-			when vcc.LastHealthEvaluation > getdate()-110 then 'Healthy'
+			when vcc.LastEvaluationHealthy = 1 then 'Healthy'
 		else 'Unhealthy'
 	end as LastHealthEvaluationStatus
-from [CM_NOV].dbo.[v_r_system] vrs
+from [CM_Nov].dbo.[v_r_system] vrs
 join [CM_Nov].dbo.[v_CH_ClientHealth] vcc
 	on vrs.ResourceID = vcc.MachineID
 where 
@@ -513,8 +509,7 @@ group by
 	vcc.LastDDR,
 	vcc.LastActiveTime,
 	vcc.LastHW,
-	vcc.LastSW,
-	vcc.LastHealthEvaluation
+	vcc.LastSW
 
 Select * from [SCCM_PBI_Reporting].dbo.[ust_clientHealth]
 
@@ -558,10 +553,10 @@ Insert into [SCCM_PBI_Reporting].dbo.ust_installedserverroles
 select
 	Netbios_Name0,
 	REPLACE(ConfigurationItemName, 'Installed Server Roles - ', '')
-from [CM_NOV].dbo.v_CIComplianceStatusDetail a
+from [CM_Nov].dbo.v_CIComplianceStatusDetail a
 where ConfigurationItemName in(
 	select distinct displayname
-	from [CM_NOV].dbo.v_LocalizedCIProperties
+	from [CM_Nov].dbo.v_LocalizedCIProperties
 	where displayname like 'Installed Server Roles - %' and DisplayName not in('Installed Server Roles - File Server', 'Installed Server Roles - Storage Services'))
 order by Netbios_Name0
 
@@ -605,7 +600,7 @@ Insert into [SCCM_PBI_Reporting].dbo.ust_installedsccmroles
 select Distinct
 Replace(Left(SiteSystem,CHARINDEX('\"]MSWNET:["SMS_SITE=',SiteSystem)-1),'["Display=\\',''),
        Role
-from [CM_NOV].dbo.V_sitesystemSummarizer
+from [CM_Nov].dbo.V_sitesystemSummarizer
 
 
 Select * from [SCCM_PBI_Reporting].dbo.ust_installedsccmroles
@@ -650,8 +645,8 @@ select
 	vrs.name0,
 	gos.caption0,
 	gos.BuildNumber0
-from [CM_NOV].dbo.v_R_System vrs
-join [CM_NOV].dbo.v_GS_OPERATING_SYSTEM gos
+from [CM_Nov].dbo.v_R_System vrs
+join [CM_Nov].dbo.v_GS_OPERATING_SYSTEM gos
 	on vrs.ResourceID = gos.ResourceID
 
 
@@ -684,7 +679,8 @@ CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_SystemSecurity]
 	[Cred Guard Enabled] [nvarchar](max) NULL,
 	[Cred Guard Running] [nvarchar](max) NULL,
 	[BitLocker Enabled] [nvarchar](max) NULL,
-	[LastHWScan] [nvarchar](max) NULL
+	[LastHWScan] [nvarchar](max) NULL,
+	[SHA256 Enabled] [nvarchar](max) NULL
 ) ON [PRIMARY]
 GO
 
@@ -752,17 +748,24 @@ SELECT DISTINCT
             When EV.ProtectionStatus0 = 1 THEN 'Yes'
             Else 'No'
     END as 'BitLocker Enabled',
-    hw.LastHWScan
+    hw.LastHWScan,
+	Case
+		When CCCS.CompliantRulesCount = 1 then 'Yes'
+		Else 'No' 
+	End as 'SHA256 Enabled'
 FROM 
-    [CM_NOV].dbo.v_GS_OPERATING_SYSTEM OS 
-    join [CM_NOV].dbo.v_R_System_Valid Sys on Sys.resourceid = OS.ResourceID and Operating_System_Name_and0 like '%Workstation%'
-    left join [CM_NOV].dbo.v_GS_TPM tpm on tpm.ResourceID = Sys.ResourceID
-    left join [CM_NOV].dbo.v_GS_ENCRYPTABLE_VOLUME ev on ev.ResourceID = Sys.ResourceID and [PersistentVolumeID0] <> ''
-    left join [CM_NOV].dbo.v_GS_COMPUTER_SYSTEM CS on CS.ResourceID = Sys.ResourceID
-    left join [CM_NOV].dbo.v_GS_FIRMWARE FRM on FRM.ResourceID = Sys.ResourceID
-    left join [CM_NOV].dbo.v_GS_DEVICE_GUARD Cred on Cred.ResourceID = Sys.ResourceID
-    join [CM_NOV].dbo.v_FullCollectionMembership fcm on fcm.Resourceid=Sys.Resourceid
-    left join [CM_NOV].dbo.v_GS_WORKSTATION_STATUS hw on hw.ResourceID=Sys.ResourceID
+    [CM_Nov].dbo.v_GS_OPERATING_SYSTEM OS 
+    join [CM_Nov].dbo.v_R_System_Valid Sys on Sys.resourceid = OS.ResourceID and Operating_System_Name_and0 like '%Workstation%'
+    left join [CM_Nov].dbo.v_GS_TPM tpm on tpm.ResourceID = Sys.ResourceID
+    left join [CM_Nov].dbo.v_GS_ENCRYPTABLE_VOLUME ev on ev.ResourceID = Sys.ResourceID and [PersistentVolumeID0] <> ''
+    left join [CM_Nov].dbo.v_GS_COMPUTER_SYSTEM CS on CS.ResourceID = Sys.ResourceID
+    left join [CM_Nov].dbo.v_GS_FIRMWARE FRM on FRM.ResourceID = Sys.ResourceID
+    left join [CM_Nov].dbo.v_GS_DEVICE_GUARD Cred on Cred.ResourceID = Sys.ResourceID
+    join [CM_Nov].dbo.v_FullCollectionMembership fcm on fcm.Resourceid=Sys.Resourceid
+    left join [CM_Nov].dbo.v_GS_WORKSTATION_STATUS hw on hw.ResourceID=Sys.ResourceID
+	join [CM_Nov].dbo.vCICurrentComplianceStatus CCCS on Sys.ResourceID=CCCS.ItemKey and CCCS.CompliantRulesCount = 1
+where 
+	CCCS.CIVersion = (select Distinct max(CIVersion) from [CM_Nov].dbo.vCICurrentComplianceStatus where CI_ID in (SELECT CI_ID FROM CM_NOV.dbo.v_CISettings where SettingName = 'TPMDigestAlgID'))
 
 Select * from [SCCM_PBI_Reporting].dbo.[ust_SystemSecurity]
 
@@ -789,6 +792,8 @@ CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_BitlockerData]
 	[IsAutoUnlockEnabled] [nvarchar](max) NULL,
 	[ProtectionStatus] [nvarchar](max) NULL,
 	[Encryption Status] [nvarchar](max) NULL,
+	[ConversionStatus] [nvarchar](max) NULL,
+	[civersion] int NULL
 ) ON [PRIMARY]
 GO
 
@@ -818,18 +823,18 @@ SELECT
 		when [EncryptionMethod0] = 5 then 'HARDWARE_ENCRYPTION'
 		when [EncryptionMethod0] = 6 then 'XTS_AES_128'
 		when [EncryptionMethod0] = 7 then 'XTS_AES_256'
-		else 'Not Available' 
-		end as 'EncryptionMethod',
+	else 'Not Available' 
+	end as 'EncryptionMethod',
 	case
 		when [IsAutoUnlockEnabled0] = 0 then 'Disabled'
 		when [IsAutoUnlockEnabled0] = 1 then 'Enabled'
-		else 'Not Available'
-		end as 'IsAutoUnlockEnabled',
+	else 'Not Available'
+	end as 'IsAutoUnlockEnabled',
     case
 		when [ProtectionStatus0] = 0 then 'Protection Off'
 		when [ProtectionStatus0] = 1 then 'Protection On'
-		else 'Protection Unknown'
-		end as 'ProtectionStatus',
+	else 'Protection Unknown'
+	end as 'ProtectionStatus',
 	case 
 		when [ConversionStatus0] = 0 then 'Fully Decrypted'
 		when [ConversionStatus0] = 1 then 'Fully Encrypted'
@@ -837,11 +842,27 @@ SELECT
 		when [ConversionStatus0] = 3 then 'Decryption InProgress'
 		when [ConversionStatus0] = 4 then 'Encryption Paused'
 		when [ConversionStatus0] = 5 then 'Decryption Paused'
-		else 'Encryption Unknown'
-		end as 'Encryption Status'
-FROM [CM_NOV].dbo.[v_GS_BITLOCKER_DETAILS] bit
-join [CM_NOV].dbo.v_r_system vrs
+	else 'Encryption Unknown'
+	end as 'Encryption Status',
+	case
+		when CCSD.CurrentValue = 'Used Space Only Encrypted' then 'Used Space Only Encrypted'
+		when CCSD.CurrentValue = 'Fully Encrypted' then 'Fully Encrypted' 
+	else 'Unknown'
+	end as 'Conversion Status',
+	max(civersion) 'civersion'
+FROM [CM_Nov].dbo.[v_GS_BITLOCKER_DETAILS] bit
+join [CM_Nov].dbo.v_r_system vrs
 	on bit.ResourceID = vrs.ResourceID
+left join [CM_Nov].dbo.v_CIComplianceStatusDetail CCSD
+	on vrs.ResourceID=CCSD.ResourceID and ConfigurationItemName = 'Bitlocker Conversion Status' and [DriveLetter0] = 'c:'
+group by
+	vrs.Name0,
+	DriveLetter0,
+	EncryptionMethod0,
+	IsAutoUnlockEnabled0,
+	ProtectionStatus0,
+	ConversionStatus0,
+	CCSD.CurrentValue
 
 Select * from [SCCM_PBI_Reporting].dbo.[ust_BitlockerData]
 
@@ -899,7 +920,7 @@ SELECT LEFT(CollectionID,3) 'SiteCode',
 	   LastChangeTime,
 	   LastRefreshTime,
 	   LastMemberChangeTime
-FROM   [CM_NOV].dbo.v_Collection
+FROM   [CM_Nov].dbo.v_Collection
 WHERE  CollectionID NOT LIKE 'SMS%'
 
 Select * from [SCCM_PBI_Reporting].dbo.ust_CollectionsSchedules
@@ -943,10 +964,10 @@ Insert into [SCCM_PBI_Reporting].dbo.ust_CollectionTopModifier
 SELECT DISTINCT TOP (1) 
 	Count(stat.RecordID) AS Total,
 	UPPER(ins.InsStrValue) As Mod                       
-FROM [CM_NOV].dbo.v_statusmessage AS stat 
-LEFT JOIN [CM_NOV].dbo.v_statmsginsstrings AS ins 
+FROM [CM_Nov].dbo.v_statusmessage AS stat 
+LEFT JOIN [CM_Nov].dbo.v_statmsginsstrings AS ins 
 	ON stat.recordid = ins.recordid 
-LEFT JOIN [CM_NOV].dbo.v_statmsgattributes AS att1
+LEFT JOIN [CM_Nov].dbo.v_statmsgattributes AS att1
 	ON stat.recordid = att1.recordid 
 WHERE
 	stat.messagetype = 768 AND
@@ -1024,14 +1045,14 @@ Select TOP 100
 	END 'Current_Status',
 	(CAST(T1.EvaluationLength as float)/1000) as 'Time_Spent_On_Eval',
 	SC.SiteCode
-FROM [CM_NOV].dbo.Collections_L as T1
-INNER JOIN [CM_NOV].dbo.Collections_G as T2
+FROM [CM_Nov].dbo.Collections_L as T1
+INNER JOIN [CM_Nov].dbo.Collections_G as T2
 	ON T2.CollectionID = T1.CollectionID
-INNER JOIN [CM_NOV].dbo.v_Collections AS vc
+INNER JOIN [CM_Nov].dbo.v_Collections AS vc
 	ON vc.CollectionID = T1.CollectionID 
-INNER JOIN [CM_NOV].dbo.Collection_Rules_SQL crs
+INNER JOIN [CM_Nov].dbo.Collection_Rules_SQL crs
 	ON crs.CollectionID = T1.CollectionID
-INNER JOIN [CM_NOV].dbo.v_SC_SiteDefinition AS SC
+INNER JOIN [CM_Nov].dbo.v_SC_SiteDefinition AS SC
 	ON SC.SiteNumber = T1.SiteNumber
 WHERE 
 	(CAST(T1.EvaluationLength as float)/1000) < 10
@@ -1106,14 +1127,14 @@ Select
 	END 'Current Status',
 	(CAST(T1.EvaluationLength as float)/1000) as 'TimeSpentOnEval',
 	SC.SiteCode
-FROM [CM_NOV].dbo.Collections_L as T1
-INNER JOIN [CM_NOV].dbo.Collections_G as T2 
+FROM [CM_Nov].dbo.Collections_L as T1
+INNER JOIN [CM_Nov].dbo.Collections_G as T2 
 	ON T2.CollectionID = T1.CollectionID
-INNER JOIN [CM_NOV].dbo.v_Collections AS vc 
+INNER JOIN [CM_Nov].dbo.v_Collections AS vc 
 	ON vc.CollectionID = T1.CollectionID 
-INNER JOIN [CM_NOV].dbo.Collection_Rules_SQL crs 
+INNER JOIN [CM_Nov].dbo.Collection_Rules_SQL crs 
 	ON crs.CollectionID = T1.CollectionID
-INNER JOIN [CM_NOV].dbo.v_SC_SiteDefinition AS SC 
+INNER JOIN [CM_Nov].dbo.v_SC_SiteDefinition AS SC 
 	ON SC.SiteNumber = T1.SiteNumber
 WHERE 
 	(CAST(T1.EvaluationLength as float)/1000) BETWEEN 10 AND 20
@@ -1187,14 +1208,14 @@ Select
 	END 'Current Status',
 	(CAST(T1.EvaluationLength as float)/1000) as 'TimeSpentOnEval',
 	SC.SiteCode
-FROM [CM_NOV].dbo.Collections_L as T1
-INNER JOIN [CM_NOV].dbo.Collections_G as T2 
+FROM [CM_Nov].dbo.Collections_L as T1
+INNER JOIN [CM_Nov].dbo.Collections_G as T2 
 	ON T2.CollectionID = T1.CollectionID
-INNER JOIN [CM_NOV].dbo.v_Collections AS vc 
+INNER JOIN [CM_Nov].dbo.v_Collections AS vc 
 	ON vc.CollectionID = T1.CollectionID 
-INNER JOIN [CM_NOV].dbo.Collection_Rules_SQL crs 
+INNER JOIN [CM_Nov].dbo.Collection_Rules_SQL crs 
 	ON crs.CollectionID = T1.CollectionID
-INNER JOIN [CM_NOV].dbo.v_SC_SiteDefinition AS SC 
+INNER JOIN [CM_Nov].dbo.v_SC_SiteDefinition AS SC 
 	ON SC.SiteNumber = T1.SiteNumber
 WHERE 
 	(CAST(T1.EvaluationLength as float)/1000) > 20
