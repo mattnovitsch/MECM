@@ -1,0 +1,6351 @@
+#pragma namespace ("\\\\.\\root\\cimv2")
+instance of __Namespace
+{
+    Name = "SMS" ;
+};
+#pragma namespace ("\\\\.\\root\\cimv2\\SMS")
+instance of __Namespace
+{
+    Name = "INV_TEMP" ;
+};
+#pragma namespace ("\\\\.\\root\\cimv2\\SMS\\INV_TEMP")
+
+//=============================================================================
+// SMS_Class_Template must be the parent of every class
+//=============================================================================
+class SMS_Class_Template
+{
+};
+
+// Class Qualifiers:
+//          SMS_Report:     OPTIONAL -- Boolean value (TRUE, FALSE)
+//                          indicating whether or not the class is
+//                          to be reported in SMS inventory. Default
+//                          is FALSE.
+//          SMS_Group_Name: OPTIONAL -- The name of the property
+//                          group to be used in the output MIF.
+//                          Default is the WBEM class name as it
+//                          appears in this MOF.
+//          SMS_Class_ID:   REQUIRED -- The SMS class identifier
+//                          string associated with the property group.
+//          SMS_Namespace:  OPTIONAL -- Boolean value (TRUE, FALSE)
+//                          indicating whether the provider for this class
+//                          is located in the SMS namespace. This is TRUE
+//                          for any class supplied by the SMS CimV2 Provider.
+//          Namespace:      OPTIONAL -- The namespace where this class
+//                          is located. Default is the root\cimv2 namespace.
+//                          Every '\' should be entered as '\\\\'.
+//                          As an example:
+//                              root\default
+//                          should be entered as:
+//                              Namespace ("root\\\\default")
+//
+// Property Qualifiers:
+//          SMS_Report:     OPTIONAL -- Boolean value (TRUE, FALSE)
+//                          indicating whether or not the property
+//                          is to be included in SMS inventory.
+//                          Default is FALSE. For key properties,
+//                          this qualifier is ignored; keys will
+//                          always be reported.
+//          SMS_Units:      OPTIONAL -- This string informs the
+//                          Inventory Agent to perform a conversion
+//                          between data provided by WMI into a form
+//                          SMS can handle. Example: SMS can't handle
+//                          64-bit integers, so in the case of disk
+//                          size, we use the qualifier:
+//                          SMS_Units("Megabytes") and the agent will
+//                          translate the raw # of bytes returned by
+//                          WBEM into the appropriate representation
+//                          in megabytes.
+//
+//                          Another example is using the DateString
+//                          qualifier for WMI date-time intervals
+//                          (aka: ddddddddHHMMSS.mmmmmm:000).  SMS
+//                          requires the DateString qualifier to
+//                          convert / use WMI time-intervals.
+//
+//                          Values:
+//                           Kilobytes, divides integer value by 1024
+//                           Megabytes, divides int value by (1024 * 1024)
+//                           GigaBytes, divides int value by (1024 * 1024 * 1024)
+//                           HexString, converts int value to hex characters,
+//                             (ie:  hex value 0A1 converted to string "0xA1")
+//                           DecimalString, converts int value to decimal string
+//                             (ie:  value 123 converted to string "123")
+//                           Seconds, divides int value by 1000
+//                           DateString, converts value to interval string
+//                             (ie: DateTime value "00000008061924.000000:000"
+//                              turns into string "8 Days 08:15:55 Hours")
+//          SMS_Width:      OPTIONAL -- Integer indicating whether the length 
+//                          of the string property is the default of 255
+//                          or longer as specified in the value.
+//
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("1394 Controller"),
+  SMS_Class_ID ("MICROSOFT|1394_CONTROLLER|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_1394Controller : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     DeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (FALSE) ]
+    String     Manufacturer;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaxNumberControlled;
+    [ SMS_Report (FALSE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (FALSE) ]
+    UInt16     ProtocolSupported;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (FALSE) ]
+    String     SystemName;
+    [ SMS_Report (FALSE) ]
+    DateTime     TimeOfLastReset;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("ActiveSync Service"),
+  SMS_Class_ID ("MICROSOFT|ACTIVESYNC_SERVICE|1.0"),
+  Namespace ("root\\\\SmsDm") ]
+class SMS_ActiveSyncService : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    UInt32     MajorVersion;
+    [ SMS_Report (TRUE), key ]
+    UInt32     MinorVersion;
+    [ SMS_Report (TRUE) ]
+    String     LastSyncTime;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("AMT Agent"),
+  SMS_Class_ID ("MICROSOFT|AMT_AGENT|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2\\\\sms") ]
+class SMS_AMTObject : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    UInt32     DeviceID;
+    [ SMS_Report (TRUE) ]
+    String     AMT;
+    [ SMS_Report (TRUE) ]
+    String     AMTApps;
+    [ SMS_Report (TRUE) ]
+    String     BiosVersion;
+    [ SMS_Report (TRUE) ]
+    String     BuildNumber;
+    [ SMS_Report (TRUE) ]
+    String     Flash;
+    [ SMS_Report (TRUE) ]
+    String     LegacyMode;
+    [ SMS_Report (TRUE) ]
+    String     Netstack;
+    [ SMS_Report (TRUE) ]
+    UInt32     ProvisionMode;
+    [ SMS_Report (TRUE) ]
+    UInt32     ProvisionState;
+    [ SMS_Report (TRUE) ]
+    String     RecoveryBuildNum;
+    [ SMS_Report (TRUE) ]
+    String     RecoveryVersion;
+    [ SMS_Report (TRUE) ]
+    String     Sku;
+    [ SMS_Report (TRUE) ]
+    UInt32     TLSMode;
+    [ SMS_Report (TRUE) ]
+    String     VendorID;
+    [ SMS_Report (TRUE) ]
+    UInt32     ZTCEnabled;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("AppV Client Application"),
+  SMS_Class_ID ("MICROSOFT|APPV_CLIENT_APPLICATION|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\AppV") ]
+class AppvClientApplication : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     ApplicationId;
+    [ SMS_Report (FALSE), key ]
+    String     PackageId;
+    [ SMS_Report (FALSE), key ]
+    String     PackageVersionId;
+    [ SMS_Report (FALSE) ]
+    Boolean     EnabledForUser;
+    [ SMS_Report (FALSE) ]
+    Boolean     EnabledGlobally;
+    [ SMS_Report (FALSE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     TargetPath;
+    [ SMS_Report (FALSE) ]
+    String     Version;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("AppV Client Package"),
+  SMS_Class_ID ("MICROSOFT|APPV_CLIENT_PACKAGE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\AppV") ]
+class AppvClientPackage : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     PackageId;
+    [ SMS_Report (FALSE), key ]
+    String     VersionId;
+    [ SMS_Report (FALSE) ]
+    String     Assets[];
+    [ SMS_Report (FALSE) ]
+    String     DeploymentMachineData;
+    [ SMS_Report (FALSE) ]
+    String     DeploymentUserData;
+    [ SMS_Report (FALSE) ]
+    Boolean     HasAssetIntelligence;
+    [ SMS_Report (FALSE) ]
+    Boolean     InUse;
+    [ SMS_Report (FALSE) ]
+    Boolean     IsPublishedGlobally;
+    [ SMS_Report (FALSE) ]
+    Boolean     IsPublishedToUser;
+    [ SMS_Report (FALSE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    UInt64     PackageSize;
+    [ SMS_Report (FALSE) ]
+    String     Path;
+    [ SMS_Report (FALSE) ]
+    UInt16     PercentLoaded;
+    [ SMS_Report (FALSE) ]
+    String     UserConfigurationData;
+    [ SMS_Report (FALSE) ]
+    String     Version;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("AutoStart Software"),
+  SMS_Class_ID ("MICROSOFT|AUTOSTART_SOFTWARE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2\\\\sms") ]
+class SMS_AutoStartSoftware : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     FilePropertiesHash;
+    [ SMS_Report (TRUE) ]
+    String     BinFileVersion;
+    [ SMS_Report (TRUE) ]
+    String     BinProductVersion;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (TRUE) ]
+    String     FileName;
+    [ SMS_Report (TRUE) ]
+    String     FilePropertiesHashEx;
+    [ SMS_Report (TRUE) ]
+    String     FileVersion;
+    [ SMS_Report (TRUE) ]
+    String     Location;
+    [ SMS_Report (TRUE) ]
+    String     Product;
+    [ SMS_Report (TRUE) ]
+    String     ProductVersion;
+    [ SMS_Report (TRUE) ]
+    String     Publisher;
+    [ SMS_Report (TRUE) ]
+    String     StartupType;
+    [ SMS_Report (TRUE) ]
+    String     StartupValue;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("BaseBoard"),
+  SMS_Class_ID ("MICROSOFT|BASEBOARD|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_BaseBoard : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     Tag;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     ConfigOptions[];
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     HostingBoard;
+    [ SMS_Report (FALSE) ]
+    Boolean     HotSwappable;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    String     Manufacturer;
+    [ SMS_Report (FALSE) ]
+    String     Model;
+    [ SMS_Report (FALSE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     OtherIdentifyingInfo;
+    [ SMS_Report (FALSE) ]
+    String     PartNumber;
+    [ SMS_Report (FALSE) ]
+    Boolean     PoweredOn;
+    [ SMS_Report (FALSE) ]
+    String     Product;
+    [ SMS_Report (FALSE) ]
+    Boolean     Removable;
+    [ SMS_Report (FALSE) ]
+    Boolean     Replaceable;
+    [ SMS_Report (FALSE) ]
+    String     RequirementsDescription;
+    [ SMS_Report (FALSE) ]
+    Boolean     RequiresDaughterBoard;
+    [ SMS_Report (FALSE) ]
+    String     SerialNumber;
+    [ SMS_Report (FALSE) ]
+    String     SKU;
+    [ SMS_Report (FALSE) ]
+    String     SlotLayout;
+    [ SMS_Report (FALSE) ]
+    Boolean     SpecialRequirements;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    String     Version;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Battery"),
+  SMS_Class_ID ("MICROSOFT|BATTERY|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_Battery : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     DeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    UInt16     BatteryStatus;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt16     Chemistry;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    UInt32     DesignCapacity;
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    UInt64     DesignVoltage;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    UInt16     EstimatedChargeRemaining;
+    [ SMS_Report (FALSE) ]
+    UInt32     EstimatedRunTime;
+    [ SMS_Report (FALSE) ]
+    UInt32     ExpectedLife;
+    [ SMS_Report (FALSE) ]
+    UInt32     FullChargeCapacity;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaxRechargeTime;
+    [ SMS_Report (FALSE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (FALSE) ]
+    String     SmartBatteryVersion;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (FALSE) ]
+    String     SystemName;
+    [ SMS_Report (FALSE) ]
+    UInt32     TimeOnBattery;
+    [ SMS_Report (FALSE) ]
+    UInt32     TimeToFullCharge;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("BitLocker"),
+  SMS_Class_ID ("MICROSOFT|ENCRYPTABLE_VOLUME|1.0"),
+  Namespace ("root\\\\cimv2\\\\security\\\\MicrosoftVolumeEncryption") ]
+class Win32_EncryptableVolume : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DeviceID;
+    [ SMS_Report (TRUE) ]
+    String     DriveLetter;
+    [ SMS_Report (TRUE) ]
+    String     PersistentVolumeID;
+    [ SMS_Report (TRUE) ]
+    UInt32     ProtectionStatus;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("BitLocker Encryption Details"),
+  SMS_Class_ID ("MICROSOFT|BITLOCKER_DETAILS|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_BitLockerEncryptionDetails : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DeviceId;
+    [ SMS_Report (TRUE) ]
+    String     BitlockerPersistentVolumeId;
+    [ SMS_Report (TRUE) ]
+    SInt32     Compliant;
+    [ SMS_Report (TRUE) ]
+    SInt32     ConversionStatus;
+    [ SMS_Report (TRUE) ]
+    String     DriveLetter;
+    [ SMS_Report (TRUE) ]
+    SInt32     EncryptionMethod;
+    [ SMS_Report (TRUE) ]
+    String     EnforcePolicyDate;
+    [ SMS_Report (TRUE) ]
+    Boolean     IsAutoUnlockEnabled;
+    [ SMS_Report (TRUE) ]
+    SInt32     KeyProtectorTypes[];
+    [ SMS_Report (TRUE) ]
+    String     MbamPersistentVolumeId;
+    [ SMS_Report (TRUE) ]
+    SInt32     MbamVolumeType;
+    [ SMS_Report (TRUE) ]
+    String     NoncomplianceDetectedDate;
+    [ SMS_Report (TRUE) ]
+    SInt32     ProtectionStatus;
+    [ SMS_Report (TRUE) ]
+    SInt32     ReasonsForNonCompliance[];
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("BitLocker Policy"),
+  SMS_Class_ID ("MICROSOFT|MBAM_POLICY|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32Reg_MBAMPolicy : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     KeyName;
+    [ SMS_Report (TRUE) ]
+    String     EncodedComputerName;
+    [ SMS_Report (TRUE) ]
+    UInt32     EncryptionMethod;
+    [ SMS_Report (TRUE) ]
+    UInt32     FixedDataDriveAutoUnlock;
+    [ SMS_Report (TRUE) ]
+    UInt32     FixedDataDriveEncryption;
+    [ SMS_Report (TRUE) ]
+    UInt32     FixedDataDrivePassphrase;
+    [ SMS_Report (TRUE) ]
+    String     LastConsoleUser;
+    [ SMS_Report (TRUE) ]
+    UInt32     MBAMMachineError;
+    [ SMS_Report (TRUE) ]
+    UInt32     MBAMPolicyEnforced;
+    [ SMS_Report (TRUE) ]
+    UInt32     OsDriveEncryption;
+    [ SMS_Report (TRUE) ]
+    UInt32     OsDriveProtector;
+    [ SMS_Report (TRUE) ]
+    DateTime     UserExemptionDate;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Boot Configuration"),
+  SMS_Class_ID ("MICROSOFT|BOOT_CONFIGURATION|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_BootConfiguration : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     BootDirectory;
+    [ SMS_Report (FALSE) ]
+    String     ConfigurationPath;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    String     LastDrive;
+    [ SMS_Report (FALSE) ]
+    String     ScratchDirectory;
+    [ SMS_Report (FALSE) ]
+    String     SettingID;
+    [ SMS_Report (FALSE) ]
+    String     TempDirectory;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Browser Helper Object"),
+  SMS_Class_ID ("MICROSOFT|BROWSER_HELPER_OBJECT|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2\\\\sms") ]
+class SMS_BrowserHelperObject : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     FilePropertiesHash;
+    [ SMS_Report (TRUE) ]
+    String     BinFileVersion;
+    [ SMS_Report (TRUE) ]
+    String     BinProductVersion;
+    [ SMS_Report (TRUE) ]
+    String     CLSID;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (TRUE) ]
+    String     FileName;
+    [ SMS_Report (TRUE) ]
+    String     FilePropertiesHashEx;
+    [ SMS_Report (TRUE) ]
+    String     FileVersion;
+    [ SMS_Report (TRUE) ]
+    String     Product;
+    [ SMS_Report (TRUE) ]
+    String     ProductVersion;
+    [ SMS_Report (TRUE) ]
+    String     Publisher;
+    [ SMS_Report (TRUE) ]
+    String     Version;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Browser Usage"),
+  SMS_Class_ID ("MICROSOFT|BROWSER_USAGE|1.0"),
+  Namespace ("root\\\\cimv2\\\\sms") ]
+class SMS_BrowserUsage : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     BrowserName;
+    [ SMS_Report (TRUE) ]
+    UInt32     UsagePercentage;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("CCM_RAX"),
+  SMS_Class_ID ("MICROSOFT|RAX_APPLICATION|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\ccm\\\\cimodels") ]
+class CCM_RAXInfo : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     AppID;
+    [ SMS_Report (FALSE), key ]
+    String     FeedURL;
+    [ SMS_Report (FALSE), key ]
+    String     UserSID;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("CD-ROM"),
+  SMS_Class_ID ("MICROSOFT|CDROM|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_CDROMDrive : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DeviceID;
+    [ SMS_Report (TRUE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    UInt16     Capabilities[];
+    [ SMS_Report (FALSE) ]
+    String     CapabilityDescriptions[];
+    [ SMS_Report (TRUE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     CompressionMethod;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (FALSE), SMS_Units ("KiloBytes") ]
+    UInt64     DefaultBlockSize;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (TRUE) ]
+    String     Drive;
+    [ SMS_Report (FALSE) ]
+    Boolean     DriveIntegrity;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    String     ErrorMethodology;
+    [ SMS_Report (FALSE) ]
+    UInt16     FileSystemFlags;
+    [ SMS_Report (FALSE) ]
+    UInt32     FileSystemFlagsEx;
+    [ SMS_Report (FALSE) ]
+    String     Id;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (TRUE) ]
+    String     Manufacturer;
+    [ SMS_Report (FALSE), SMS_Units ("KiloBytes") ]
+    UInt64     MaxBlockSize;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaximumComponentLength;
+    [ SMS_Report (FALSE), SMS_Units ("MegaBytes") ]
+    UInt64     MaxMediaSize;
+    [ SMS_Report (FALSE) ]
+    Boolean     MediaLoaded;
+    [ SMS_Report (TRUE) ]
+    String     MediaType;
+    [ SMS_Report (FALSE), SMS_Units ("MegaBytes") ]
+    UInt64     MinBlockSize;
+    [ SMS_Report (TRUE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    Boolean     NeedsCleaning;
+    [ SMS_Report (FALSE) ]
+    UInt32     NumberOfMediaSupported;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (FALSE) ]
+    String     RevisionLevel;
+    [ SMS_Report (FALSE) ]
+    UInt32     SCSIBus;
+    [ SMS_Report (FALSE) ]
+    UInt16     SCSILogicalUnit;
+    [ SMS_Report (FALSE) ]
+    UInt16     SCSIPort;
+    [ SMS_Report (TRUE) ]
+    UInt16     SCSITargetId;
+    [ SMS_Report (FALSE), SMS_Units ("MegaBytes") ]
+    UInt64     Size;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (TRUE) ]
+    String     SystemName;
+    [ SMS_Report (TRUE) ]
+    String     VolumeName;
+    [ SMS_Report (FALSE) ]
+    String     VolumeSerialNumber;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Client Events"),
+  SMS_Class_ID ("MICROSOFT|ClientEvents|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\ccm\\\\invagt") ]
+class ClientEvents : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     EventName;
+    [ SMS_Report (TRUE) ]
+    UInt16     Count;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Computer System"),
+  SMS_Class_ID ("MICROSOFT|COMPUTER_SYSTEM|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_ComputerSystem : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    UInt16     AdminPasswordStatus;
+    [ SMS_Report (FALSE) ]
+    Boolean     AutomaticResetBootOption;
+    [ SMS_Report (FALSE) ]
+    Boolean     AutomaticResetCapability;
+    [ SMS_Report (FALSE) ]
+    UInt16     BootOptionOnLimit;
+    [ SMS_Report (FALSE) ]
+    UInt16     BootOptionOnWatchDog;
+    [ SMS_Report (FALSE) ]
+    Boolean     BootROMSupported;
+    [ SMS_Report (FALSE) ]
+    String     BootupState;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt16     ChassisBootupState;
+    [ SMS_Report (TRUE) ]
+    SInt16     CurrentTimeZone;
+    [ SMS_Report (FALSE) ]
+    Boolean     DaylightInEffect;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (TRUE) ]
+    String     Domain;
+    [ SMS_Report (TRUE) ]
+    UInt16     DomainRole;
+    [ SMS_Report (FALSE) ]
+    UInt16     FrontPanelResetStatus;
+    [ SMS_Report (FALSE) ]
+    Boolean     InfraredSupported;
+    [ SMS_Report (FALSE) ]
+    String     InitialLoadInfo[];
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt16     KeyboardPasswordStatus;
+    [ SMS_Report (FALSE) ]
+    String     LastLoadInfo;
+    [ SMS_Report (TRUE) ]
+    String     Manufacturer;
+    [ SMS_Report (TRUE) ]
+    String     Model;
+    [ SMS_Report (FALSE) ]
+    String     NameFormat;
+    [ SMS_Report (FALSE) ]
+    Boolean     NetworkServerModeEnabled;
+    [ SMS_Report (TRUE) ]
+    UInt32     NumberOfProcessors;
+    [ SMS_Report (FALSE) ]
+    String     OEMLogoBitmap;
+    [ SMS_Report (FALSE) ]
+    String     OEMStringArray[];
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    SInt64     PauseAfterReset;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerOnPasswordStatus;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerState;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerSupplyState;
+    [ SMS_Report (FALSE) ]
+    String     PrimaryOwnerContact;
+    [ SMS_Report (FALSE) ]
+    String     PrimaryOwnerName;
+    [ SMS_Report (FALSE) ]
+    UInt16     ResetCapability;
+    [ SMS_Report (FALSE) ]
+    SInt16     ResetCount;
+    [ SMS_Report (FALSE) ]
+    SInt16     ResetLimit;
+    [ SMS_Report (TRUE) ]
+    String     Roles[];
+    [ SMS_Report (TRUE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    String     SupportContactDescription[];
+    [ SMS_Report (FALSE) ]
+    UInt16     SystemStartupDelay;
+    [ SMS_Report (FALSE) ]
+    String     SystemStartupOptions[];
+    [ SMS_Report (FALSE) ]
+    UInt8     SystemStartupSetting;
+    [ SMS_Report (TRUE) ]
+    String     SystemType;
+    [ SMS_Report (FALSE) ]
+    UInt16     ThermalState;
+    [ SMS_Report (FALSE), SMS_Units ("KiloBytes") ]
+    UInt64     TotalPhysicalMemory;
+    [ SMS_Report (TRUE) ]
+    String     UserName;
+    [ SMS_Report (FALSE) ]
+    UInt16     WakeUpType;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Computer System Ex"),
+  SMS_Class_ID ("MICROSOFT|COMPUTER_SYSTEM_EXT|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class CCM_ComputerSystemExtended : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     Name;
+    [ SMS_Report (TRUE) ]
+    UInt16     PCSystemType;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Computer System Product"),
+  SMS_Class_ID ("MICROSOFT|COMPUTER_SYSTEM_PRODUCT|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_ComputerSystemProduct : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     IdentifyingNumber;
+    [ SMS_Report (FALSE), key ]
+    String     Name;
+    [ SMS_Report (FALSE), key ]
+    String     Version;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    String     SKUNumber;
+    [ SMS_Report (FALSE) ]
+    String     UUID;
+    [ SMS_Report (FALSE) ]
+    String     Vendor;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("SMS Advanced Client Ports"),
+  SMS_Class_ID ("MICROSOFT|ADVANCED_CLIENT_PORTS|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32Reg_SMSAdvancedClientPorts : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     InstanceKey;
+    [ SMS_Report (FALSE) ]
+    UInt32     HttpsPortName;
+    [ SMS_Report (FALSE) ]
+    UInt32     PortName;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("SMS Advanced Client SSL Configurations"),
+  SMS_Class_ID ("MICROSOFT|ADVANCED_CLIENT_SSL_CONFIGURATIONS|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32Reg_SMSAdvancedClientSSLConfiguration : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     InstanceKey;
+    [ SMS_Report (TRUE) ]
+    String     CertificateSelectionCriteria;
+    [ SMS_Report (TRUE) ]
+    String     CertificateStore;
+    [ SMS_Report (TRUE) ]
+    UInt32     ClientAlwaysOnInternet;
+    [ SMS_Report (TRUE) ]
+    UInt32     HttpsStateFlags;
+    [ SMS_Report (TRUE) ]
+    String     InternetMPHostName;
+    [ SMS_Report (TRUE) ]
+    UInt32     SelectFirstCertificate;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("SMS Advanced Client State"),
+  SMS_Class_ID ("MICROSOFT|SMS_ADVANCED_CLIENT_STATE|1.0"),
+  Namespace ("root\\\\ccm") ]
+class CCM_InstalledComponent : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     Name;
+    [ SMS_Report (TRUE) ]
+    String     DisplayName;
+    [ SMS_Report (TRUE) ]
+    String     Version;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Connected Device"),
+  SMS_Class_ID ("MICROSOFT|ACTIVESYNC_CONNECTED_DEVICE|1.0"),
+  Namespace ("root\\\\SmsDm") ]
+class SMS_ActiveSyncConnectedDevice : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DeviceOEMInfo;
+    [ SMS_Report (TRUE), key ]
+    String     DeviceType;
+    [ SMS_Report (TRUE), key ]
+    String     OS_Major;
+    [ SMS_Report (TRUE), key ]
+    String     OS_Minor;
+    [ SMS_Report (TRUE), key ]
+    String     OS_Platform;
+    [ SMS_Report (TRUE), key ]
+    String     ProcessorArchitecture;
+    [ SMS_Report (TRUE), key ]
+    String     ProcessorLevel;
+    [ SMS_Report (TRUE), key ]
+    String     ProcessorRevision;
+    [ SMS_Report (TRUE) ]
+    String     InstalledClientID;
+    [ SMS_Report (TRUE) ]
+    String     InstalledClientServer;
+    [ SMS_Report (TRUE) ]
+    String     InstalledClientVersion;
+    [ SMS_Report (TRUE) ]
+    String     LastSyncTime;
+    [ SMS_Report (TRUE) ]
+    String     OS_AdditionalInfo;
+    [ SMS_Report (TRUE) ]
+    String     OS_Build;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("SMS_DefaultBrowser"),
+  SMS_Class_ID ("MICROSOFT|DEFAULT_BROWSER|1.0"),
+  Namespace ("root\\\\cimv2\\\\sms") ]
+class SMS_DefaultBrowser : SMS_Class_Template
+{
+    [ SMS_Report (TRUE) ]
+    String     BrowserProgId;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Desktop"),
+  SMS_Class_ID ("MICROSOFT|DESKTOP|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_Desktop : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    UInt32     BorderWidth;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    Boolean     CoolSwitch;
+    [ SMS_Report (FALSE) ]
+    UInt32     CursorBlinkRate;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     DragFullWindows;
+    [ SMS_Report (FALSE) ]
+    UInt32     GridGranularity;
+    [ SMS_Report (FALSE) ]
+    UInt32     IconSpacing;
+    [ SMS_Report (FALSE) ]
+    String     IconTitleFaceName;
+    [ SMS_Report (FALSE) ]
+    UInt32     IconTitleSize;
+    [ SMS_Report (FALSE) ]
+    Boolean     IconTitleWrap;
+    [ SMS_Report (FALSE) ]
+    String     Pattern;
+    [ SMS_Report (FALSE) ]
+    Boolean     ScreenSaverActive;
+    [ SMS_Report (FALSE) ]
+    String     ScreenSaverExecutable;
+    [ SMS_Report (FALSE) ]
+    Boolean     ScreenSaverSecure;
+    [ SMS_Report (FALSE) ]
+    UInt32     ScreenSaverTimeout;
+    [ SMS_Report (FALSE) ]
+    String     SettingID;
+    [ SMS_Report (FALSE) ]
+    String     Wallpaper;
+    [ SMS_Report (FALSE) ]
+    Boolean     WallpaperStretched;
+    [ SMS_Report (FALSE) ]
+    Boolean     WallpaperTiled;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Desktop Monitor"),
+  SMS_Class_ID ("MICROSOFT|DESKTOP_MONITOR|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_DesktopMonitor : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    UInt32     Bandwidth;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (TRUE) ]
+    UInt16     DisplayType;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    Boolean     IsLocked;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (TRUE) ]
+    String     MonitorManufacturer;
+    [ SMS_Report (TRUE) ]
+    String     MonitorType;
+    [ SMS_Report (TRUE) ]
+    String     Name;
+    [ SMS_Report (TRUE) ]
+    UInt32     PixelsPerXLogicalInch;
+    [ SMS_Report (TRUE) ]
+    UInt32     PixelsPerYLogicalInch;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (TRUE) ]
+    UInt32     ScreenHeight;
+    [ SMS_Report (TRUE) ]
+    UInt32     ScreenWidth;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (FALSE) ]
+    String     SystemName;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Device Guard"),
+  SMS_Class_ID ("MICROSOFT|DEVICE_GUARD|1.0"),
+  Namespace ("root\\\\Microsoft\\\\Windows\\\\DeviceGuard") ]
+class Win32_DeviceGuard : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     InstanceIdentifier;
+    [ SMS_Report (TRUE) ]
+    UInt32     AvailableSecurityProperties[];
+    [ SMS_Report (TRUE) ]
+    UInt32     CodeIntegrityPolicyEnforcementStatus;
+    [ SMS_Report (TRUE) ]
+    UInt32     RequiredSecurityProperties[];
+    [ SMS_Report (TRUE) ]
+    UInt32     SecurityServicesConfigured[];
+    [ SMS_Report (TRUE) ]
+    UInt32     SecurityServicesRunning[];
+    [ SMS_Report (TRUE) ]
+    UInt32     UsermodeCodeIntegrityPolicyEnforcementStatus;
+    [ SMS_Report (TRUE) ]
+    String     Version;
+    [ SMS_Report (TRUE) ]
+    UInt32     VirtualizationBasedSecurityStatus;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Device Info"),
+  SMS_Class_ID ("MICROSOFT|DEVICE_INFO|1.0"),
+  Namespace ("Reserved") ]
+class Device_Info : SMS_Class_Template
+{
+    [ SMS_Report (FALSE) ]
+    String     CertExpiry;
+    [ SMS_Report (FALSE) ]
+    String     DeviceName;
+    [ SMS_Report (FALSE) ]
+    String     Manufacturer;
+    [ SMS_Report (FALSE) ]
+    String     Model;
+    [ SMS_Report (FALSE) ]
+    String     OS;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("MDM DevDetail"),
+  SMS_Class_ID ("MICROSOFT|MDM_DEVDETAIL_EXT01|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2\\\\mdm\\\\dmmap") ]
+class MDM_DevDetail_Ext01 : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     InstanceID;
+    [ SMS_Report (TRUE), key ]
+    String     ParentID;
+    [ SMS_Report (TRUE), SMS_Width ("4000") ]
+    String     DeviceHardwareData;
+    [ SMS_Report (TRUE) ]
+    String     WLANMACAddress;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Disk"),
+  SMS_Class_ID ("MICROSOFT|DISK|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_DiskDrive : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DeviceID;
+    [ SMS_Report (TRUE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    UInt32     BytesPerSector;
+    [ SMS_Report (FALSE) ]
+    UInt16     Capabilities[];
+    [ SMS_Report (FALSE) ]
+    String     CapabilityDescriptions[];
+    [ SMS_Report (TRUE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     CompressionMethod;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (FALSE), SMS_Units ("KiloBytes") ]
+    UInt64     DefaultBlockSize;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    String     ErrorMethodology;
+    [ SMS_Report (TRUE) ]
+    UInt32     Index;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (TRUE) ]
+    String     InterfaceType;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (TRUE) ]
+    String     Manufacturer;
+    [ SMS_Report (FALSE), SMS_Units ("KiloBytes") ]
+    UInt64     MaxBlockSize;
+    [ SMS_Report (FALSE), SMS_Units ("MegaBytes") ]
+    UInt64     MaxMediaSize;
+    [ SMS_Report (FALSE) ]
+    Boolean     MediaLoaded;
+    [ SMS_Report (TRUE) ]
+    String     MediaType;
+    [ SMS_Report (FALSE), SMS_Units ("KiloBytes") ]
+    UInt64     MinBlockSize;
+    [ SMS_Report (TRUE) ]
+    String     Model;
+    [ SMS_Report (TRUE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    Boolean     NeedsCleaning;
+    [ SMS_Report (FALSE) ]
+    UInt32     NumberOfMediaSupported;
+    [ SMS_Report (TRUE) ]
+    UInt32     Partitions;
+    [ SMS_Report (TRUE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (TRUE) ]
+    UInt32     SCSIBus;
+    [ SMS_Report (TRUE) ]
+    UInt16     SCSILogicalUnit;
+    [ SMS_Report (TRUE) ]
+    UInt16     SCSIPort;
+    [ SMS_Report (TRUE) ]
+    UInt16     SCSITargetId;
+    [ SMS_Report (FALSE) ]
+    UInt32     SectorsPerTrack;
+    [ SMS_Report (TRUE), SMS_Units ("Megabytes") ]
+    UInt64     Size;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (TRUE) ]
+    String     SystemName;
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    UInt64     TotalCylinders;
+    [ SMS_Report (FALSE) ]
+    UInt32     TotalHeads;
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    UInt64     TotalSectors;
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    UInt64     TotalTracks;
+    [ SMS_Report (FALSE) ]
+    UInt32     TracksPerCylinder;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Partition"),
+  SMS_Class_ID ("MICROSOFT|PARTITION|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_DiskPartition : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DeviceID;
+    [ SMS_Report (TRUE) ]
+    UInt16     Access;
+    [ SMS_Report (FALSE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE), SMS_Units ("KiloBytes") ]
+    UInt64     BlockSize;
+    [ SMS_Report (TRUE) ]
+    Boolean     Bootable;
+    [ SMS_Report (TRUE) ]
+    Boolean     BootPartition;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    UInt32     DiskIndex;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    String     ErrorMethodology;
+    [ SMS_Report (FALSE) ]
+    UInt32     HiddenSectors;
+    [ SMS_Report (FALSE) ]
+    UInt32     Index;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (TRUE) ]
+    String     Name;
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    UInt64     NumberOfBlocks;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (TRUE) ]
+    Boolean     PrimaryPartition;
+    [ SMS_Report (FALSE) ]
+    String     Purpose;
+    [ SMS_Report (FALSE) ]
+    Boolean     RewritePartition;
+    [ SMS_Report (TRUE), SMS_Units ("Megabytes") ]
+    UInt64     Size;
+    [ SMS_Report (FALSE), SMS_Units ("Megabytes") ]
+    UInt64     StartingOffset;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (TRUE) ]
+    String     SystemName;
+    [ SMS_Report (TRUE) ]
+    String     Type;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("DMA"),
+  SMS_Class_ID ("MICROSOFT|DEVICE_MEMORY_ADDRESS|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_DeviceMemoryAddress : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key, SMS_Units ("HexString") ]
+    UInt64     StartingAddress;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE), SMS_Units ("HexString") ]
+    UInt64     EndingAddress;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    String     MemoryType;
+    [ SMS_Report (FALSE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("DMA Channel"),
+  SMS_Class_ID ("MICROSOFT|DMA_CHANNEL|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_DMAChannel : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    UInt32     DMAChannel;
+    [ SMS_Report (FALSE) ]
+    UInt16     AddressSize;
+    [ SMS_Report (FALSE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    Boolean     BurstMode;
+    [ SMS_Report (FALSE) ]
+    UInt16     ByteMode;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt16     ChannelTiming;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaxTransferSize;
+    [ SMS_Report (FALSE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    UInt32     Port;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     TransferWidths[];
+    [ SMS_Report (FALSE) ]
+    UInt16     TypeCTiming;
+    [ SMS_Report (FALSE) ]
+    UInt16     WordMode;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("DODARMYSYSTEMIDENTIFICATION_Dash"),
+  SMS_Class_ID ("DODARMYSYSTEMIDENTIFICATION_Dash"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class DODARMYSYSTEMIDENTIFICATION_Dash : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     KeyName;
+    [ SMS_Report (FALSE) ]
+    String     AITR;
+    [ SMS_Report (FALSE) ]
+    String     COMPONENT;
+    [ SMS_Report (FALSE) ]
+    String     DITPRID;
+    [ SMS_Report (FALSE) ]
+    String     IAVALEVEL;
+    [ SMS_Report (FALSE) ]
+    String     OWNERAPMS;
+    [ SMS_Report (FALSE) ]
+    String     OWNEREMASS;
+    [ SMS_Report (FALSE) ]
+    String     PROGRAMMANAGERAPMS;
+    [ SMS_Report (FALSE) ]
+    String     PROGRAMMANAGEREMASS;
+    [ SMS_Report (FALSE) ]
+    String     SUB_COMPONENT;
+    [ SMS_Report (FALSE) ]
+    String     SYSTEMNAMEAPMS;
+    [ SMS_Report (FALSE) ]
+    String     SYSTEMNAMEEMASS;
+    [ SMS_Report (FALSE) ]
+    String     SYSTEMVERSION;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("DODARMYSYSTEMIDENTIFICATION_Minus"),
+  SMS_Class_ID ("DODARMYSYSTEMIDENTIFICATION_Minus"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class DODARMYSYSTEMIDENTIFICATION_Minus : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     KeyName;
+    [ SMS_Report (FALSE) ]
+    String     AITR;
+    [ SMS_Report (FALSE) ]
+    String     COMPONENT;
+    [ SMS_Report (FALSE) ]
+    String     DITPRID;
+    [ SMS_Report (FALSE) ]
+    String     IAVALEVEL;
+    [ SMS_Report (FALSE) ]
+    String     OWNER_APMS;
+    [ SMS_Report (FALSE) ]
+    String     OWNER_EMASS;
+    [ SMS_Report (FALSE) ]
+    String     PROGRAMMANAGER_APMS;
+    [ SMS_Report (FALSE) ]
+    String     PROGRAMMANAGER_EMASS;
+    [ SMS_Report (FALSE) ]
+    String     SUB_COMPONENT;
+    [ SMS_Report (FALSE) ]
+    String     SYSTEMNAME_APMS;
+    [ SMS_Report (FALSE) ]
+    String     SYSTEMNAME_EMASS;
+    [ SMS_Report (FALSE) ]
+    String     SYSTEMVERSION;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Driver - VxD"),
+  SMS_Class_ID ("MICROSOFT|DRIVER_VXD|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_DriverVXD : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     Name;
+    [ SMS_Report (FALSE), key ]
+    String     SoftwareElementID;
+    [ SMS_Report (FALSE), key ]
+    UInt16     SoftwareElementState;
+    [ SMS_Report (FALSE), key ]
+    UInt16     TargetOperatingSystem;
+    [ SMS_Report (FALSE), key ]
+    String     Version;
+    [ SMS_Report (FALSE) ]
+    String     BuildNumber;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     CodeSet;
+    [ SMS_Report (FALSE) ]
+    String     Control;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    String     DeviceDescriptorBlock;
+    [ SMS_Report (FALSE) ]
+    String     IdentificationCode;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    String     LanguageEdition;
+    [ SMS_Report (FALSE) ]
+    String     Manufacturer;
+    [ SMS_Report (FALSE) ]
+    String     OtherTargetOS;
+    [ SMS_Report (FALSE) ]
+    String     PM_API;
+    [ SMS_Report (FALSE) ]
+    String     SerialNumber;
+    [ SMS_Report (FALSE) ]
+    UInt32     ServiceTableSize;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    String     V86_API;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Embedded Device Information"),
+  SMS_Class_ID ("MICROSOFT|EMBEDDED_DEVICE_INFO|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2\\\\sms") ]
+class CCM_EmbeddedDeviceInformation : SMS_Class_Template
+{
+    [ SMS_Report (FALSE) ]
+    String     DeviceType;
+    [ SMS_Report (FALSE) ]
+    String     Model;
+    [ SMS_Report (FALSE) ]
+    String     OEMName;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Environment"),
+  SMS_Class_ID ("MICROSOFT|ENVIRONMENT|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_Environment : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     Name;
+    [ SMS_Report (FALSE), key ]
+    String     UserName;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    Boolean     SystemVariable;
+    [ SMS_Report (FALSE) ]
+    String     VariableValue;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Firmware"),
+  SMS_Class_ID ("MICROSOFT|FIRMWARE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2\\\\sms") ]
+class SMS_Firmware : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    Boolean     UEFI;
+    [ SMS_Report (TRUE) ]
+    Boolean     SecureBoot;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("USM Folder Redirection Health"),
+  SMS_Class_ID ("MICROSOFT|FOLDER_REDIRECTION_HEALTH|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2\\\\sms") ]
+class SMS_FolderRedirectionHealth : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     FolderName;
+    [ SMS_Report (TRUE), key ]
+    String     SID;
+    [ SMS_Report (TRUE) ]
+    UInt8     HealthStatus;
+    [ SMS_Report (FALSE) ]
+    DateTime     LastSuccessfulSyncTime;
+    [ SMS_Report (FALSE) ]
+    UInt8     LastSyncStatus;
+    [ SMS_Report (FALSE) ]
+    DateTime     LastSyncTime;
+    [ SMS_Report (TRUE) ]
+    Boolean     OfflineAccessEnabled;
+    [ SMS_Report (FALSE) ]
+    String     OfflineFileNameFolderGUID;
+    [ SMS_Report (TRUE) ]
+    Boolean     Redirected;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("IDE Controller"),
+  SMS_Class_ID ("MICROSOFT|IDE_CONTROLLER|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_IDEController : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DeviceID;
+    [ SMS_Report (TRUE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (TRUE) ]
+    String     Manufacturer;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaxNumberControlled;
+    [ SMS_Report (TRUE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (FALSE) ]
+    UInt16     ProtocolSupported;
+    [ SMS_Report (TRUE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (FALSE) ]
+    String     SystemName;
+    [ SMS_Report (FALSE) ]
+    DateTime     TimeOfLastReset;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Add Remove Programs (64)"),
+  SMS_Class_ID ("MICROSOFT|ADD_REMOVE_PROGRAMS_64|1.0"),
+  Namespace ("\\\\\\\\localhost\\\\root\\\\cimv2"),
+  SMS_Context_1 ("__ProviderArchitecture=64|SInt32"),
+  SMS_Context_2 ("__RequiredArchitecture=true|Boolean") ]
+class Win32Reg_AddRemovePrograms64 : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     ProdID;
+    [ SMS_Report (TRUE) ]
+    String     DisplayName;
+    [ SMS_Report (TRUE) ]
+    String     InstallDate;
+    [ SMS_Report (TRUE) ]
+    String     Publisher;
+    [ SMS_Report (TRUE) ]
+    String     Version;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Add Remove Programs"),
+  SMS_Class_ID ("MICROSOFT|ADD_REMOVE_PROGRAMS|1.0"),
+  Namespace ("\\\\\\\\localhost\\\\root\\\\cimv2"),
+  SMS_Context_1 ("__ProviderArchitecture=32|SInt32"),
+  SMS_Context_2 ("__RequiredArchitecture=true|Boolean") ]
+class Win32Reg_AddRemovePrograms : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     ProdID;
+    [ SMS_Report (TRUE) ]
+    String     DisplayName;
+    [ SMS_Report (TRUE) ]
+    String     InstallDate;
+    [ SMS_Report (TRUE) ]
+    String     Publisher;
+    [ SMS_Report (TRUE) ]
+    String     Version;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Installed Executable"),
+  SMS_Class_ID ("MICROSOFT|INSTALLED_EXECUTABLE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2\\\\sms") ]
+class SMS_InstalledExecutable : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     ExecutableName;
+    [ SMS_Report (TRUE), key ]
+    String     ProductCode;
+    [ SMS_Report (TRUE) ]
+    String     BinFileVersion;
+    [ SMS_Report (TRUE) ]
+    String     BinProductVersion;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (TRUE) ]
+    String     FilePropertiesHash;
+    [ SMS_Report (TRUE) ]
+    String     FilePropertiesHashEx;
+    [ SMS_Report (TRUE) ]
+    UInt32     FileSize;
+    [ SMS_Report (TRUE) ]
+    String     FileVersion;
+    [ SMS_Report (TRUE) ]
+    Boolean     HasPatchAdded;
+    [ SMS_Report (TRUE) ]
+    String     InstalledFilePath;
+    [ SMS_Report (TRUE) ]
+    Boolean     IsSystemFile;
+    [ SMS_Report (TRUE) ]
+    Boolean     IsVitalFile;
+    [ SMS_Report (TRUE) ]
+    UInt32     Language;
+    [ SMS_Report (TRUE) ]
+    String     Product;
+    [ SMS_Report (TRUE) ]
+    String     ProductVersion;
+    [ SMS_Report (TRUE) ]
+    String     Publisher;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Installed Software"),
+  SMS_Class_ID ("MICROSOFT|INSTALLED_SOFTWARE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2\\\\sms") ]
+class SMS_InstalledSoftware : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     SoftwareCode;
+    [ SMS_Report (TRUE) ]
+    String     ARPDisplayName;
+    [ SMS_Report (TRUE) ]
+    String     ChannelCode;
+    [ SMS_Report (TRUE) ]
+    String     ChannelID;
+    [ SMS_Report (TRUE) ]
+    String     CM_DSLID;
+    [ SMS_Report (TRUE) ]
+    String     EvidenceSource;
+    [ SMS_Report (TRUE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (TRUE) ]
+    UInt32     InstallDirectoryValidation;
+    [ SMS_Report (TRUE) ]
+    String     InstalledLocation;
+    [ SMS_Report (TRUE) ]
+    String     InstallSource;
+    [ SMS_Report (TRUE) ]
+    UInt32     InstallType;
+    [ SMS_Report (TRUE) ]
+    UInt32     Language;
+    [ SMS_Report (TRUE) ]
+    String     LocalPackage;
+    [ SMS_Report (TRUE) ]
+    String     MPC;
+    [ SMS_Report (TRUE) ]
+    UInt32     OsComponent;
+    [ SMS_Report (TRUE) ]
+    String     PackageCode;
+    [ SMS_Report (TRUE) ]
+    String     ProductID;
+    [ SMS_Report (TRUE) ]
+    String     ProductName;
+    [ SMS_Report (TRUE) ]
+    String     ProductVersion;
+    [ SMS_Report (TRUE) ]
+    String     Publisher;
+    [ SMS_Report (TRUE) ]
+    String     RegisteredUser;
+    [ SMS_Report (TRUE) ]
+    String     ServicePack;
+    [ SMS_Report (TRUE) ]
+    String     SoftwarePropertiesHash;
+    [ SMS_Report (TRUE) ]
+    String     SoftwarePropertiesHashEx;
+    [ SMS_Report (TRUE) ]
+    String     UninstallString;
+    [ SMS_Report (TRUE) ]
+    String     UpgradeCode;
+    [ SMS_Report (TRUE) ]
+    UInt32     VersionMajor;
+    [ SMS_Report (TRUE) ]
+    UInt32     VersionMinor;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("IRQ Table"),
+  SMS_Class_ID ("MICROSOFT|IRQ|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_IRQResource : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    UInt32     IRQNumber;
+    [ SMS_Report (FALSE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     Hardware;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    Boolean     Shareable;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     TriggerLevel;
+    [ SMS_Report (FALSE) ]
+    UInt16     TriggerType;
+    [ SMS_Report (FALSE) ]
+    UInt32     Vector;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Keyboard"),
+  SMS_Class_ID ("MICROSOFT|KEYBOARD_DEVICE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_Keyboard : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     DeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    Boolean     IsLocked;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (FALSE) ]
+    String     Layout;
+    [ SMS_Report (FALSE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    UInt16     NumberOfFunctionKeys;
+    [ SMS_Report (FALSE) ]
+    UInt16     Password;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (FALSE) ]
+    String     SystemName;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Load Order Group"),
+  SMS_Class_ID ("MICROSOFT|LOAD_ORDER_GROUP|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_LoadOrderGroup : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     DriverEnabled;
+    [ SMS_Report (FALSE) ]
+    UInt32     GroupOrder;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Logical Disk"),
+  SMS_Class_ID ("MICROSOFT|LOGICAL_DISK|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2\\\\sms") ]
+class SMS_LogicalDisk : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     Access;
+    [ SMS_Report (TRUE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE), SMS_Units ("KiloBytes") ]
+    UInt64     BlockSize;
+    [ SMS_Report (TRUE) ]
+    String     Caption;
+    [ SMS_Report (TRUE) ]
+    Boolean     Compressed;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (TRUE) ]
+    UInt32     DriveType;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    String     ErrorMethodology;
+    [ SMS_Report (TRUE) ]
+    String     FileSystem;
+    [ SMS_Report (TRUE), SMS_Units ("Megabytes") ]
+    UInt64     FreeSpace;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaximumComponentLength;
+    [ SMS_Report (FALSE) ]
+    UInt32     MediaType;
+    [ SMS_Report (TRUE) ]
+    String     Name;
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    UInt64     NumberOfBlocks;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (FALSE) ]
+    String     ProviderName;
+    [ SMS_Report (TRUE) ]
+    String     Purpose;
+    [ SMS_Report (TRUE), SMS_Units ("Megabytes") ]
+    UInt64     Size;
+    [ SMS_Report (TRUE) ]
+    String     Status;
+    [ SMS_Report (TRUE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsFileBasedCompression;
+    [ SMS_Report (TRUE) ]
+    String     SystemName;
+    [ SMS_Report (TRUE) ]
+    String     VolumeName;
+    [ SMS_Report (TRUE) ]
+    String     VolumeSerialNumber;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Memory"),
+  SMS_Class_ID ("MICROSOFT|X86_PC_MEMORY|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class CCM_LogicalMemoryConfiguration : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    UInt64     AvailableVirtualMemory;
+    [ SMS_Report (TRUE) ]
+    UInt64     TotalPageFileSpace;
+    [ SMS_Report (TRUE) ]
+    UInt64     TotalPhysicalMemory;
+    [ SMS_Report (TRUE) ]
+    UInt64     TotalVirtualMemory;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Device Bluetooth"),
+  SMS_Class_ID ("MICROSOFT|DEVICE_BLUETOOTH|1.0"),
+  Namespace ("Reserved") ]
+class Device_Bluetooth : SMS_Class_Template
+{
+    [ SMS_Report (FALSE) ]
+    Boolean     Enabled;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Device Camera"),
+  SMS_Class_ID ("MICROSOFT|DEVICE_CAMERA|1.0"),
+  Namespace ("Reserved") ]
+class Device_Camera : SMS_Class_Template
+{
+    [ SMS_Report (FALSE) ]
+    Boolean     Enabled;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Device Certificates"),
+  SMS_Class_ID ("MICROSOFT|DEVICE_CERTIFICATES|1.0"),
+  Namespace ("Reserved") ]
+class Device_Certificates : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     Thumbprint;
+    [ SMS_Report (FALSE), key ]
+    String     Type;
+    [ SMS_Report (FALSE) ]
+    String     IssuedBy;
+    [ SMS_Report (FALSE) ]
+    String     IssuedTo;
+    [ SMS_Report (FALSE) ]
+    DateTime     ValidFrom;
+    [ SMS_Report (FALSE) ]
+    DateTime     ValidTo;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Device Client"),
+  SMS_Class_ID ("MICROSOFT|DEVICE_CLIENT|1.0"),
+  Namespace ("Reserved") ]
+class Device_Client : SMS_Class_Template
+{
+    [ SMS_Report (FALSE) ]
+    Boolean     DownloadWhenRoaming;
+    [ SMS_Report (FALSE) ]
+    Boolean     SyncWhenRoaming;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Device Client Agent version"),
+  SMS_Class_ID ("MICROSOFT|DEVICE_CLIENTAGENTVERSION|1.0"),
+  Namespace ("Reserved") ]
+class Device_ClientAgentVersion : SMS_Class_Template
+{
+    [ SMS_Report (TRUE) ]
+    String     Version;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Device Computer System"),
+  SMS_Class_ID ("MICROSOFT|DEVICE_COMPUTERSYSTEM|1.0"),
+  Namespace ("Reserved") ]
+class Device_ComputerSystem : SMS_Class_Template
+{
+    [ SMS_Report (TRUE) ]
+    String     CellularTechnology;
+    [ SMS_Report (TRUE) ]
+    String     DeviceClientID;
+    [ SMS_Report (TRUE) ]
+    String     DeviceManufacturer;
+    [ SMS_Report (TRUE) ]
+    String     DeviceModel;
+    [ SMS_Report (TRUE) ]
+    String     DMVersion;
+    [ SMS_Report (TRUE) ]
+    String     FirmwareVersion;
+    [ SMS_Report (TRUE) ]
+    String     HardwareVersion;
+    [ SMS_Report (TRUE) ]
+    String     IMEI;
+    [ SMS_Report (TRUE) ]
+    String     IMSI;
+    [ SMS_Report (TRUE) ]
+    UInt8     IsActivationLockEnabled;
+    [ SMS_Report (TRUE) ]
+    UInt8     Jailbroken;
+    [ SMS_Report (TRUE) ]
+    String     MEID;
+    [ SMS_Report (TRUE) ]
+    String     OEM;
+    [ SMS_Report (TRUE) ]
+    String     PhoneNumber;
+    [ SMS_Report (TRUE) ]
+    String     PlatformType;
+    [ SMS_Report (TRUE) ]
+    UInt32     ProcessorArchitecture;
+    [ SMS_Report (TRUE) ]
+    UInt32     ProcessorLevel;
+    [ SMS_Report (TRUE) ]
+    UInt32     ProcessorRevision;
+    [ SMS_Report (TRUE) ]
+    String     Product;
+    [ SMS_Report (TRUE) ]
+    String     ProductVersion;
+    [ SMS_Report (TRUE) ]
+    String     SerialNumber;
+    [ SMS_Report (TRUE) ]
+    String     SoftwareVersion;
+    [ SMS_Report (TRUE) ]
+    String     SubscriberCarrierNetwork;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Device Display"),
+  SMS_Class_ID ("MICROSOFT|DEVICE_DISPLAY|1.0"),
+  Namespace ("Reserved") ]
+class Device_Display : SMS_Class_Template
+{
+    [ SMS_Report (TRUE) ]
+    UInt32     HorizontalResolution;
+    [ SMS_Report (TRUE), SMS_Units ("DecimalString") ]
+    UInt64     NumberOfColors;
+    [ SMS_Report (TRUE) ]
+    UInt32     VerticalResolution;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Device Email"),
+  SMS_Class_ID ("MICROSOFT|DEVICE_EMAIL|1.0"),
+  Namespace ("Reserved") ]
+class Device_Email : SMS_Class_Template
+{
+    [ SMS_Report (FALSE) ]
+    String     OwnerEmailAddress;
+    [ SMS_Report (FALSE) ]
+    String     SyncDomain;
+    [ SMS_Report (FALSE) ]
+    String     SyncServer;
+    [ SMS_Report (FALSE) ]
+    String     SyncUser;
+    [ SMS_Report (FALSE) ]
+    String     Type;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Device Encryption"),
+  SMS_Class_ID ("MICROSOFT|DEVICE_ENCRYPTION|1.0"),
+  Namespace ("Reserved") ]
+class Device_Encryption : SMS_Class_Template
+{
+    [ SMS_Report (FALSE) ]
+    UInt32     EmailEncryptionAlgorithm;
+    [ SMS_Report (FALSE) ]
+    UInt32     EmailEncryptionNegotiation;
+    [ SMS_Report (FALSE) ]
+    Boolean     EmailEncryptionRequired;
+    [ SMS_Report (FALSE) ]
+    Boolean     EmailSigningAlgorithm;
+    [ SMS_Report (FALSE) ]
+    Boolean     EmailSigningRequired;
+    [ SMS_Report (FALSE) ]
+    Boolean     EncryptionCompliance;
+    [ SMS_Report (FALSE) ]
+    Boolean     PhoneMemoryEncrypted;
+    [ SMS_Report (FALSE) ]
+    Boolean     StorageCardEncrypted;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Device Exchange"),
+  SMS_Class_ID ("MICROSOFT|DEVICE_EXCHANGE|1.0"),
+  Namespace ("Reserved") ]
+class Device_Exchange : SMS_Class_Template
+{
+    [ SMS_Report (FALSE) ]
+    Boolean     ConflictResolution;
+    [ SMS_Report (FALSE) ]
+    SInt32     HTMLEmailTruncation;
+    [ SMS_Report (FALSE) ]
+    UInt32     MailFormat;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaxCalendarAge;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaxEmailAge;
+    [ SMS_Report (FALSE) ]
+    SInt32     MaxMailFileAttachmentSize;
+    [ SMS_Report (FALSE) ]
+    UInt32     OffPeakSyncFrequency;
+    [ SMS_Report (FALSE) ]
+    UInt32     PeakDays;
+    [ SMS_Report (FALSE) ]
+    String     PeakEndTime;
+    [ SMS_Report (FALSE) ]
+    String     PeakStartTime;
+    [ SMS_Report (FALSE) ]
+    UInt32     PeakSyncFrequency;
+    [ SMS_Report (FALSE) ]
+    SInt32     PlainTextEmailTruncation;
+    [ SMS_Report (FALSE) ]
+    Boolean     SendEmailImmediately;
+    [ SMS_Report (FALSE) ]
+    Boolean     SyncCalendar;
+    [ SMS_Report (FALSE) ]
+    Boolean     SyncContacts;
+    [ SMS_Report (FALSE) ]
+    Boolean     SyncEmail;
+    [ SMS_Report (FALSE) ]
+    Boolean     SyncTasks;
+    [ SMS_Report (FALSE) ]
+    Boolean     SyncWhenRoaming;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Device Installed Applications"),
+  SMS_Class_ID ("MICROSOFT|DEVICE_INSTALLEDAPPLICATIONS|1.0"),
+  Namespace ("Reserved") ]
+class Device_InstalledApplications : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     Name;
+    [ SMS_Report (TRUE) ]
+    String     Version;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Device IrDA"),
+  SMS_Class_ID ("MICROSOFT|DEVICE_IRDA|1.0"),
+  Namespace ("Reserved") ]
+class Device_IrDA : SMS_Class_Template
+{
+    [ SMS_Report (FALSE) ]
+    Boolean     Enabled;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Mobile Device Location"),
+  SMS_Class_ID ("MICROSOFT|MDM_RemoteFind|1.0"),
+  Namespace ("Reserved") ]
+class MDM_RemoteFind : SMS_Class_Template
+{
+    [ SMS_Report (FALSE) ]
+    Real32     Latitude;
+    [ SMS_Report (FALSE) ]
+    Real32     Longitude;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Device Memory"),
+  SMS_Class_ID ("MICROSOFT|DEVICE_MEMORY|1.0"),
+  Namespace ("Reserved") ]
+class Device_Memory : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), SMS_Units ("KiloBytes") ]
+    UInt64     ProgramFree;
+    [ SMS_Report (TRUE), SMS_Units ("KiloBytes") ]
+    UInt64     ProgramTotal;
+    [ SMS_Report (TRUE), SMS_Units ("KiloBytes") ]
+    UInt64     RemovableStorageFree;
+    [ SMS_Report (TRUE), SMS_Units ("KiloBytes") ]
+    UInt64     RemovableStorageTotal;
+    [ SMS_Report (TRUE), SMS_Units ("KiloBytes") ]
+    UInt64     StorageFree;
+    [ SMS_Report (TRUE), SMS_Units ("KiloBytes") ]
+    UInt64     StorageTotal;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Device OS Information"),
+  SMS_Class_ID ("MICROSOFT|DEVICE_OSINFORMATION|1.0"),
+  Namespace ("Reserved") ]
+class Device_OSInformation : SMS_Class_Template
+{
+    [ SMS_Report (TRUE) ]
+    String     Language;
+    [ SMS_Report (TRUE) ]
+    String     Platform;
+    [ SMS_Report (TRUE) ]
+    String     Version;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Device Password"),
+  SMS_Class_ID ("MICROSOFT|DEVICE_PASSWORD|1.0"),
+  Namespace ("Reserved") ]
+class Device_Password : SMS_Class_Template
+{
+    [ SMS_Report (TRUE) ]
+    Boolean     AllowRecoveryPassword;
+    [ SMS_Report (TRUE) ]
+    UInt32     AutolockTimeout;
+    [ SMS_Report (TRUE) ]
+    Boolean     Enabled;
+    [ SMS_Report (TRUE) ]
+    UInt32     Expiration;
+    [ SMS_Report (TRUE) ]
+    UInt32     History;
+    [ SMS_Report (TRUE) ]
+    UInt32     MaxAttemptsBeforeWipe;
+    [ SMS_Report (TRUE) ]
+    UInt32     MinComplexChars;
+    [ SMS_Report (TRUE) ]
+    UInt32     MinLength;
+    [ SMS_Report (TRUE) ]
+    UInt8     PasswordQuality;
+    [ SMS_Report (TRUE) ]
+    UInt32     Type;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Device Policy"),
+  SMS_Class_ID ("MICROSOFT|DEVICE_POLICY|1.0"),
+  Namespace ("Reserved") ]
+class Device_Policy : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    Boolean     Enforced;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Device Power"),
+  SMS_Class_ID ("MICROSOFT|DEVICE_POWER|1.0"),
+  Namespace ("Reserved") ]
+class Device_Power : SMS_Class_Template
+{
+    [ SMS_Report (TRUE) ]
+    UInt32     BacklightACTimeout;
+    [ SMS_Report (TRUE) ]
+    UInt32     BacklightBatTimeout;
+    [ SMS_Report (TRUE) ]
+    SInt32     BackupPercent;
+    [ SMS_Report (TRUE) ]
+    SInt32     BatteryPercent;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Mobile Device Security Status"),
+  SMS_Class_ID ("MICROSOFT|MDM_SecurityStatus|1.0"),
+  Namespace ("Reserved") ]
+class MDM_SecurityStatus : SMS_Class_Template
+{
+    [ SMS_Report (FALSE) ]
+    UInt32     HardwareEncryptionCaps;
+    [ SMS_Report (FALSE) ]
+    UInt8     PasscodeCompliant;
+    [ SMS_Report (FALSE) ]
+    UInt8     PasscodeCompliantWithProfiles;
+    [ SMS_Report (FALSE) ]
+    UInt8     PasscodePresent;
+    [ SMS_Report (FALSE) ]
+    UInt8     RequireEncryption;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Device Windows Security Policy"),
+  SMS_Class_ID ("MICROSOFT|DEVICE_WINDOWSSECURITYPOLICY|1.0"),
+  Namespace ("Reserved") ]
+class Device_WindowsSecurityPolicy : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    UInt32     ID;
+    [ SMS_Report (FALSE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    UInt32     Value;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Device WLAN"),
+  SMS_Class_ID ("MICROSOFT|DEVICE_WLAN|1.0"),
+  Namespace ("Reserved") ]
+class Device_WLAN : SMS_Class_Template
+{
+    [ SMS_Report (FALSE) ]
+    Boolean     Enabled;
+    [ SMS_Report (TRUE) ]
+    String     EthernetMAC;
+    [ SMS_Report (TRUE) ]
+    String     WiFiMAC;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Modem"),
+  SMS_Class_ID ("MICROSOFT|MODEM_DEVICE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_POTSModem : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DeviceID;
+    [ SMS_Report (TRUE) ]
+    UInt16     AnswerMode;
+    [ SMS_Report (FALSE) ]
+    String     AttachedTo;
+    [ SMS_Report (FALSE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    String     BlindOff;
+    [ SMS_Report (FALSE) ]
+    String     BlindOn;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     CompatibilityFlags;
+    [ SMS_Report (FALSE) ]
+    UInt16     CompressionInfo;
+    [ SMS_Report (FALSE) ]
+    String     CompressionOff;
+    [ SMS_Report (FALSE) ]
+    String     CompressionOn;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (FALSE) ]
+    String     ConfigurationDialog;
+    [ SMS_Report (FALSE) ]
+    String     CountriesSupported[];
+    [ SMS_Report (FALSE) ]
+    String     CountrySelected;
+    [ SMS_Report (FALSE) ]
+    String     CurrentPasswords[];
+    [ SMS_Report (FALSE) ]
+    String     DCB;
+    [ SMS_Report (FALSE) ]
+    String     Default;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    String     DeviceLoader;
+    [ SMS_Report (TRUE) ]
+    String     DeviceType;
+    [ SMS_Report (FALSE) ]
+    UInt16     DialType;
+    [ SMS_Report (FALSE) ]
+    DateTime     DriverDate;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorControlForced;
+    [ SMS_Report (FALSE) ]
+    UInt16     ErrorControlInfo;
+    [ SMS_Report (FALSE) ]
+    String     ErrorControlOff;
+    [ SMS_Report (FALSE) ]
+    String     ErrorControlOn;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    String     FlowControlHard;
+    [ SMS_Report (FALSE) ]
+    String     FlowControlOff;
+    [ SMS_Report (FALSE) ]
+    String     FlowControlSoft;
+    [ SMS_Report (FALSE) ]
+    String     InactivityScale;
+    [ SMS_Report (FALSE) ]
+    UInt32     InactivityTimeout;
+    [ SMS_Report (TRUE) ]
+    UInt32     Index;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (TRUE) ]
+    UInt32     MaxBaudRateToPhone;
+    [ SMS_Report (TRUE) ]
+    UInt32     MaxBaudRateToSerialPort;
+    [ SMS_Report (FALSE) ]
+    UInt16     MaxNumberOfPasswords;
+    [ SMS_Report (TRUE) ]
+    String     Model;
+    [ SMS_Report (FALSE) ]
+    String     ModemInfPath;
+    [ SMS_Report (FALSE) ]
+    String     ModemInfSection;
+    [ SMS_Report (FALSE) ]
+    String     ModulationBell;
+    [ SMS_Report (FALSE) ]
+    String     ModulationCCITT;
+    [ SMS_Report (FALSE) ]
+    UInt16     ModulationScheme;
+    [ SMS_Report (TRUE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    String     PortSubClass;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (FALSE) ]
+    String     Prefix;
+    [ SMS_Report (TRUE) ]
+    String     Properties;
+    [ SMS_Report (FALSE) ]
+    String     ProviderName;
+    [ SMS_Report (FALSE) ]
+    String     Pulse;
+    [ SMS_Report (FALSE) ]
+    String     Reset;
+    [ SMS_Report (FALSE) ]
+    String     ResponsesKeyName;
+    [ SMS_Report (FALSE) ]
+    UInt8     RingsBeforeAnswer;
+    [ SMS_Report (FALSE) ]
+    String     SpeakerModeDial;
+    [ SMS_Report (FALSE) ]
+    String     SpeakerModeOff;
+    [ SMS_Report (FALSE) ]
+    String     SpeakerModeOn;
+    [ SMS_Report (FALSE) ]
+    String     SpeakerModeSetup;
+    [ SMS_Report (FALSE) ]
+    String     SpeakerVolumeHigh;
+    [ SMS_Report (FALSE) ]
+    UInt16     SpeakerVolumeInfo;
+    [ SMS_Report (FALSE) ]
+    String     SpeakerVolumeLow;
+    [ SMS_Report (FALSE) ]
+    String     SpeakerVolumeMed;
+    [ SMS_Report (TRUE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (TRUE) ]
+    String     StringFormat;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsCallback;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsSynchronousConnect;
+    [ SMS_Report (TRUE) ]
+    String     SystemName;
+    [ SMS_Report (FALSE) ]
+    String     Terminator;
+    [ SMS_Report (FALSE) ]
+    DateTime     TimeOfLastReset;
+    [ SMS_Report (FALSE) ]
+    String     Tone;
+    [ SMS_Report (TRUE) ]
+    String     VoiceSwitchFeature;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Motherboard"),
+  SMS_Class_ID ("MICROSOFT|MOTHERBOARD_DEVICE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_MotherboardDevice : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (FALSE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (TRUE) ]
+    String     PrimaryBusType;
+    [ SMS_Report (TRUE) ]
+    String     RevisionNumber;
+    [ SMS_Report (TRUE) ]
+    String     SecondaryBusType;
+    [ SMS_Report (TRUE) ]
+    String     Status;
+    [ SMS_Report (TRUE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (TRUE) ]
+    String     SystemName;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Network Adapter"),
+  SMS_Class_ID ("MICROSOFT|NETWORK_ADAPTER|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_NetworkAdapter : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DeviceID;
+    [ SMS_Report (TRUE) ]
+    String     AdapterType;
+    [ SMS_Report (FALSE) ]
+    Boolean     AutoSense;
+    [ SMS_Report (FALSE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    UInt32     Index;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    Boolean     Installed;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (TRUE) ]
+    String     MACAddress;
+    [ SMS_Report (TRUE) ]
+    String     Manufacturer;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaxNumberControlled;
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    UInt64     MaxSpeed;
+    [ SMS_Report (TRUE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     NetworkAddresses[];
+    [ SMS_Report (FALSE) ]
+    String     PermanentAddress;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (TRUE) ]
+    String     ProductName;
+    [ SMS_Report (TRUE) ]
+    String     ServiceName;
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    UInt64     Speed;
+    [ SMS_Report (TRUE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (FALSE) ]
+    String     SystemName;
+    [ SMS_Report (FALSE) ]
+    DateTime     TimeOfLastReset;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Network Adapter Configuration"),
+  SMS_Class_ID ("MICROSOFT|NETWORK_ADAPTER_CONFIGURATION|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_NetworkAdapterConfiguration : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    UInt32     Index;
+    [ SMS_Report (FALSE) ]
+    Boolean     ArpAlwaysSourceRoute;
+    [ SMS_Report (FALSE) ]
+    Boolean     ArpUseEtherSNAP;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     DatabasePath;
+    [ SMS_Report (FALSE) ]
+    Boolean     DeadGWDetectEnabled;
+    [ SMS_Report (TRUE) ]
+    String     DefaultIPGateway[];
+    [ SMS_Report (FALSE) ]
+    UInt8     DefaultTOS;
+    [ SMS_Report (FALSE) ]
+    UInt8     DefaultTTL;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (TRUE) ]
+    Boolean     DHCPEnabled;
+    [ SMS_Report (FALSE) ]
+    DateTime     DHCPLeaseExpires;
+    [ SMS_Report (FALSE) ]
+    DateTime     DHCPLeaseObtained;
+    [ SMS_Report (TRUE) ]
+    String     DHCPServer;
+    [ SMS_Report (TRUE) ]
+    String     DNSDomain;
+    [ SMS_Report (FALSE) ]
+    String     DNSDomainSuffixSearchOrder[];
+    [ SMS_Report (FALSE) ]
+    Boolean     DNSEnabledForWINSResolution;
+    [ SMS_Report (TRUE) ]
+    String     DNSHostName;
+    [ SMS_Report (FALSE) ]
+    String     DNSServerSearchOrder[];
+    [ SMS_Report (FALSE) ]
+    Boolean     DomainDNSRegistrationEnabled;
+    [ SMS_Report (FALSE) ]
+    UInt32     ForwardBufferMemory;
+    [ SMS_Report (FALSE) ]
+    Boolean     FullDNSRegistrationEnabled;
+    [ SMS_Report (FALSE) ]
+    UInt16     GatewayCostMetric[];
+    [ SMS_Report (FALSE) ]
+    UInt8     IGMPLevel;
+    [ SMS_Report (TRUE) ]
+    String     IPAddress[];
+    [ SMS_Report (FALSE) ]
+    UInt32     IPConnectionMetric;
+    [ SMS_Report (TRUE) ]
+    Boolean     IPEnabled;
+    [ SMS_Report (FALSE) ]
+    Boolean     IPFilterSecurityEnabled;
+    [ SMS_Report (FALSE) ]
+    Boolean     IPPortSecurityEnabled;
+    [ SMS_Report (FALSE) ]
+    String     IPSecPermitIPProtocols[];
+    [ SMS_Report (FALSE) ]
+    String     IPSecPermitTCPPorts[];
+    [ SMS_Report (FALSE) ]
+    String     IPSecPermitUDPPorts[];
+    [ SMS_Report (TRUE) ]
+    String     IPSubnet[];
+    [ SMS_Report (FALSE) ]
+    Boolean     IPUseZeroBroadcast;
+    [ SMS_Report (FALSE) ]
+    String     IPXAddress;
+    [ SMS_Report (FALSE) ]
+    Boolean     IPXEnabled;
+    [ SMS_Report (FALSE) ]
+    String     IPXFrameType;
+    [ SMS_Report (FALSE) ]
+    UInt32     IPXMediaType;
+    [ SMS_Report (FALSE) ]
+    String     IPXNetworkNumber[];
+    [ SMS_Report (FALSE) ]
+    String     IPXVirtualNetNumber;
+    [ SMS_Report (FALSE) ]
+    UInt32     KeepAliveInterval;
+    [ SMS_Report (FALSE) ]
+    UInt32     KeepAliveTime;
+    [ SMS_Report (TRUE) ]
+    String     MACAddress;
+    [ SMS_Report (FALSE) ]
+    UInt32     MTU;
+    [ SMS_Report (FALSE) ]
+    UInt32     NumForwardPackets;
+    [ SMS_Report (FALSE) ]
+    Boolean     PMTUBHDetectEnabled;
+    [ SMS_Report (FALSE) ]
+    Boolean     PMTUDiscoveryEnabled;
+    [ SMS_Report (TRUE) ]
+    String     ServiceName;
+    [ SMS_Report (FALSE) ]
+    String     SettingID;
+    [ SMS_Report (FALSE) ]
+    UInt32     TcpipNetbiosOptions;
+    [ SMS_Report (FALSE) ]
+    UInt32     TcpMaxConnectRetransmissions;
+    [ SMS_Report (FALSE) ]
+    UInt32     TcpMaxDataRetransmissions;
+    [ SMS_Report (FALSE) ]
+    UInt32     TcpNumConnections;
+    [ SMS_Report (FALSE) ]
+    Boolean     TcpUseRFC1122UrgentPointer;
+    [ SMS_Report (FALSE) ]
+    UInt16     TcpWindowSize;
+    [ SMS_Report (FALSE) ]
+    Boolean     WINSEnableLMHostsLookup;
+    [ SMS_Report (FALSE) ]
+    String     WINSHostLookupFile;
+    [ SMS_Report (FALSE) ]
+    String     WINSPrimaryServer;
+    [ SMS_Report (FALSE) ]
+    String     WINSScopeID;
+    [ SMS_Report (FALSE) ]
+    String     WINSSecondaryServer;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Network Client"),
+  SMS_Class_ID ("MICROSOFT|NETWORK_CLIENT|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_NetworkClient : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (TRUE) ]
+    String     Manufacturer;
+    [ SMS_Report (TRUE) ]
+    String     Status;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Network Login Profile"),
+  SMS_Class_ID ("MICROSOFT|NETWORK_LOGIN_PROFILE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_NetworkLoginProfile : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    DateTime     AccountExpires;
+    [ SMS_Report (FALSE) ]
+    UInt32     AuthorizationFlags;
+    [ SMS_Report (FALSE) ]
+    UInt32     BadPasswordCount;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt32     CodePage;
+    [ SMS_Report (FALSE) ]
+    String     Comment;
+    [ SMS_Report (FALSE) ]
+    UInt32     CountryCode;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    UInt32     Flags;
+    [ SMS_Report (FALSE) ]
+    String     FullName;
+    [ SMS_Report (FALSE) ]
+    String     HomeDirectory;
+    [ SMS_Report (FALSE) ]
+    String     HomeDirectoryDrive;
+    [ SMS_Report (FALSE) ]
+    DateTime     LastLogoff;
+    [ SMS_Report (FALSE) ]
+    DateTime     LastLogon;
+    [ SMS_Report (FALSE) ]
+    String     LogonHours;
+    [ SMS_Report (FALSE) ]
+    String     LogonServer;
+    [ SMS_Report (FALSE), SMS_Units ("Megabytes") ]
+    UInt64     MaximumStorage;
+    [ SMS_Report (FALSE) ]
+    UInt32     NumberOfLogons;
+    [ SMS_Report (FALSE) ]
+    String     Parameters;
+    [ SMS_Report (FALSE), SMS_Units ("DateString") ]
+    DateTime     PasswordAge;
+    [ SMS_Report (FALSE) ]
+    DateTime     PasswordExpires;
+    [ SMS_Report (FALSE) ]
+    UInt32     PrimaryGroupId;
+    [ SMS_Report (FALSE) ]
+    UInt32     Privileges;
+    [ SMS_Report (FALSE) ]
+    String     Profile;
+    [ SMS_Report (FALSE) ]
+    String     ScriptPath;
+    [ SMS_Report (FALSE) ]
+    String     SettingID;
+    [ SMS_Report (FALSE) ]
+    UInt32     UnitsPerWeek;
+    [ SMS_Report (FALSE) ]
+    String     UserComment;
+    [ SMS_Report (FALSE) ]
+    UInt32     UserId;
+    [ SMS_Report (FALSE) ]
+    String     UserType;
+    [ SMS_Report (FALSE) ]
+    String     Workstations;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("NT Eventlog File"),
+  SMS_Class_ID ("MICROSOFT|NT_EVENTLOG_FILE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_NTEventlogFile : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    UInt32     AccessMask;
+    [ SMS_Report (FALSE) ]
+    Boolean     Archive;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    Boolean     Compressed;
+    [ SMS_Report (FALSE) ]
+    String     CompressionMethod;
+    [ SMS_Report (FALSE) ]
+    DateTime     CreationDate;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    String     Drive;
+    [ SMS_Report (FALSE) ]
+    String     EightDotThreeFileName;
+    [ SMS_Report (FALSE) ]
+    Boolean     Encrypted;
+    [ SMS_Report (FALSE) ]
+    String     EncryptionMethod;
+    [ SMS_Report (FALSE) ]
+    String     Extension;
+    [ SMS_Report (FALSE) ]
+    String     FileName;
+    [ SMS_Report (FALSE), SMS_Units ("Kilobytes") ]
+    UInt64     FileSize;
+    [ SMS_Report (FALSE) ]
+    String     FileType;
+    [ SMS_Report (FALSE) ]
+    String     FSName;
+    [ SMS_Report (FALSE) ]
+    Boolean     Hidden;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    UInt64     InUseCount;
+    [ SMS_Report (FALSE) ]
+    DateTime     LastAccessed;
+    [ SMS_Report (FALSE) ]
+    DateTime     LastModified;
+    [ SMS_Report (FALSE) ]
+    String     LogfileName;
+    [ SMS_Report (FALSE) ]
+    String     Manufacturer;
+    [ SMS_Report (FALSE), SMS_Units ("Kilobytes") ]
+    UInt32     MaxFileSize;
+    [ SMS_Report (FALSE) ]
+    UInt32     NumberOfRecords;
+    [ SMS_Report (FALSE) ]
+    UInt32     OverwriteOutDated;
+    [ SMS_Report (FALSE) ]
+    String     OverWritePolicy;
+    [ SMS_Report (FALSE) ]
+    String     Path;
+    [ SMS_Report (FALSE) ]
+    Boolean     Readable;
+    [ SMS_Report (FALSE) ]
+    String     Sources[];
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    Boolean     System;
+    [ SMS_Report (FALSE) ]
+    String     Version;
+    [ SMS_Report (FALSE) ]
+    Boolean     Writeable;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Office365ProPlusConfigurations"),
+  SMS_Class_ID ("MICROSOFT|Office365ProPlusConfigurations|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Office365ProPlusConfigurations : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     KeyName;
+    [ SMS_Report (TRUE) ]
+    String     AutoUpgrade;
+    [ SMS_Report (TRUE) ]
+    String     CCMManaged;
+    [ SMS_Report (TRUE) ]
+    String     CDNBaseUrl;
+    [ SMS_Report (TRUE) ]
+    String     cfgUpdateChannel;
+    [ SMS_Report (TRUE) ]
+    String     ClientCulture;
+    [ SMS_Report (TRUE) ]
+    String     ClientFolder;
+    [ SMS_Report (TRUE) ]
+    String     GPOChannel;
+    [ SMS_Report (TRUE) ]
+    String     GPOOfficeMgmtCOM;
+    [ SMS_Report (TRUE) ]
+    String     InstallationPath;
+    [ SMS_Report (TRUE) ]
+    String     LastScenario;
+    [ SMS_Report (TRUE) ]
+    String     LastScenarioResult;
+    [ SMS_Report (TRUE) ]
+    String     OfficeMgmtCOM;
+    [ SMS_Report (TRUE) ]
+    String     Platform;
+    [ SMS_Report (TRUE) ]
+    String     SharedComputerLicensing;
+    [ SMS_Report (TRUE) ]
+    String     UpdateChannel;
+    [ SMS_Report (TRUE) ]
+    String     UpdatePath;
+    [ SMS_Report (TRUE) ]
+    String     UpdatesEnabled;
+    [ SMS_Report (TRUE) ]
+    String     UpdateUrl;
+    [ SMS_Report (TRUE) ]
+    String     VersionToReport;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Office Addin"),
+  SMS_Class_ID ("MICROSOFT|OFFICE_ADDIN|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\ccm\\\\InvAgt") ]
+class CCM_OfficeAddin : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     Architecture;
+    [ SMS_Report (TRUE), key ]
+    String     Id;
+    [ SMS_Report (TRUE), key ]
+    String     OfficeApp;
+    [ SMS_Report (TRUE), key ]
+    String     Type;
+    [ SMS_Report (TRUE) ]
+    UInt32     AverageLoadTimeInMilliseconds;
+    [ SMS_Report (TRUE) ]
+    String     Clsid;
+    [ SMS_Report (TRUE) ]
+    String     CompanyName;
+    [ SMS_Report (TRUE) ]
+    UInt32     CrashCount;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (TRUE) ]
+    UInt32     ErrorCount;
+    [ SMS_Report (TRUE) ]
+    String     FileName;
+    [ SMS_Report (TRUE) ]
+    UInt64     FileSize;
+    [ SMS_Report (TRUE) ]
+    UInt32     FileTimeStamp;
+    [ SMS_Report (TRUE) ]
+    String     FileVersion;
+    [ SMS_Report (TRUE) ]
+    String     FriendlyName;
+    [ SMS_Report (TRUE) ]
+    String     FriendlyNameHash;
+    [ SMS_Report (TRUE) ]
+    String     IdHash;
+    [ SMS_Report (TRUE) ]
+    UInt32     LoadBehavior;
+    [ SMS_Report (TRUE) ]
+    UInt32     LoadCount;
+    [ SMS_Report (TRUE) ]
+    UInt32     LoadFailCount;
+    [ SMS_Report (TRUE) ]
+    String     ProductName;
+    [ SMS_Report (TRUE) ]
+    String     ProductVersion;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Office Client Metric"),
+  SMS_Class_ID ("MICROSOFT|OFFICE_CLIENTMETRIC|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\ccm\\\\InvAgt") ]
+class CCM_OfficeClientMetric : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     OfficeApp;
+    [ SMS_Report (TRUE) ]
+    UInt32     CompatibilityErrorCount;
+    [ SMS_Report (TRUE) ]
+    UInt32     CrashedSessionCount;
+    [ SMS_Report (TRUE) ]
+    UInt32     MacroCompileErrorCount;
+    [ SMS_Report (TRUE) ]
+    UInt32     MacroRuntimeErrorCount;
+    [ SMS_Report (TRUE) ]
+    UInt32     SessionCount;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Office Device Summary"),
+  SMS_Class_ID ("MICROSOFT|OFFICE_DEVICESUMMARY|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\ccm\\\\InvAgt") ]
+class CCM_OfficeDeviceSummary : SMS_Class_Template
+{
+    [ SMS_Report (TRUE) ]
+    Boolean     IsProPlusInstalled;
+    [ SMS_Report (TRUE) ]
+    Boolean     IsTelemetryEnabled;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Office Document Metric"),
+  SMS_Class_ID ("MICROSOFT|OFFICE_DOCUMENTMETRIC|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\ccm\\\\InvAgt") ]
+class CCM_OfficeDocumentMetric : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     OfficeApp;
+    [ SMS_Report (TRUE) ]
+    UInt32     TotalCloudDocs;
+    [ SMS_Report (TRUE) ]
+    UInt32     TotalLegacyDocs;
+    [ SMS_Report (TRUE) ]
+    UInt32     TotalLocalDocs;
+    [ SMS_Report (TRUE) ]
+    UInt32     TotalMacroDocs;
+    [ SMS_Report (TRUE) ]
+    UInt32     TotalNonMacroDocs;
+    [ SMS_Report (TRUE) ]
+    UInt32     TotalUncDocs;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Office Document Solution"),
+  SMS_Class_ID ("MICROSOFT|OFFICE_DOCUMENTSOLUTION|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\ccm\\\\InvAgt") ]
+class CCM_OfficeDocumentSolution : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DocumentSolutionId;
+    [ SMS_Report (TRUE), key ]
+    String     OfficeApp;
+    [ SMS_Report (TRUE) ]
+    UInt32     CompatibilityErrorCount;
+    [ SMS_Report (TRUE) ]
+    UInt32     CrashCount;
+    [ SMS_Report (TRUE) ]
+    String     ExampleFileName;
+    [ SMS_Report (TRUE) ]
+    UInt32     LoadCount;
+    [ SMS_Report (TRUE) ]
+    UInt32     LoadFailCount;
+    [ SMS_Report (TRUE) ]
+    UInt32     MacroCompileErrorCount;
+    [ SMS_Report (TRUE) ]
+    UInt32     MacroRuntimeErrorCount;
+    [ SMS_Report (TRUE) ]
+    String     Type;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Office Macro Error"),
+  SMS_Class_ID ("MICROSOFT|OFFICE_MACROERROR|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\ccm\\\\InvAgt") ]
+class CCM_OfficeMacroError : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DocumentSolutionId;
+    [ SMS_Report (TRUE), key ]
+    UInt32     ErrorCode;
+    [ SMS_Report (TRUE) ]
+    UInt32     Count;
+    [ SMS_Report (TRUE) ]
+    UInt64     LastOccurrence;
+    [ SMS_Report (TRUE) ]
+    String     Type;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Office Product Info"),
+  SMS_Class_ID ("MICROSOFT|OFFICE_PRODUCTINFO|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\ccm\\\\InvAgt") ]
+class CCM_OfficeProductInfo : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     ProductName;
+    [ SMS_Report (TRUE), key ]
+    String     ProductVersion;
+    [ SMS_Report (TRUE) ]
+    String     Architecture;
+    [ SMS_Report (TRUE) ]
+    String     Channel;
+    [ SMS_Report (TRUE) ]
+    UInt32     IsProPlusInstalled;
+    [ SMS_Report (TRUE) ]
+    String     Language;
+    [ SMS_Report (TRUE) ]
+    String     LicenseState;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Office Vba Rule Violation"),
+  SMS_Class_ID ("MICROSOFT|OFFICE_VBARULEVIOLATION|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\ccm\\\\InvAgt") ]
+class CCM_OfficeVbaRuleViolation : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    UInt32     RuleId;
+    [ SMS_Report (TRUE) ]
+    UInt32     FileCount;
+    [ SMS_Report (TRUE) ]
+    String     OfficeApp;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Office VbaSummary"),
+  SMS_Class_ID ("MICROSOFT|OFFICE_VBASUMMARY|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\ccm\\\\InvAgt") ]
+class CCM_OfficeVbaScanResultsSummary : SMS_Class_Template
+{
+    [ SMS_Report (TRUE) ]
+    UInt32     Design;
+    [ SMS_Report (TRUE) ]
+    UInt32     Design64;
+    [ SMS_Report (TRUE) ]
+    UInt32     DuplicateVba;
+    [ SMS_Report (TRUE) ]
+    Boolean     HasResults;
+    [ SMS_Report (TRUE) ]
+    UInt32     HasVba;
+    [ SMS_Report (TRUE) ]
+    UInt32     Inaccessible;
+    [ SMS_Report (TRUE) ]
+    UInt32     Issues;
+    [ SMS_Report (TRUE) ]
+    UInt32     Issues64;
+    [ SMS_Report (TRUE) ]
+    UInt32     IssuesNone;
+    [ SMS_Report (TRUE) ]
+    UInt32     IssuesNone64;
+    [ SMS_Report (TRUE) ]
+    UInt32     Locked;
+    [ SMS_Report (TRUE) ]
+    UInt32     NoVba;
+    [ SMS_Report (TRUE) ]
+    UInt32     Protected;
+    [ SMS_Report (TRUE) ]
+    UInt32     RemLimited;
+    [ SMS_Report (TRUE) ]
+    UInt32     RemLimited64;
+    [ SMS_Report (TRUE) ]
+    UInt32     RemSignificant;
+    [ SMS_Report (TRUE) ]
+    UInt32     RemSignificant64;
+    [ SMS_Report (TRUE) ]
+    UInt32     Score;
+    [ SMS_Report (TRUE) ]
+    UInt32     Score64;
+    [ SMS_Report (TRUE) ]
+    UInt32     Total;
+    [ SMS_Report (TRUE) ]
+    UInt32     Validation;
+    [ SMS_Report (TRUE) ]
+    UInt32     Validation64;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Operating System"),
+  SMS_Class_ID ("MICROSOFT|OPERATING_SYSTEM|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_OperatingSystem : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     Name;
+    [ SMS_Report (TRUE) ]
+    String     BootDevice;
+    [ SMS_Report (TRUE) ]
+    String     BuildNumber;
+    [ SMS_Report (FALSE) ]
+    String     BuildType;
+    [ SMS_Report (TRUE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     CodeSet;
+    [ SMS_Report (TRUE) ]
+    String     CountryCode;
+    [ SMS_Report (TRUE) ]
+    String     CSDVersion;
+    [ SMS_Report (FALSE) ]
+    SInt16     CurrentTimeZone;
+    [ SMS_Report (FALSE) ]
+    Boolean     Debug;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     Distributed;
+    [ SMS_Report (FALSE) ]
+    UInt8     ForegroundApplicationBoost;
+    [ SMS_Report (FALSE), SMS_Units ("KiloBytes") ]
+    UInt64     FreePhysicalMemory;
+    [ SMS_Report (FALSE), SMS_Units ("KiloBytes") ]
+    UInt64     FreeSpaceInPagingFiles;
+    [ SMS_Report (FALSE), SMS_Units ("KiloBytes") ]
+    UInt64     FreeVirtualMemory;
+    [ SMS_Report (TRUE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (TRUE) ]
+    DateTime     LastBootUpTime;
+    [ SMS_Report (FALSE) ]
+    DateTime     LocalDateTime;
+    [ SMS_Report (TRUE) ]
+    String     Locale;
+    [ SMS_Report (TRUE) ]
+    String     Manufacturer;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaxNumberOfProcesses;
+    [ SMS_Report (FALSE), SMS_Units ("KiloBytes") ]
+    UInt64     MaxProcessMemorySize;
+    [ SMS_Report (FALSE) ]
+    String     MUILanguages[];
+    [ SMS_Report (FALSE) ]
+    UInt32     NumberOfLicensedUsers;
+    [ SMS_Report (FALSE) ]
+    UInt32     NumberOfProcesses;
+    [ SMS_Report (FALSE) ]
+    UInt32     NumberOfUsers;
+    [ SMS_Report (TRUE) ]
+    UInt32     OperatingSystemSKU;
+    [ SMS_Report (TRUE) ]
+    String     Organization;
+    [ SMS_Report (FALSE) ]
+    String     OSArchitecture;
+    [ SMS_Report (TRUE) ]
+    UInt32     OSLanguage;
+    [ SMS_Report (TRUE) ]
+    UInt32     OSProductSuite;
+    [ SMS_Report (FALSE) ]
+    UInt16     OSType;
+    [ SMS_Report (FALSE) ]
+    String     OtherTypeDescription;
+    [ SMS_Report (FALSE) ]
+    String     PlusProductID;
+    [ SMS_Report (FALSE) ]
+    String     PlusVersionNumber;
+    [ SMS_Report (FALSE) ]
+    Boolean     Primary;
+    [ SMS_Report (TRUE) ]
+    UInt32     ProductType;
+    [ SMS_Report (TRUE) ]
+    String     RegisteredUser;
+    [ SMS_Report (TRUE) ]
+    String     SerialNumber;
+    [ SMS_Report (FALSE) ]
+    UInt16     ServicePackMajorVersion;
+    [ SMS_Report (FALSE) ]
+    UInt16     ServicePackMinorVersion;
+    [ SMS_Report (FALSE), SMS_Units ("KiloBytes") ]
+    UInt64     SizeStoredInPagingFiles;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    String     SystemDevice;
+    [ SMS_Report (TRUE) ]
+    String     SystemDirectory;
+    [ SMS_Report (TRUE), SMS_Units ("KiloBytes") ]
+    UInt64     TotalSwapSpaceSize;
+    [ SMS_Report (TRUE), SMS_Units ("KiloBytes") ]
+    UInt64     TotalVirtualMemorySize;
+    [ SMS_Report (TRUE), SMS_Units ("KiloBytes") ]
+    UInt64     TotalVisibleMemorySize;
+    [ SMS_Report (TRUE) ]
+    String     Version;
+    [ SMS_Report (TRUE) ]
+    String     WindowsDirectory;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Operating System Ex"),
+  SMS_Class_ID ("MICROSOFT|OPERATING_SYSTEM_EXT|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class CCM_OperatingSystemExtended : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     Name;
+    [ SMS_Report (TRUE) ]
+    UInt32     SKU;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Operating System Recovery Configuration"),
+  SMS_Class_ID ("MICROSOFT|OS_RECOVERY_CONFIGURATION|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_OSRecoveryConfiguration : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    Boolean     AutoReboot;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     DebugFilePath;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     KernelDumpOnly;
+    [ SMS_Report (FALSE) ]
+    Boolean     OverwriteExistingDebugFile;
+    [ SMS_Report (FALSE) ]
+    Boolean     SendAdminAlert;
+    [ SMS_Report (FALSE) ]
+    String     SettingID;
+    [ SMS_Report (FALSE) ]
+    Boolean     WriteDebugInfo;
+    [ SMS_Report (FALSE) ]
+    Boolean     WriteToSystemLog;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Optional Feature"),
+  SMS_Class_ID ("MICROSOFT|OPTIONAL_FEATURE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_OptionalFeature : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     Name;
+    [ SMS_Report (TRUE) ]
+    String     Caption;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (TRUE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (TRUE) ]
+    UInt32     InstallState;
+    [ SMS_Report (TRUE) ]
+    String     Status;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Page File Setting"),
+  SMS_Class_ID ("MICROSOFT|PAGE_FILE_SETTING|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_PageFileSetting : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    UInt32     InitialSize;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaximumSize;
+    [ SMS_Report (FALSE) ]
+    String     SettingID;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Parallel Port"),
+  SMS_Class_ID ("MICROSOFT|PARALLEL_PORT|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_ParallelPort : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DeviceID;
+    [ SMS_Report (TRUE) ]
+    UInt16     Availability;
+    [ SMS_Report (TRUE) ]
+    UInt16     Capabilities[];
+    [ SMS_Report (FALSE) ]
+    String     CapabilityDescriptions[];
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     DMASupport;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaxNumberControlled;
+    [ SMS_Report (TRUE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    Boolean     OSAutoDiscovered;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (FALSE) ]
+    UInt16     ProtocolSupported;
+    [ SMS_Report (TRUE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (FALSE) ]
+    String     SystemName;
+    [ SMS_Report (FALSE) ]
+    DateTime     TimeOfLastReset;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("BIOS"),
+  SMS_Class_ID ("MICROSOFT|PC_BIOS|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_BIOS : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     Name;
+    [ SMS_Report (TRUE), key ]
+    String     SoftwareElementID;
+    [ SMS_Report (TRUE), key ]
+    UInt16     SoftwareElementState;
+    [ SMS_Report (TRUE), key ]
+    UInt16     TargetOperatingSystem;
+    [ SMS_Report (TRUE), key ]
+    String     Version;
+    [ SMS_Report (FALSE) ]
+    UInt16     BiosCharacteristics[];
+    [ SMS_Report (TRUE) ]
+    String     BIOSVersion[];
+    [ SMS_Report (TRUE) ]
+    String     BuildNumber;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     CodeSet;
+    [ SMS_Report (FALSE) ]
+    String     CurrentLanguage;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    String     IdentificationCode;
+    [ SMS_Report (FALSE) ]
+    UInt16     InstallableLanguages;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    String     LanguageEdition;
+    [ SMS_Report (FALSE) ]
+    String     ListOfLanguages[];
+    [ SMS_Report (TRUE) ]
+    String     Manufacturer;
+    [ SMS_Report (FALSE) ]
+    String     OtherTargetOS;
+    [ SMS_Report (FALSE) ]
+    Boolean     PrimaryBIOS;
+    [ SMS_Report (TRUE) ]
+    DateTime     ReleaseDate;
+    [ SMS_Report (TRUE) ]
+    String     SerialNumber;
+    [ SMS_Report (TRUE) ]
+    String     SMBIOSBIOSVersion;
+    [ SMS_Report (FALSE) ]
+    UInt16     SMBIOSMajorVersion;
+    [ SMS_Report (FALSE) ]
+    UInt16     SMBIOSMinorVersion;
+    [ SMS_Report (FALSE) ]
+    Boolean     SMBIOSPresent;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("PCMCIA Controller"),
+  SMS_Class_ID ("MICROSOFT|PCMCIA_CONTROLLER|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_PCMCIAController : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     DeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (FALSE) ]
+    String     Manufacturer;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaxNumberControlled;
+    [ SMS_Report (FALSE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (FALSE) ]
+    UInt16     ProtocolSupported;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (FALSE) ]
+    String     SystemName;
+    [ SMS_Report (FALSE) ]
+    DateTime     TimeOfLastReset;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Physical Memory"),
+  SMS_Class_ID ("MICROSOFT|PHYSICAL_MEMORY|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_PhysicalMemory : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     CreationClassName;
+    [ SMS_Report (TRUE), key ]
+    String     Tag;
+    [ SMS_Report (TRUE) ]
+    String     BankLabel;
+    [ SMS_Report (TRUE), SMS_Units ("Megabytes") ]
+    UInt64     Capacity;
+    [ SMS_Report (TRUE) ]
+    String     Caption;
+    [ SMS_Report (TRUE) ]
+    UInt16     DataWidth;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (TRUE) ]
+    String     DeviceLocator;
+    [ SMS_Report (TRUE) ]
+    UInt16     FormFactor;
+    [ SMS_Report (TRUE) ]
+    Boolean     HotSwappable;
+    [ SMS_Report (TRUE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (TRUE) ]
+    UInt16     InterleaveDataDepth;
+    [ SMS_Report (TRUE) ]
+    UInt32     InterleavePosition;
+    [ SMS_Report (TRUE) ]
+    String     Manufacturer;
+    [ SMS_Report (TRUE) ]
+    UInt16     MemoryType;
+    [ SMS_Report (TRUE) ]
+    String     Model;
+    [ SMS_Report (TRUE) ]
+    String     Name;
+    [ SMS_Report (TRUE) ]
+    String     OtherIdentifyingInfo;
+    [ SMS_Report (TRUE) ]
+    String     PartNumber;
+    [ SMS_Report (TRUE) ]
+    UInt32     PositionInRow;
+    [ SMS_Report (TRUE) ]
+    Boolean     PoweredOn;
+    [ SMS_Report (TRUE) ]
+    Boolean     Removable;
+    [ SMS_Report (TRUE) ]
+    Boolean     Replaceable;
+    [ SMS_Report (TRUE) ]
+    String     SerialNumber;
+    [ SMS_Report (TRUE) ]
+    String     SKU;
+    [ SMS_Report (TRUE) ]
+    UInt32     Speed;
+    [ SMS_Report (TRUE) ]
+    String     Status;
+    [ SMS_Report (TRUE) ]
+    UInt16     TotalWidth;
+    [ SMS_Report (TRUE) ]
+    UInt16     TypeDetail;
+    [ SMS_Report (TRUE) ]
+    String     Version;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("PhysicalDisk"),
+  SMS_Class_ID ("MICROSOFT|PHYSICAL_DISK|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\microsoft\\\\windows\\\\storage") ]
+class MSFT_PhysicalDisk : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     ObjectId;
+    [ SMS_Report (FALSE) ]
+    UInt64     AllocatedSize;
+    [ SMS_Report (TRUE) ]
+    UInt16     BusType;
+    [ SMS_Report (FALSE) ]
+    UInt16     CannotPoolReason[];
+    [ SMS_Report (FALSE) ]
+    Boolean     CanPool;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    String     DeviceId;
+    [ SMS_Report (FALSE) ]
+    UInt16     EnclosureNumber;
+    [ SMS_Report (TRUE) ]
+    String     FirmwareVersion;
+    [ SMS_Report (TRUE) ]
+    String     FriendlyName;
+    [ SMS_Report (TRUE) ]
+    UInt16     HealthStatus;
+    [ SMS_Report (FALSE) ]
+    Boolean     IsIndicationEnabled;
+    [ SMS_Report (FALSE) ]
+    Boolean     IsPartial;
+    [ SMS_Report (TRUE) ]
+    UInt64     LogicalSectorSize;
+    [ SMS_Report (TRUE) ]
+    String     Manufacturer;
+    [ SMS_Report (TRUE) ]
+    UInt16     MediaType;
+    [ SMS_Report (TRUE) ]
+    String     Model;
+    [ SMS_Report (FALSE) ]
+    UInt16     OperationalStatus[];
+    [ SMS_Report (FALSE) ]
+    String     OtherCannotPoolReasonDescription;
+    [ SMS_Report (FALSE) ]
+    String     PartNumber;
+    [ SMS_Report (FALSE) ]
+    String     PhysicalLocation;
+    [ SMS_Report (TRUE) ]
+    UInt64     PhysicalSectorSize;
+    [ SMS_Report (TRUE) ]
+    String     SerialNumber;
+    [ SMS_Report (TRUE) ]
+    UInt64     Size;
+    [ SMS_Report (FALSE) ]
+    UInt16     SlotNumber;
+    [ SMS_Report (FALSE) ]
+    String     SoftwareVersion;
+    [ SMS_Report (TRUE) ]
+    UInt32     SpindleSpeed;
+    [ SMS_Report (FALSE) ]
+    UInt16     SupportedUsages[];
+    [ SMS_Report (TRUE) ]
+    String     UniqueId;
+    [ SMS_Report (TRUE) ]
+    UInt16     Usage;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("PNP DEVICE DRIVER"),
+  SMS_Class_ID ("MICROSOFT|PNP_DEVICE_DRIVER|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_PnpEntity : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     ClassGuid;
+    [ SMS_Report (TRUE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (FALSE) ]
+    String     CreationClassName;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (TRUE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (TRUE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (FALSE) ]
+    String     Manufacturer;
+    [ SMS_Report (TRUE) ]
+    String     Name;
+    [ SMS_Report (TRUE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (FALSE) ]
+    String     Service;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (FALSE) ]
+    String     SystemCreationClassName;
+    [ SMS_Report (FALSE) ]
+    String     SystemName;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Pointing Device"),
+  SMS_Class_ID ("MICROSOFT|POINTING_DEVICE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_PointingDevice : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     DeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    UInt16     DeviceInterface;
+    [ SMS_Report (FALSE) ]
+    UInt32     DoubleSpeedThreshold;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    UInt16     Handedness;
+    [ SMS_Report (FALSE) ]
+    String     HardwareType;
+    [ SMS_Report (FALSE) ]
+    String     InfFileName;
+    [ SMS_Report (FALSE) ]
+    String     InfSection;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    Boolean     IsLocked;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (FALSE) ]
+    String     Manufacturer;
+    [ SMS_Report (FALSE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    UInt8     NumberOfButtons;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PointingType;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (FALSE) ]
+    UInt32     QuadSpeedThreshold;
+    [ SMS_Report (FALSE) ]
+    UInt32     Resolution;
+    [ SMS_Report (FALSE) ]
+    UInt32     SampleRate;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (FALSE) ]
+    UInt32     Synch;
+    [ SMS_Report (FALSE) ]
+    String     SystemName;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Portable Battery"),
+  SMS_Class_ID ("MICROSOFT|PORTABLE_BATTERY|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_PortableBattery : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     DeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    UInt16     BatteryStatus;
+    [ SMS_Report (FALSE) ]
+    UInt16     CapacityMultiplier;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt16     Chemistry;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    UInt32     DesignCapacity;
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    UInt64     DesignVoltage;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    UInt16     EstimatedChargeRemaining;
+    [ SMS_Report (FALSE) ]
+    UInt32     EstimatedRunTime;
+    [ SMS_Report (FALSE) ]
+    UInt32     ExpectedLife;
+    [ SMS_Report (FALSE) ]
+    UInt32     FullChargeCapacity;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (FALSE) ]
+    String     Location;
+    [ SMS_Report (FALSE) ]
+    String     ManufactureDate;
+    [ SMS_Report (FALSE) ]
+    String     Manufacturer;
+    [ SMS_Report (FALSE) ]
+    UInt16     MaxBatteryError;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaxRechargeTime;
+    [ SMS_Report (FALSE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (FALSE) ]
+    String     SmartBatteryVersion;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (FALSE) ]
+    String     SystemName;
+    [ SMS_Report (FALSE) ]
+    UInt32     TimeOnBattery;
+    [ SMS_Report (FALSE) ]
+    UInt32     TimeToFullCharge;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Ports"),
+  SMS_Class_ID ("MICROSOFT|PORT|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_PortResource : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key, SMS_Units ("HexString") ]
+    UInt64     StartingAddress;
+    [ SMS_Report (FALSE) ]
+    Boolean     Alias;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE), SMS_Units ("HexString") ]
+    UInt64     EndingAddress;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Power Capabilities"),
+  SMS_Class_ID ("MICROSOFT|POWER_MANAGEMENT_CAPABILITIES|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\CCM\\\\powermanagementagent") ]
+class CCM_PwrMgmtSystemPowerCapabilities : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    UInt32     PreferredPMProfile;
+    [ SMS_Report (TRUE) ]
+    Boolean     ApmPresent;
+    [ SMS_Report (TRUE) ]
+    Boolean     BatteriesAreShortTerm;
+    [ SMS_Report (TRUE) ]
+    Boolean     FullWake;
+    [ SMS_Report (TRUE) ]
+    Boolean     LidPresent;
+    [ SMS_Report (TRUE) ]
+    String     MinDeviceWakeState;
+    [ SMS_Report (TRUE) ]
+    Boolean     ProcessorThrottle;
+    [ SMS_Report (TRUE) ]
+    String     RtcWake;
+    [ SMS_Report (TRUE) ]
+    Boolean     SystemBatteriesPresent;
+    [ SMS_Report (TRUE) ]
+    Boolean     SystemS1;
+    [ SMS_Report (TRUE) ]
+    Boolean     SystemS2;
+    [ SMS_Report (TRUE) ]
+    Boolean     SystemS3;
+    [ SMS_Report (TRUE) ]
+    Boolean     SystemS4;
+    [ SMS_Report (TRUE) ]
+    Boolean     SystemS5;
+    [ SMS_Report (TRUE) ]
+    Boolean     UpsPresent;
+    [ SMS_Report (TRUE) ]
+    Boolean     VideoDimPresent;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Power Configurations"),
+  SMS_Class_ID ("MICROSOFT|POWER_MANAGEMENT_CONFIGURATION|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\CCM\\\\policy\\\\machine\\\\actualconfig") ]
+class CCM_PowerConfig : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     PowerConfigID;
+    [ SMS_Report (FALSE) ]
+    UInt32     DurationInSec;
+    [ SMS_Report (FALSE) ]
+    String     NonPeakPowerPlan;
+    [ SMS_Report (TRUE) ]
+    String     NonPeakPowerPlanName;
+    [ SMS_Report (FALSE) ]
+    String     PeakPowerPlan;
+    [ SMS_Report (TRUE) ]
+    String     PeakPowerPlanName;
+    [ SMS_Report (FALSE) ]
+    String     PeakStartTimeHoursMin;
+    [ SMS_Report (TRUE) ]
+    String     WakeUpTimeHoursMin;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Power Management Insomnia Reasons"),
+  SMS_Class_ID ("MICROSOFT|POWER_MANAGEMENT_SUSPEND_ERROR|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\CCM\\\\powermanagementagent") ]
+class CCM_PwrMgmtLastSuspendError : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     Requester;
+    [ SMS_Report (TRUE), key ]
+    String     RequesterType;
+    [ SMS_Report (TRUE), key ]
+    String     RequestType;
+    [ SMS_Report (TRUE), key ]
+    DateTime     Time;
+    [ SMS_Report (FALSE) ]
+    UInt32     AdditionalCode;
+    [ SMS_Report (FALSE) ]
+    String     AdditionalInfo;
+    [ SMS_Report (TRUE) ]
+    String     RequesterInfo;
+    [ SMS_Report (TRUE) ]
+    Boolean     UnknownRequester;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Power Management Daily"),
+  SMS_Class_ID ("MICROSOFT|POWER_MANAGEMENT_DAY|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\CCM\\\\powermanagementagent") ]
+class CCM_PwrMgmtActualDay : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    DateTime     Date;
+    [ SMS_Report (TRUE), key ]
+    String     TypeOfEvent;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr0_1;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr1_2;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr10_11;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr11_12;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr12_13;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr13_14;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr14_15;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr15_16;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr16_17;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr17_18;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr18_19;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr19_20;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr2_3;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr20_21;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr21_22;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr22_23;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr23_0;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr3_4;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr4_5;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr5_6;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr6_7;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr7_8;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr8_9;
+    [ SMS_Report (TRUE) ]
+    UInt32     hr9_10;
+    [ SMS_Report (TRUE) ]
+    UInt32     minutesTotal;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Power Client Opt Out Settings"),
+  SMS_Class_ID ("MICROSOFT|POWER_MANAGEMENT_CLIENTOPTOUT_SETTINGS|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\ccm\\\\ClientSDK") ]
+class CCM_PowerManagementClientOptoutSetting : SMS_Class_Template
+{
+    [ SMS_Report (TRUE) ]
+    Boolean     AdminAllowOptout;
+    [ SMS_Report (TRUE) ]
+    Boolean     EffectiveClientOptOut;
+    [ SMS_Report (TRUE) ]
+    Boolean     IsClientOptOut;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Power Management Monthly"),
+  SMS_Class_ID ("MICROSOFT|POWER_MANAGEMENT_MONTH|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\CCM\\\\powermanagementagent") ]
+class CCM_PwrMgmtMonth : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    DateTime     MonthStart;
+    [ SMS_Report (TRUE) ]
+    UInt32     minutesComputerActive;
+    [ SMS_Report (TRUE) ]
+    UInt32     minutesComputerOn;
+    [ SMS_Report (TRUE) ]
+    UInt32     minutesComputerShutdown;
+    [ SMS_Report (TRUE) ]
+    UInt32     minutesComputerSleep;
+    [ SMS_Report (TRUE) ]
+    UInt32     minutesMonitorOn;
+    [ SMS_Report (TRUE) ]
+    UInt32     minutesTotal;
+    [ SMS_Report (FALSE) ]
+    String     TypeOfEvent;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Power Settings"),
+  SMS_Class_ID ("MICROSOFT|POWER_MANAGEMENT_SETTINGS|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2\\\\sms") ]
+class SMS_PowerSettings : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     GUID;
+    [ SMS_Report (TRUE) ]
+    String     ACSettingIndex;
+    [ SMS_Report (TRUE) ]
+    String     ACValue;
+    [ SMS_Report (TRUE) ]
+    String     DCSettingIndex;
+    [ SMS_Report (TRUE) ]
+    String     DCValue;
+    [ SMS_Report (TRUE) ]
+    String     Name;
+    [ SMS_Report (TRUE) ]
+    String     UnitSpecifier;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Print Jobs"),
+  SMS_Class_ID ("MICROSOFT|PRINT_JOB|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_PrintJob : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     DataType;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    String     Document;
+    [ SMS_Report (FALSE) ]
+    String     DriverName;
+    [ SMS_Report (FALSE) ]
+    DateTime     ElapsedTime;
+    [ SMS_Report (FALSE) ]
+    String     HostPrintQueue;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     JobId;
+    [ SMS_Report (FALSE) ]
+    String     JobStatus;
+    [ SMS_Report (FALSE) ]
+    String     Notify;
+    [ SMS_Report (FALSE) ]
+    String     Owner;
+    [ SMS_Report (FALSE) ]
+    UInt32     PagesPrinted;
+    [ SMS_Report (FALSE) ]
+    String     Parameters;
+    [ SMS_Report (FALSE) ]
+    String     PrintProcessor;
+    [ SMS_Report (FALSE) ]
+    UInt32     Priority;
+    [ SMS_Report (FALSE) ]
+    UInt32     Size;
+    [ SMS_Report (FALSE) ]
+    DateTime     StartTime;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt32     StatusMask;
+    [ SMS_Report (FALSE) ]
+    DateTime     TimeSubmitted;
+    [ SMS_Report (FALSE) ]
+    UInt32     TotalPages;
+    [ SMS_Report (FALSE) ]
+    DateTime     UntilTime;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Printer Configuration"),
+  SMS_Class_ID ("MICROSOFT|PRINTER_CONFIGURATION|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_PrinterConfiguration : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    UInt32     BitsPerPel;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    Boolean     Collate;
+    [ SMS_Report (FALSE) ]
+    UInt32     Color;
+    [ SMS_Report (FALSE) ]
+    UInt32     Copies;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    String     DeviceName;
+    [ SMS_Report (FALSE) ]
+    UInt32     DisplayFlags;
+    [ SMS_Report (FALSE) ]
+    UInt32     DisplayFrequency;
+    [ SMS_Report (FALSE) ]
+    UInt32     DitherType;
+    [ SMS_Report (FALSE) ]
+    UInt32     DriverVersion;
+    [ SMS_Report (FALSE) ]
+    Boolean     Duplex;
+    [ SMS_Report (FALSE) ]
+    String     FormName;
+    [ SMS_Report (FALSE) ]
+    UInt32     HorizontalResolution;
+    [ SMS_Report (FALSE) ]
+    UInt32     ICMIntent;
+    [ SMS_Report (FALSE) ]
+    UInt32     ICMMethod;
+    [ SMS_Report (FALSE) ]
+    UInt32     LogPixels;
+    [ SMS_Report (FALSE) ]
+    UInt32     MediaType;
+    [ SMS_Report (FALSE) ]
+    UInt32     Orientation;
+    [ SMS_Report (FALSE) ]
+    UInt32     PaperLength;
+    [ SMS_Report (FALSE) ]
+    String     PaperSize;
+    [ SMS_Report (FALSE) ]
+    UInt32     PaperWidth;
+    [ SMS_Report (FALSE) ]
+    UInt32     PelsHeight;
+    [ SMS_Report (FALSE) ]
+    UInt32     PelsWidth;
+    [ SMS_Report (FALSE) ]
+    UInt32     PrintQuality;
+    [ SMS_Report (FALSE) ]
+    UInt32     Scale;
+    [ SMS_Report (FALSE) ]
+    String     SettingID;
+    [ SMS_Report (FALSE) ]
+    UInt32     SpecificationVersion;
+    [ SMS_Report (FALSE) ]
+    UInt32     TTOption;
+    [ SMS_Report (FALSE) ]
+    UInt32     VerticalResolution;
+    [ SMS_Report (FALSE) ]
+    UInt32     XResolution;
+    [ SMS_Report (FALSE) ]
+    UInt32     YResolution;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Printer Device"),
+  SMS_Class_ID ("MICROSOFT|PRINTER_DEVICE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_Printer : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     DeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt32     Attributes;
+    [ SMS_Report (FALSE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    UInt32     AveragePagesPerMinute;
+    [ SMS_Report (FALSE) ]
+    UInt16     Capabilities[];
+    [ SMS_Report (FALSE) ]
+    String     CapabilityDescriptions[];
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (FALSE) ]
+    UInt32     DefaultPriority;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    UInt16     DetectedErrorState;
+    [ SMS_Report (FALSE) ]
+    String     DriverName;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    UInt32     HorizontalResolution;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     JobCountSinceLastReset;
+    [ SMS_Report (FALSE) ]
+    UInt16     LanguagesSupported[];
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (FALSE) ]
+    String     Location;
+    [ SMS_Report (FALSE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    UInt16     PaperSizesSupported[];
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    String     PortName;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (FALSE) ]
+    String     PrinterPaperNames[];
+    [ SMS_Report (FALSE) ]
+    UInt32     PrinterState;
+    [ SMS_Report (FALSE) ]
+    UInt16     PrinterStatus;
+    [ SMS_Report (FALSE) ]
+    String     PrintJobDataType;
+    [ SMS_Report (FALSE) ]
+    String     PrintProcessor;
+    [ SMS_Report (FALSE) ]
+    String     SeparatorFile;
+    [ SMS_Report (FALSE) ]
+    String     ServerName;
+    [ SMS_Report (FALSE) ]
+    String     ShareName;
+    [ SMS_Report (FALSE) ]
+    Boolean     SpoolEnabled;
+    [ SMS_Report (FALSE) ]
+    DateTime     StartTime;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (FALSE) ]
+    String     SystemName;
+    [ SMS_Report (FALSE) ]
+    DateTime     TimeOfLastReset;
+    [ SMS_Report (FALSE) ]
+    DateTime     UntilTime;
+    [ SMS_Report (FALSE) ]
+    UInt32     VerticalResolution;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Process"),
+  SMS_Class_ID ("MICROSOFT|PROCESS|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_Process : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     Handle;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    DateTime     CreationDate;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    String     ExecutablePath;
+    [ SMS_Report (FALSE) ]
+    UInt16     ExecutionState;
+    [ SMS_Report (FALSE) ]
+    UInt32     HandleCount;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    UInt64     KernelModeTime;
+    [ SMS_Report (FALSE), SMS_Units ("Kilobytes") ]
+    UInt32     MaximumWorkingSetSize;
+    [ SMS_Report (FALSE), SMS_Units ("Kilobytes") ]
+    UInt32     MinimumWorkingSetSize;
+    [ SMS_Report (FALSE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     OSName;
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    UInt64     OtherOperationCount;
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    UInt64     OtherTransferCount;
+    [ SMS_Report (FALSE) ]
+    UInt32     PageFaults;
+    [ SMS_Report (FALSE), SMS_Units ("Kilobytes") ]
+    UInt32     PageFileUsage;
+    [ SMS_Report (FALSE) ]
+    UInt32     ParentProcessId;
+    [ SMS_Report (FALSE), SMS_Units ("Kilobytes") ]
+    UInt32     PeakPageFileUsage;
+    [ SMS_Report (FALSE), SMS_Units ("Megabytes") ]
+    UInt64     PeakVirtualSize;
+    [ SMS_Report (FALSE), SMS_Units ("Kilobytes") ]
+    UInt32     PeakWorkingSetSize;
+    [ SMS_Report (FALSE) ]
+    UInt32     Priority;
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    UInt64     PrivatePageCount;
+    [ SMS_Report (FALSE) ]
+    UInt32     ProcessId;
+    [ SMS_Report (FALSE) ]
+    UInt32     QuotaNonPagedPoolUsage;
+    [ SMS_Report (FALSE) ]
+    UInt32     QuotaPagedPoolUsage;
+    [ SMS_Report (FALSE) ]
+    UInt32     QuotaPeakNonPagedPoolUsage;
+    [ SMS_Report (FALSE) ]
+    UInt32     QuotaPeakPagedPoolUsage;
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    UInt64     ReadOperationCount;
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    UInt64     ReadTransferCount;
+    [ SMS_Report (FALSE) ]
+    UInt32     SessionId;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    DateTime     TerminationDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     ThreadCount;
+    [ SMS_Report (FALSE), SMS_Units ("Seconds") ]
+    UInt64     UserModeTime;
+    [ SMS_Report (FALSE), SMS_Units ("Kilobytes") ]
+    UInt64     VirtualSize;
+    [ SMS_Report (FALSE) ]
+    String     WindowsVersion;
+    [ SMS_Report (FALSE), SMS_Units ("Kilobytes") ]
+    UInt64     WorkingSetSize;
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    UInt64     WriteOperationCount;
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    UInt64     WriteTransferCount;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Processor"),
+  SMS_Class_ID ("MICROSOFT|PROCESSOR|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2\\\\sms") ]
+class SMS_Processor : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DeviceID;
+    [ SMS_Report (TRUE) ]
+    UInt16     AddressWidth;
+    [ SMS_Report (FALSE) ]
+    UInt16     Architecture;
+    [ SMS_Report (FALSE) ]
+    UInt16     Availability;
+    [ SMS_Report (TRUE) ]
+    UInt16     BrandID;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (TRUE) ]
+    String     CPUHash;
+    [ SMS_Report (TRUE) ]
+    String     CPUKey;
+    [ SMS_Report (FALSE) ]
+    UInt16     CpuStatus;
+    [ SMS_Report (FALSE) ]
+    UInt32     CurrentClockSpeed;
+    [ SMS_Report (FALSE) ]
+    UInt16     CurrentVoltage;
+    [ SMS_Report (TRUE) ]
+    UInt16     DataWidth;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    UInt32     ExtClock;
+    [ SMS_Report (TRUE) ]
+    UInt16     Family;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (TRUE) ]
+    Boolean     Is64Bit;
+    [ SMS_Report (TRUE) ]
+    Boolean     IsHyperthreadCapable;
+    [ SMS_Report (FALSE) ]
+    Boolean     IsHyperthreadEnabled;
+    [ SMS_Report (TRUE) ]
+    Boolean     IsMobile;
+    [ SMS_Report (TRUE) ]
+    Boolean     IsTrustedExecutionCapable;
+    [ SMS_Report (TRUE) ]
+    Boolean     IsVitualizationCapable;
+    [ SMS_Report (FALSE) ]
+    UInt32     L2CacheSize;
+    [ SMS_Report (FALSE) ]
+    UInt32     L2CacheSpeed;
+    [ SMS_Report (FALSE) ]
+    UInt32     L3CacheSize;
+    [ SMS_Report (FALSE) ]
+    UInt32     L3CacheSpeed;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (FALSE) ]
+    UInt16     Level;
+    [ SMS_Report (FALSE) ]
+    UInt16     LoadPercentage;
+    [ SMS_Report (TRUE) ]
+    String     Manufacturer;
+    [ SMS_Report (TRUE) ]
+    UInt32     MaxClockSpeed;
+    [ SMS_Report (TRUE) ]
+    String     Name;
+    [ SMS_Report (TRUE) ]
+    UInt32     NormSpeed;
+    [ SMS_Report (TRUE) ]
+    UInt32     NumberOfCores;
+    [ SMS_Report (TRUE) ]
+    UInt32     NumberOfLogicalProcessors;
+    [ SMS_Report (FALSE) ]
+    String     OtherFamilyDescription;
+    [ SMS_Report (FALSE) ]
+    Boolean     PartOfDomain;
+    [ SMS_Report (TRUE) ]
+    UInt32     PCache;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (TRUE) ]
+    String     ProcessorId;
+    [ SMS_Report (TRUE) ]
+    UInt16     ProcessorType;
+    [ SMS_Report (TRUE) ]
+    UInt16     Revision;
+    [ SMS_Report (FALSE) ]
+    String     Role;
+    [ SMS_Report (TRUE) ]
+    String     SocketDesignation;
+    [ SMS_Report (TRUE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (FALSE) ]
+    String     Stepping;
+    [ SMS_Report (TRUE) ]
+    String     SystemName;
+    [ SMS_Report (FALSE) ]
+    String     UniqueId;
+    [ SMS_Report (FALSE) ]
+    UInt16     UpgradeMethod;
+    [ SMS_Report (TRUE) ]
+    String     Version;
+    [ SMS_Report (FALSE) ]
+    UInt32     VoltageCaps;
+    [ SMS_Report (FALSE) ]
+    String     Workgroup;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Protected Volume Information"),
+  SMS_Class_ID ("MICROSOFT|PROTECTED_VOLUME_INFO|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2\\\\sms") ]
+class CCM_ProtectedVolumeInfo : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     DriveLetter;
+    [ SMS_Report (FALSE) ]
+    UInt32     ProtectionType;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Protocol"),
+  SMS_Class_ID ("MICROSOFT|PROTOCOL|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_NetworkProtocol : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConnectionlessService;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     GuaranteesDelivery;
+    [ SMS_Report (FALSE) ]
+    Boolean     GuaranteesSequencing;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaximumAddressSize;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaximumMessageSize;
+    [ SMS_Report (FALSE) ]
+    Boolean     MessageOriented;
+    [ SMS_Report (FALSE) ]
+    UInt32     MinimumAddressSize;
+    [ SMS_Report (FALSE) ]
+    Boolean     PseudoStreamOriented;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsBroadcasting;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsConnectData;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsDisconnectData;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsEncryption;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsExpeditedData;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsFragmentation;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsGracefulClosing;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsGuaranteedBandwidth;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsMulticasting;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsQualityofService;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Quick Fix Engineering"),
+  SMS_Class_ID ("MICROSOFT|QUICK_FIX_ENGINEERING|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_QuickFixEngineering : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     HotFixID;
+    [ SMS_Report (FALSE), key ]
+    String     ServicePackInEffect;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    String     FixComments;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    String     InstalledBy;
+    [ SMS_Report (FALSE) ]
+    String     InstalledOn;
+    [ SMS_Report (FALSE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("CCM Recently Used Applications"),
+  SMS_Class_ID ("MICROSOFT|CCM_RECENTLY_USED_APPS|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2\\\\sms") ]
+class CCM_RecentlyUsedApps : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     ExplorerFileName;
+    [ SMS_Report (TRUE), key ]
+    String     FolderPath;
+    [ SMS_Report (TRUE), key ]
+    String     LastUserName;
+    [ SMS_Report (TRUE) ]
+    String     AdditionalProductCodes;
+    [ SMS_Report (TRUE) ]
+    String     CompanyName;
+    [ SMS_Report (TRUE) ]
+    String     FileDescription;
+    [ SMS_Report (TRUE) ]
+    String     FilePropertiesHash;
+    [ SMS_Report (TRUE) ]
+    UInt32     FileSize;
+    [ SMS_Report (TRUE) ]
+    String     FileVersion;
+    [ SMS_Report (TRUE) ]
+    DateTime     LastUsedTime;
+    [ SMS_Report (FALSE) ]
+    UInt32     LaunchCount;
+    [ SMS_Report (TRUE) ]
+    String     msiDisplayName;
+    [ SMS_Report (TRUE) ]
+    String     msiPublisher;
+    [ SMS_Report (TRUE) ]
+    String     msiVersion;
+    [ SMS_Report (TRUE) ]
+    String     OriginalFileName;
+    [ SMS_Report (TRUE) ]
+    String     ProductCode;
+    [ SMS_Report (TRUE) ]
+    UInt32     ProductLanguage;
+    [ SMS_Report (TRUE) ]
+    String     ProductName;
+    [ SMS_Report (TRUE) ]
+    String     ProductVersion;
+    [ SMS_Report (TRUE) ]
+    String     SoftwarePropertiesHash;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Registry"),
+  SMS_Class_ID ("MICROSOFT|REGISTRY|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_Registry : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt32     CurrentSize;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaximumSize;
+    [ SMS_Report (FALSE) ]
+    UInt32     ProposedSize;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("SCSI Controller"),
+  SMS_Class_ID ("MICROSOFT|SCSI_CONTROLLER|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_SCSIController : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DeviceID;
+    [ SMS_Report (TRUE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (FALSE) ]
+    UInt32     ControllerTimeouts;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    String     DeviceMap;
+    [ SMS_Report (TRUE) ]
+    String     DriverName;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (TRUE) ]
+    String     HardwareVersion;
+    [ SMS_Report (TRUE) ]
+    UInt32     Index;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (TRUE) ]
+    String     Manufacturer;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaxDataWidth;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaxNumberControlled;
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    UInt64     MaxTransferRate;
+    [ SMS_Report (TRUE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (FALSE) ]
+    UInt16     ProtectionManagement;
+    [ SMS_Report (FALSE) ]
+    UInt16     ProtocolSupported;
+    [ SMS_Report (TRUE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (FALSE) ]
+    String     SystemName;
+    [ SMS_Report (FALSE) ]
+    DateTime     TimeOfLastReset;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Serial Port Configuration"),
+  SMS_Class_ID ("MICROSOFT|SERIAL_PORT_CONFIGURATION|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_SerialPortConfiguration : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    Boolean     AbortReadWriteOnError;
+    [ SMS_Report (FALSE) ]
+    UInt32     BaudRate;
+    [ SMS_Report (FALSE) ]
+    Boolean     BinaryModeEnabled;
+    [ SMS_Report (FALSE) ]
+    UInt32     BitsPerByte;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    Boolean     ContinueXMitOnXOff;
+    [ SMS_Report (FALSE) ]
+    Boolean     CTSOutflowControl;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     DiscardNULLBytes;
+    [ SMS_Report (FALSE) ]
+    Boolean     DSROutflowControl;
+    [ SMS_Report (FALSE) ]
+    Boolean     DSRSensitivity;
+    [ SMS_Report (FALSE) ]
+    String     DTRFlowControlType;
+    [ SMS_Report (FALSE) ]
+    UInt32     EOFCharacter;
+    [ SMS_Report (FALSE) ]
+    UInt32     ErrorReplaceCharacter;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorReplacementEnabled;
+    [ SMS_Report (FALSE) ]
+    UInt32     EventCharacter;
+    [ SMS_Report (FALSE) ]
+    Boolean     IsBusy;
+    [ SMS_Report (FALSE) ]
+    String     Parity;
+    [ SMS_Report (FALSE) ]
+    Boolean     ParityCheckEnabled;
+    [ SMS_Report (FALSE) ]
+    String     RTSFlowControlType;
+    [ SMS_Report (FALSE) ]
+    String     SettingID;
+    [ SMS_Report (FALSE) ]
+    String     StopBits;
+    [ SMS_Report (FALSE) ]
+    UInt32     XOffCharacter;
+    [ SMS_Report (FALSE) ]
+    UInt32     XOffXMitThreshold;
+    [ SMS_Report (FALSE) ]
+    UInt32     XOnCharacter;
+    [ SMS_Report (FALSE) ]
+    UInt32     XOnXMitThreshold;
+    [ SMS_Report (FALSE) ]
+    UInt32     XOnXOffInFlowControl;
+    [ SMS_Report (FALSE) ]
+    UInt32     XOnXOffOutFlowControl;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Serial Ports"),
+  SMS_Class_ID ("MICROSOFT|SERIAL_PORT|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_SerialPort : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     DeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    Boolean     Binary;
+    [ SMS_Report (FALSE) ]
+    UInt16     Capabilities[];
+    [ SMS_Report (FALSE) ]
+    String     CapabilityDescriptions[];
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaxBaudRate;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaximumInputBufferSize;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaximumOutputBufferSize;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaxNumberControlled;
+    [ SMS_Report (FALSE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    Boolean     OSAutoDiscovered;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (FALSE) ]
+    UInt16     ProtocolSupported;
+    [ SMS_Report (FALSE) ]
+    String     ProviderType;
+    [ SMS_Report (FALSE) ]
+    Boolean     SettableBaudRate;
+    [ SMS_Report (FALSE) ]
+    Boolean     SettableDataBits;
+    [ SMS_Report (FALSE) ]
+    Boolean     SettableFlowControl;
+    [ SMS_Report (FALSE) ]
+    Boolean     SettableParity;
+    [ SMS_Report (FALSE) ]
+    Boolean     SettableParityCheck;
+    [ SMS_Report (FALSE) ]
+    Boolean     SettableRLSD;
+    [ SMS_Report (FALSE) ]
+    Boolean     SettableStopBits;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (FALSE) ]
+    Boolean     Supports16BitMode;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsDTRDSR;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsElapsedTimeouts;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsIntTimeouts;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsParityCheck;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsRLSD;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsRTSCTS;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsSpecialCharacters;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsXOnXOff;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsXOnXOffSet;
+    [ SMS_Report (FALSE) ]
+    String     SystemName;
+    [ SMS_Report (FALSE) ]
+    DateTime     TimeOfLastReset;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Server Feature"),
+  SMS_Class_ID ("MICROSOFT|SERVER_FEATURE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_ServerFeature : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    UInt32     ID;
+    [ SMS_Report (TRUE) ]
+    String     Name;
+    [ SMS_Report (TRUE) ]
+    UInt32     ParentID;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Services"),
+  SMS_Class_ID ("MICROSOFT|SERVICE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_Service : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    Boolean     AcceptPause;
+    [ SMS_Report (FALSE) ]
+    Boolean     AcceptStop;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt32     CheckPoint;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     DesktopInteract;
+    [ SMS_Report (TRUE) ]
+    String     DisplayName;
+    [ SMS_Report (FALSE) ]
+    String     ErrorControl;
+    [ SMS_Report (FALSE) ]
+    UInt32     ExitCode;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (TRUE) ]
+    String     PathName;
+    [ SMS_Report (FALSE) ]
+    UInt32     ProcessId;
+    [ SMS_Report (FALSE) ]
+    UInt32     ServiceSpecificExitCode;
+    [ SMS_Report (TRUE) ]
+    String     ServiceType;
+    [ SMS_Report (FALSE) ]
+    Boolean     Started;
+    [ SMS_Report (TRUE) ]
+    String     StartMode;
+    [ SMS_Report (TRUE) ]
+    String     StartName;
+    [ SMS_Report (FALSE) ]
+    String     State;
+    [ SMS_Report (TRUE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    String     SystemName;
+    [ SMS_Report (FALSE) ]
+    UInt32     TagId;
+    [ SMS_Report (FALSE) ]
+    UInt32     WaitHint;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Shares"),
+  SMS_Class_ID ("MICROSOFT|SHARE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_Share : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     Name;
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    UInt32     AccessMask;
+    [ SMS_Report (FALSE) ]
+    Boolean     AllowMaximum;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaximumAllowed;
+    [ SMS_Report (FALSE) ]
+    String     Path;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt32     Type;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("SW Licensing Product"),
+  SMS_Class_ID ("MICROSOFT|SOFTWARE_LICENSING_PRODUCT|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class SoftwareLicensingProduct : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     ID;
+    [ SMS_Report (TRUE) ]
+    String     ApplicationID;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (TRUE) ]
+    DateTime     EvaluationEndDate;
+    [ SMS_Report (TRUE) ]
+    UInt32     GracePeriodRemaining;
+    [ SMS_Report (TRUE) ]
+    UInt32     LicenseStatus;
+    [ SMS_Report (TRUE) ]
+    String     MachineURL;
+    [ SMS_Report (TRUE) ]
+    String     Name;
+    [ SMS_Report (TRUE) ]
+    String     OfflineInstallationId;
+    [ SMS_Report (TRUE) ]
+    String     PartialProductKey;
+    [ SMS_Report (TRUE) ]
+    String     ProcessorURL;
+    [ SMS_Report (TRUE) ]
+    String     ProductKeyID;
+    [ SMS_Report (TRUE) ]
+    String     ProductKeyURL;
+    [ SMS_Report (TRUE) ]
+    String     UseLicenseURL;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("SW Licensing Service"),
+  SMS_Class_ID ("MICROSOFT|SOFTWARE_LICENSING_SERVICE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class SoftwareLicensingService : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     Version;
+    [ SMS_Report (TRUE) ]
+    String     ClientMachineID;
+    [ SMS_Report (TRUE) ]
+    UInt32     IsKeyManagementServiceMachine;
+    [ SMS_Report (TRUE) ]
+    UInt32     KeyManagementServiceCurrentCount;
+    [ SMS_Report (TRUE) ]
+    String     KeyManagementServiceMachine;
+    [ SMS_Report (TRUE) ]
+    String     KeyManagementServiceProductKeyID;
+    [ SMS_Report (TRUE) ]
+    UInt32     PolicyCacheRefreshRequired;
+    [ SMS_Report (TRUE) ]
+    UInt32     RequiredClientCount;
+    [ SMS_Report (TRUE) ]
+    UInt32     VLActivationInterval;
+    [ SMS_Report (TRUE) ]
+    UInt32     VLRenewalInterval;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Software Shortcut"),
+  SMS_Class_ID ("MICROSOFT|SOFTWARE_SHORTCUT|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2\\\\sms") ]
+class SMS_SoftwareShortcut : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     ShortcutKey;
+    [ SMS_Report (TRUE) ]
+    String     BinFileVersion;
+    [ SMS_Report (TRUE) ]
+    String     BinProductVersion;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (TRUE) ]
+    String     FilePropertiesHash;
+    [ SMS_Report (TRUE) ]
+    String     FilePropertiesHashEx;
+    [ SMS_Report (TRUE) ]
+    UInt32     FileSize;
+    [ SMS_Report (TRUE) ]
+    String     FileVersion;
+    [ SMS_Report (TRUE) ]
+    UInt32     Language;
+    [ SMS_Report (TRUE) ]
+    String     ParentName;
+    [ SMS_Report (TRUE) ]
+    String     Product;
+    [ SMS_Report (TRUE) ]
+    String     ProductCode;
+    [ SMS_Report (TRUE) ]
+    String     ProductVersion;
+    [ SMS_Report (TRUE) ]
+    String     Publisher;
+    [ SMS_Report (TRUE) ]
+    String     ShortcutName;
+    [ SMS_Report (TRUE) ]
+    UInt32     ShortcutType;
+    [ SMS_Report (TRUE) ]
+    String     TargetExecutable;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("SMS_SoftwareTag"),
+  SMS_Class_ID ("MICROSOFT|SOFTWARE_TAG|1.0"),
+  Namespace ("root\\\\cimv2\\\\sms") ]
+class SMS_SoftwareTag : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     TagCreatorRegid;
+    [ SMS_Report (TRUE), key ]
+    String     UniqueID;
+    [ SMS_Report (TRUE) ]
+    String     DisplayVersion;
+    [ SMS_Report (TRUE) ]
+    Boolean     EntitlementRequired;
+    [ SMS_Report (TRUE) ]
+    String     ProductName;
+    [ SMS_Report (TRUE) ]
+    String     SoftwareCreator;
+    [ SMS_Report (TRUE) ]
+    String     SoftwareCreatorRegid;
+    [ SMS_Report (TRUE) ]
+    String     SoftwareLicensor;
+    [ SMS_Report (TRUE) ]
+    String     SoftwareLicensorRegid;
+    [ SMS_Report (TRUE) ]
+    String     TagCreator;
+    [ SMS_Report (TRUE) ]
+    SInt32     VersionMajor;
+    [ SMS_Report (TRUE) ]
+    SInt32     VersionMinor;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Sound Devices"),
+  SMS_Class_ID ("MICROSOFT|SOUND_DEVICE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_SoundDevice : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DeviceID;
+    [ SMS_Report (TRUE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    UInt16     DMABufferSize;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (TRUE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (TRUE) ]
+    String     Manufacturer;
+    [ SMS_Report (FALSE) ]
+    UInt32     MPU401Address;
+    [ SMS_Report (TRUE) ]
+    String     Name;
+    [ SMS_Report (TRUE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (TRUE) ]
+    String     ProductName;
+    [ SMS_Report (TRUE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (FALSE) ]
+    String     SystemName;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("System Account"),
+  SMS_Class_ID ("MICROSOFT|SYSTEM_ACCOUNT|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_SystemAccount : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     Domain;
+    [ SMS_Report (FALSE), key ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    String     SID;
+    [ SMS_Report (FALSE) ]
+    UInt8     SIDType;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("System Boot Data"),
+  SMS_Class_ID ("MICROSOFT|SYSTEMBOOTDATA|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\CCM") ]
+class CCM_SystemBootData : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    UInt64     SystemStartTime;
+    [ SMS_Report (TRUE) ]
+    UInt32     BiosDuration;
+    [ SMS_Report (TRUE) ]
+    UInt16     BootDiskMediaType;
+    [ SMS_Report (TRUE) ]
+    UInt32     BootDuration;
+    [ SMS_Report (TRUE) ]
+    UInt32     EventLogStart;
+    [ SMS_Report (TRUE) ]
+    UInt32     GPDuration;
+    [ SMS_Report (TRUE) ]
+    String     OSVersion;
+    [ SMS_Report (TRUE) ]
+    UInt32     UpdateDuration;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("System Boot Summary"),
+  SMS_Class_ID ("MICROSOFT|SYSTEMBOOTSUMMARY|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\CCM") ]
+class CCM_SystemBootSummary : SMS_Class_Template
+{
+    [ SMS_Report (TRUE) ]
+    UInt32     AverageBootFrequency;
+    [ SMS_Report (TRUE) ]
+    UInt32     LatestBiosDuration;
+    [ SMS_Report (TRUE) ]
+    UInt32     LatestBootDuration;
+    [ SMS_Report (TRUE) ]
+    UInt32     LatestCoreBootDuration;
+    [ SMS_Report (TRUE) ]
+    UInt32     LatestEventLogStart;
+    [ SMS_Report (TRUE) ]
+    UInt32     LatestGPDuration;
+    [ SMS_Report (TRUE) ]
+    UInt32     LatestUpdateDuration;
+    [ SMS_Report (TRUE) ]
+    UInt32     MaxBiosDuration;
+    [ SMS_Report (TRUE) ]
+    UInt32     MaxBootDuration;
+    [ SMS_Report (TRUE) ]
+    UInt32     MaxCoreBootDuration;
+    [ SMS_Report (TRUE) ]
+    UInt32     MaxEventLogStart;
+    [ SMS_Report (TRUE) ]
+    UInt32     MaxGPDuration;
+    [ SMS_Report (TRUE) ]
+    UInt32     MaxUpdateDuration;
+    [ SMS_Report (TRUE) ]
+    UInt32     MedianBiosDuration;
+    [ SMS_Report (TRUE) ]
+    UInt32     MedianBootDuration;
+    [ SMS_Report (TRUE) ]
+    UInt32     MedianCoreBootDuration;
+    [ SMS_Report (TRUE) ]
+    UInt32     MedianEventLogStart;
+    [ SMS_Report (TRUE) ]
+    UInt32     MedianGPDuration;
+    [ SMS_Report (TRUE) ]
+    UInt32     MedianUpdateDuration;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("System Console Usage"),
+  SMS_Class_ID ("MICROSOFT|SYSTEM_CONSOLE_USAGE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2\\\\sms") ]
+class SMS_SystemConsoleUsage : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    DateTime     SecurityLogStartDate;
+    [ SMS_Report (TRUE) ]
+    String     TopConsoleUser;
+    [ SMS_Report (TRUE) ]
+    UInt32     TotalConsoleTime;
+    [ SMS_Report (TRUE) ]
+    UInt32     TotalConsoleUsers;
+    [ SMS_Report (TRUE) ]
+    UInt32     TotalSecurityLogTime;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("System Console User"),
+  SMS_Class_ID ("MICROSOFT|SYSTEM_CONSOLE_USER|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2\\\\sms") ]
+class SMS_SystemConsoleUser : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     SystemConsoleUser;
+    [ SMS_Report (TRUE) ]
+    DateTime     LastConsoleUse;
+    [ SMS_Report (TRUE) ]
+    UInt32     NumberOfConsoleLogons;
+    [ SMS_Report (TRUE) ]
+    UInt32     TotalUserConsoleMinutes;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("System Devices"),
+  SMS_Class_ID ("MICROSOFT|SYSTEM_DEVICES|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2\\\\sms") ]
+class CCM_SystemDevices : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     Name;
+    [ SMS_Report (TRUE) ]
+    String     CompatibleIDs[];
+    [ SMS_Report (TRUE) ]
+    String     DeviceID;
+    [ SMS_Report (TRUE) ]
+    String     HardwareIDs[];
+    [ SMS_Report (TRUE) ]
+    Boolean     IsPnP;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("System Drivers"),
+  SMS_Class_ID ("MICROSOFT|SYSTEM_DRIVER|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_SystemDriver : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    Boolean     AcceptPause;
+    [ SMS_Report (FALSE) ]
+    Boolean     AcceptStop;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     DesktopInteract;
+    [ SMS_Report (FALSE) ]
+    String     DisplayName;
+    [ SMS_Report (FALSE) ]
+    String     ErrorControl;
+    [ SMS_Report (FALSE) ]
+    UInt32     ExitCode;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    String     PathName;
+    [ SMS_Report (FALSE) ]
+    UInt32     ServiceSpecificExitCode;
+    [ SMS_Report (FALSE) ]
+    String     ServiceType;
+    [ SMS_Report (FALSE) ]
+    Boolean     Started;
+    [ SMS_Report (FALSE) ]
+    String     StartMode;
+    [ SMS_Report (FALSE) ]
+    String     StartName;
+    [ SMS_Report (FALSE) ]
+    String     State;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    String     SystemName;
+    [ SMS_Report (FALSE) ]
+    UInt32     TagId;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("System Enclosure"),
+  SMS_Class_ID ("MICROSOFT|SYSTEM_ENCLOSURE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_SystemEnclosure : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     Tag;
+    [ SMS_Report (FALSE) ]
+    Boolean     AudibleAlarm;
+    [ SMS_Report (FALSE) ]
+    String     BreachDescription;
+    [ SMS_Report (FALSE) ]
+    String     CableManagementStrategy;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (TRUE) ]
+    UInt16     ChassisTypes[];
+    [ SMS_Report (FALSE) ]
+    SInt16     CurrentRequiredOrProduced;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    UInt16     HeatGeneration;
+    [ SMS_Report (FALSE) ]
+    Boolean     HotSwappable;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    Boolean     LockPresent;
+    [ SMS_Report (TRUE) ]
+    String     Manufacturer;
+    [ SMS_Report (TRUE) ]
+    String     Model;
+    [ SMS_Report (FALSE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    UInt16     NumberOfPowerCords;
+    [ SMS_Report (FALSE) ]
+    String     OtherIdentifyingInfo;
+    [ SMS_Report (FALSE) ]
+    String     PartNumber;
+    [ SMS_Report (FALSE) ]
+    Boolean     PoweredOn;
+    [ SMS_Report (FALSE) ]
+    Boolean     Removable;
+    [ SMS_Report (FALSE) ]
+    Boolean     Replaceable;
+    [ SMS_Report (FALSE) ]
+    UInt16     SecurityBreach;
+    [ SMS_Report (FALSE) ]
+    UInt16     SecurityStatus;
+    [ SMS_Report (TRUE) ]
+    String     SerialNumber;
+    [ SMS_Report (FALSE) ]
+    String     ServiceDescriptions[];
+    [ SMS_Report (FALSE) ]
+    UInt16     ServicePhilosophy[];
+    [ SMS_Report (FALSE) ]
+    String     SKU;
+    [ SMS_Report (TRUE) ]
+    String     SMBIOSAssetTag;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    String     TypeDescriptions[];
+    [ SMS_Report (FALSE) ]
+    String     Version;
+    [ SMS_Report (FALSE) ]
+    Boolean     VisibleAlarm;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Tape Drive"),
+  SMS_Class_ID ("MICROSOFT|TAPE_DRIVE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_TapeDrive : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DeviceID;
+    [ SMS_Report (TRUE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    UInt16     Capabilities[];
+    [ SMS_Report (FALSE) ]
+    String     CapabilityDescriptions[];
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt32     Compression;
+    [ SMS_Report (FALSE) ]
+    String     CompressionMethod;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (FALSE), SMS_Units ("KiloBytes") ]
+    UInt64     DefaultBlockSize;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    UInt32     ECC;
+    [ SMS_Report (FALSE) ]
+    UInt32     EOTWarningZoneSize;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    String     ErrorMethodology;
+    [ SMS_Report (FALSE) ]
+    UInt32     FeaturesHigh;
+    [ SMS_Report (FALSE) ]
+    UInt32     FeaturesLow;
+    [ SMS_Report (FALSE) ]
+    String     Id;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (FALSE) ]
+    String     Manufacturer;
+    [ SMS_Report (FALSE), SMS_Units ("KiloBytes") ]
+    UInt64     MaxBlockSize;
+    [ SMS_Report (FALSE), SMS_Units ("MegaBytes") ]
+    UInt64     MaxMediaSize;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaxPartitionCount;
+    [ SMS_Report (TRUE) ]
+    String     MediaType;
+    [ SMS_Report (FALSE), SMS_Units ("KiloBytes") ]
+    UInt64     MinBlockSize;
+    [ SMS_Report (TRUE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    Boolean     NeedsCleaning;
+    [ SMS_Report (FALSE) ]
+    UInt32     NumberOfMediaSupported;
+    [ SMS_Report (FALSE) ]
+    UInt32     Padding;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (FALSE) ]
+    UInt32     ReportSetMarks;
+    [ SMS_Report (TRUE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (FALSE) ]
+    String     SystemName;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Time Zone"),
+  SMS_Class_ID ("MICROSOFT|TIME_ZONE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_TimeZone : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     StandardName;
+    [ SMS_Report (FALSE) ]
+    SInt32     Bias;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    SInt32     DaylightBias;
+    [ SMS_Report (FALSE) ]
+    UInt32     DaylightDay;
+    [ SMS_Report (FALSE) ]
+    UInt8     DaylightDayOfWeek;
+    [ SMS_Report (FALSE) ]
+    UInt32     DaylightHour;
+    [ SMS_Report (FALSE) ]
+    UInt32     DaylightMillisecond;
+    [ SMS_Report (FALSE) ]
+    UInt32     DaylightMinute;
+    [ SMS_Report (FALSE) ]
+    UInt32     DaylightMonth;
+    [ SMS_Report (FALSE) ]
+    String     DaylightName;
+    [ SMS_Report (FALSE) ]
+    UInt32     DaylightSecond;
+    [ SMS_Report (FALSE) ]
+    UInt32     DaylightYear;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    String     SettingID;
+    [ SMS_Report (FALSE) ]
+    UInt32     StandardBias;
+    [ SMS_Report (FALSE) ]
+    UInt32     StandardDay;
+    [ SMS_Report (FALSE) ]
+    UInt8     StandardDayOfWeek;
+    [ SMS_Report (FALSE) ]
+    UInt32     StandardHour;
+    [ SMS_Report (FALSE) ]
+    UInt32     StandardMillisecond;
+    [ SMS_Report (FALSE) ]
+    UInt32     StandardMinute;
+    [ SMS_Report (FALSE) ]
+    UInt32     StandardMonth;
+    [ SMS_Report (FALSE) ]
+    UInt32     StandardSecond;
+    [ SMS_Report (FALSE) ]
+    UInt32     StandardYear;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("TPM"),
+  SMS_Class_ID ("MICROSOFT|TPM|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\CIMv2\\\\Security\\\\MicrosoftTpm") ]
+class Win32_Tpm : SMS_Class_Template
+{
+    [ SMS_Report (TRUE) ]
+    Boolean     IsActivated_InitialValue;
+    [ SMS_Report (TRUE) ]
+    Boolean     IsEnabled_InitialValue;
+    [ SMS_Report (TRUE) ]
+    Boolean     IsOwned_InitialValue;
+    [ SMS_Report (TRUE) ]
+    UInt32     ManufacturerId;
+    [ SMS_Report (TRUE) ]
+    String     ManufacturerVersion;
+    [ SMS_Report (TRUE) ]
+    String     ManufacturerVersionInfo;
+    [ SMS_Report (TRUE) ]
+    String     PhysicalPresenceVersionInfo;
+    [ SMS_Report (TRUE) ]
+    String     SpecVersion;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("TPM Status"),
+  SMS_Class_ID ("MICROSOFT|TPM_STATUS|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2\\\\sms") ]
+class SMS_TPM : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    Boolean     IsReady;
+    [ SMS_Report (TRUE) ]
+    UInt32     Information;
+    [ SMS_Report (TRUE) ]
+    Boolean     IsApplicable;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("TS Issued License"),
+  SMS_Class_ID ("MICROSOFT|TS_ISSUED_LICENSE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_TSIssuedLicense : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    UInt32     LicenseId;
+    [ SMS_Report (TRUE) ]
+    DateTime     ExpirationDate;
+    [ SMS_Report (TRUE) ]
+    DateTime     IssueDate;
+    [ SMS_Report (TRUE) ]
+    UInt32     KeyPackId;
+    [ SMS_Report (TRUE) ]
+    UInt32     LicenseStatus;
+    [ SMS_Report (TRUE) ]
+    String     sHardwareId;
+    [ SMS_Report (TRUE) ]
+    String     sIssuedToComputer;
+    [ SMS_Report (TRUE) ]
+    String     sIssuedToUser;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("TS License Key Pack"),
+  SMS_Class_ID ("MICROSOFT|TS_LICENSE_KEY_PACK|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_TSLicenseKeyPack : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    UInt32     KeyPackId;
+    [ SMS_Report (TRUE) ]
+    UInt32     AvailableLicenses;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (TRUE) ]
+    UInt32     IssuedLicenses;
+    [ SMS_Report (TRUE) ]
+    UInt32     KeyPackType;
+    [ SMS_Report (TRUE) ]
+    UInt32     ProductType;
+    [ SMS_Report (TRUE) ]
+    String     ProductVersion;
+    [ SMS_Report (TRUE) ]
+    UInt32     TotalLicenses;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Uninterruptible Power Supply"),
+  SMS_Class_ID ("MICROSOFT|POWER_SUPPLY|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_UninterruptiblePowerSupply : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     DeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     ActiveInputVoltage;
+    [ SMS_Report (FALSE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    Boolean     BatteryInstalled;
+    [ SMS_Report (FALSE) ]
+    Boolean     CanTurnOffRemotely;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    String     CommandFile;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    UInt16     EstimatedChargeRemaining;
+    [ SMS_Report (FALSE) ]
+    UInt32     EstimatedRunTime;
+    [ SMS_Report (FALSE) ]
+    UInt32     FirstMessageDelay;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    Boolean     IsSwitchingSupply;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     LowBatterySignal;
+    [ SMS_Report (FALSE) ]
+    UInt32     MessageInterval;
+    [ SMS_Report (FALSE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerFailSignal;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (FALSE) ]
+    UInt32     Range1InputFrequencyHigh;
+    [ SMS_Report (FALSE) ]
+    UInt32     Range1InputFrequencyLow;
+    [ SMS_Report (FALSE) ]
+    UInt32     Range1InputVoltageHigh;
+    [ SMS_Report (FALSE) ]
+    UInt32     Range1InputVoltageLow;
+    [ SMS_Report (FALSE) ]
+    UInt32     Range2InputFrequencyHigh;
+    [ SMS_Report (FALSE) ]
+    UInt32     Range2InputFrequencyLow;
+    [ SMS_Report (FALSE) ]
+    UInt32     Range2InputVoltageHigh;
+    [ SMS_Report (FALSE) ]
+    UInt32     Range2InputVoltageLow;
+    [ SMS_Report (FALSE) ]
+    UInt16     RemainingCapacityStatus;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (FALSE) ]
+    String     SystemName;
+    [ SMS_Report (FALSE) ]
+    UInt32     TimeOnBackup;
+    [ SMS_Report (FALSE) ]
+    UInt32     TotalOutputPower;
+    [ SMS_Report (FALSE) ]
+    UInt16     TypeOfRangeSwitching;
+    [ SMS_Report (FALSE) ]
+    String     UPSPort;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("USB Controller"),
+  SMS_Class_ID ("MICROSOFT|USB_CONTROLLER|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_USBController : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DeviceID;
+    [ SMS_Report (TRUE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (FALSE) ]
+    String     Manufacturer;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaxNumberControlled;
+    [ SMS_Report (TRUE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (FALSE) ]
+    UInt16     ProtocolSupported;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (FALSE) ]
+    String     SystemName;
+    [ SMS_Report (FALSE) ]
+    DateTime     TimeOfLastReset;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("USB Device"),
+  SMS_Class_ID ("MICROSOFT|USB_DEVICE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_USBDevice : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DeviceID;
+    [ SMS_Report (TRUE) ]
+    String     Caption;
+    [ SMS_Report (TRUE) ]
+    String     ClassGuid;
+    [ SMS_Report (TRUE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (TRUE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (TRUE) ]
+    String     CreationClassName;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (TRUE) ]
+    String     Manufacturer;
+    [ SMS_Report (TRUE) ]
+    String     Name;
+    [ SMS_Report (TRUE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (TRUE) ]
+    String     Service;
+    [ SMS_Report (TRUE) ]
+    String     Status;
+    [ SMS_Report (TRUE) ]
+    String     SystemCreationClassName;
+    [ SMS_Report (TRUE) ]
+    String     SystemName;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("USM User Profile"),
+  SMS_Class_ID ("MICROSOFT|USER_PROFILE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_UserProfile : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     SID;
+    [ SMS_Report (TRUE) ]
+    UInt8     HealthStatus;
+    [ SMS_Report (FALSE) ]
+    String     LastAttemptedProfileDownloadTime;
+    [ SMS_Report (FALSE) ]
+    String     LastAttemptedProfileUploadTime;
+    [ SMS_Report (FALSE) ]
+    String     LastBackgroundRegistryUploadTime;
+    [ SMS_Report (FALSE) ]
+    DateTime     LastDownloadTime;
+    [ SMS_Report (FALSE) ]
+    DateTime     LastUploadTime;
+    [ SMS_Report (FALSE) ]
+    DateTime     LastUseTime;
+    [ SMS_Report (FALSE) ]
+    Boolean     Loaded;
+    [ SMS_Report (TRUE) ]
+    String     LocalPath;
+    [ SMS_Report (FALSE) ]
+    UInt32     RefCount;
+    [ SMS_Report (TRUE) ]
+    Boolean     RoamingConfigured;
+    [ SMS_Report (TRUE) ]
+    String     RoamingPath;
+    [ SMS_Report (TRUE) ]
+    Boolean     RoamingPreference;
+    [ SMS_Report (TRUE) ]
+    Boolean     Special;
+    [ SMS_Report (TRUE) ]
+    UInt32     Status;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Video Controller"),
+  SMS_Class_ID ("MICROSOFT|VIDEO_CONTROLLER|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_VideoController : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     DeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     AcceleratorCapabilities[];
+    [ SMS_Report (TRUE) ]
+    String     AdapterCompatibility;
+    [ SMS_Report (TRUE) ]
+    String     AdapterDACType;
+    [ SMS_Report (TRUE), SMS_Units ("Kilobytes") ]
+    UInt32     AdapterRAM;
+    [ SMS_Report (FALSE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE) ]
+    String     CapabilityDescriptions[];
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    UInt32     ColorTableEntries;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (TRUE) ]
+    UInt32     CurrentBitsPerPixel;
+    [ SMS_Report (TRUE) ]
+    UInt32     CurrentHorizontalResolution;
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    UInt64     CurrentNumberOfColors;
+    [ SMS_Report (TRUE) ]
+    UInt32     CurrentNumberOfColumns;
+    [ SMS_Report (TRUE) ]
+    UInt32     CurrentNumberOfRows;
+    [ SMS_Report (TRUE) ]
+    UInt32     CurrentRefreshRate;
+    [ SMS_Report (TRUE) ]
+    UInt16     CurrentScanMode;
+    [ SMS_Report (TRUE) ]
+    UInt32     CurrentVerticalResolution;
+    [ SMS_Report (TRUE) ]
+    String     Description;
+    [ SMS_Report (FALSE), SMS_Units ("DecimalString") ]
+    UInt32     DeviceSpecificPens;
+    [ SMS_Report (FALSE) ]
+    UInt32     DitherType;
+    [ SMS_Report (TRUE) ]
+    DateTime     DriverDate;
+    [ SMS_Report (TRUE) ]
+    String     DriverVersion;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    UInt32     ICMIntent;
+    [ SMS_Report (FALSE) ]
+    UInt32     ICMMethod;
+    [ SMS_Report (FALSE) ]
+    String     InfFilename;
+    [ SMS_Report (FALSE) ]
+    String     InfSection;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (TRUE) ]
+    String     InstalledDisplayDrivers;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaxMemorySupported;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaxNumberControlled;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaxRefreshRate;
+    [ SMS_Report (FALSE) ]
+    UInt32     MinRefreshRate;
+    [ SMS_Report (FALSE) ]
+    Boolean     Monochrome;
+    [ SMS_Report (TRUE) ]
+    String     Name;
+    [ SMS_Report (TRUE) ]
+    UInt16     NumberOfColorPlanes;
+    [ SMS_Report (FALSE) ]
+    UInt32     NumberOfVideoPages;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (FALSE) ]
+    UInt16     ProtocolSupported;
+    [ SMS_Report (FALSE) ]
+    UInt32     ReservedSystemPaletteEntries;
+    [ SMS_Report (TRUE) ]
+    UInt32     SpecificationVersion;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (FALSE) ]
+    String     SystemName;
+    [ SMS_Report (FALSE) ]
+    UInt32     SystemPaletteEntries;
+    [ SMS_Report (FALSE) ]
+    DateTime     TimeOfLastReset;
+    [ SMS_Report (FALSE) ]
+    UInt16     VideoArchitecture;
+    [ SMS_Report (FALSE) ]
+    UInt16     VideoMemoryType;
+    [ SMS_Report (TRUE) ]
+    UInt16     VideoMode;
+    [ SMS_Report (TRUE) ]
+    String     VideoModeDescription;
+    [ SMS_Report (TRUE) ]
+    String     VideoProcessor;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Virtual Application Packages"),
+  SMS_Class_ID ("MICROSOFT|VIRTUAL_APPLICATION_PACKAGES|1.0"),
+  Namespace ("\\\\\\\\localhost\\\\root\\\\Microsoft\\\\appvirt\\\\client") ]
+class Package : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     PackageGUID;
+    [ SMS_Report (TRUE) ]
+    UInt64     CachedLaunchSize;
+    [ SMS_Report (TRUE) ]
+    UInt16     CachedPercentage;
+    [ SMS_Report (TRUE) ]
+    UInt64     CachedSize;
+    [ SMS_Report (TRUE) ]
+    UInt64     LaunchSize;
+    [ SMS_Report (TRUE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    String     SftPath;
+    [ SMS_Report (TRUE) ]
+    UInt64     TotalSize;
+    [ SMS_Report (TRUE) ]
+    String     Version;
+    [ SMS_Report (TRUE) ]
+    String     VersionGUID;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Virtual Applications"),
+  SMS_Class_ID ("MICROSOFT|VIRTUAL_APPLICATIONS|1.0"),
+  Namespace ("\\\\\\\\localhost\\\\root\\\\Microsoft\\\\appvirt\\\\client") ]
+class Application : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     Name;
+    [ SMS_Report (TRUE), key ]
+    String     Version;
+    [ SMS_Report (FALSE) ]
+    String     CachedOsdPath;
+    [ SMS_Report (FALSE) ]
+    UInt32     GlobalRunningCount;
+    [ SMS_Report (TRUE) ]
+    DateTime     LastLaunchOnSystem;
+    [ SMS_Report (FALSE) ]
+    Boolean     Loading;
+    [ SMS_Report (FALSE) ]
+    String     OriginalOsdPath;
+    [ SMS_Report (TRUE) ]
+    String     PackageGUID;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Virtual Machine (64)"),
+  SMS_Class_ID ("MICROSOFT|VIRTUAL_MACHINE_64|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2"),
+  SMS_Context_1 ("__ProviderArchitecture=64|SInt32"),
+  SMS_Context_2 ("__RequiredArchitecture=true|Boolean") ]
+class Win32Reg_SMSGuestVirtualMachine64 : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     InstanceKey;
+    [ SMS_Report (TRUE) ]
+    String     PhysicalHostName;
+    [ SMS_Report (TRUE) ]
+    String     PhysicalHostNameFullyQualified;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Virtual Machine"),
+  SMS_Class_ID ("MICROSOFT|VIRTUAL_MACHINE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2"),
+  SMS_Context_1 ("__ProviderArchitecture=32|SInt32"),
+  SMS_Context_2 ("__RequiredArchitecture=true|Boolean") ]
+class Win32Reg_SMSGuestVirtualMachine : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     InstanceKey;
+    [ SMS_Report (TRUE) ]
+    String     PhysicalHostName;
+    [ SMS_Report (TRUE) ]
+    String     PhysicalHostNameFullyQualified;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Virtual Machine Details"),
+  SMS_Class_ID ("MICROSOFT|VIRTUAL_MACHINE_EXT|1.0"),
+  Namespace ("\\\\\\\\localhost\\\\root\\\\vm\\\\VirtualServer") ]
+class VirtualMachine : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    UInt32     CpuUtilization;
+    [ SMS_Report (FALSE), SMS_Units ("Megabytes") ]
+    UInt64     DiskBytesRead;
+    [ SMS_Report (FALSE), SMS_Units ("Megabytes") ]
+    UInt64     DiskBytesWritten;
+    [ SMS_Report (FALSE), SMS_Units ("Megabytes") ]
+    UInt64     DiskSpaceUsed;
+    [ SMS_Report (FALSE) ]
+    UInt64     HeartbeatCount;
+    [ SMS_Report (FALSE) ]
+    UInt32     HeartbeatInterval;
+    [ SMS_Report (FALSE) ]
+    UInt32     HeartbeatPercentage;
+    [ SMS_Report (FALSE) ]
+    UInt32     HeartbeatRate;
+    [ SMS_Report (FALSE), SMS_Units ("Megabytes") ]
+    UInt64     NetworkBytesReceived;
+    [ SMS_Report (FALSE), SMS_Units ("Megabytes") ]
+    UInt64     NetworkBytesSent;
+    [ SMS_Report (FALSE), SMS_Units ("Megabytes") ]
+    UInt64     PhysicalMemoryAllocated;
+    [ SMS_Report (FALSE) ]
+    UInt32     Uptime;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Volume"),
+  SMS_Class_ID ("MICROSOFT|VOLUME|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32_Volume : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     DeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     Access;
+    [ SMS_Report (FALSE) ]
+    Boolean     Automount;
+    [ SMS_Report (FALSE) ]
+    UInt16     Availability;
+    [ SMS_Report (FALSE), SMS_Units ("Megabytes") ]
+    UInt64     BlockSize;
+    [ SMS_Report (FALSE), SMS_Units ("Megabytes") ]
+    UInt64     Capacity;
+    [ SMS_Report (FALSE) ]
+    String     Caption;
+    [ SMS_Report (FALSE) ]
+    Boolean     Compressed;
+    [ SMS_Report (FALSE) ]
+    UInt32     ConfigManagerErrorCode;
+    [ SMS_Report (FALSE) ]
+    Boolean     ConfigManagerUserConfig;
+    [ SMS_Report (FALSE) ]
+    String     CreationClassName;
+    [ SMS_Report (FALSE) ]
+    String     Description;
+    [ SMS_Report (FALSE) ]
+    Boolean     DirtyBitSet;
+    [ SMS_Report (FALSE) ]
+    String     DriveLetter;
+    [ SMS_Report (FALSE) ]
+    UInt32     DriveType;
+    [ SMS_Report (FALSE) ]
+    Boolean     ErrorCleared;
+    [ SMS_Report (FALSE) ]
+    String     ErrorDescription;
+    [ SMS_Report (FALSE) ]
+    String     ErrorMethodology;
+    [ SMS_Report (FALSE) ]
+    String     FileSystem;
+    [ SMS_Report (FALSE), SMS_Units ("Megabytes") ]
+    UInt64     FreeSpace;
+    [ SMS_Report (FALSE) ]
+    Boolean     IndexingEnabled;
+    [ SMS_Report (FALSE) ]
+    DateTime     InstallDate;
+    [ SMS_Report (FALSE) ]
+    String     Label;
+    [ SMS_Report (FALSE) ]
+    UInt32     LastErrorCode;
+    [ SMS_Report (FALSE) ]
+    UInt32     MaximumFileNameLength;
+    [ SMS_Report (FALSE) ]
+    String     Name;
+    [ SMS_Report (FALSE) ]
+    UInt64     NumberOfBlocks;
+    [ SMS_Report (FALSE) ]
+    String     PNPDeviceID;
+    [ SMS_Report (FALSE) ]
+    UInt16     PowerManagementCapabilities[];
+    [ SMS_Report (FALSE) ]
+    Boolean     PowerManagementSupported;
+    [ SMS_Report (FALSE) ]
+    String     Purpose;
+    [ SMS_Report (FALSE) ]
+    Boolean     QuotasEnabled;
+    [ SMS_Report (FALSE) ]
+    Boolean     QuotasIncomplete;
+    [ SMS_Report (FALSE) ]
+    Boolean     QuotasRebuilding;
+    [ SMS_Report (FALSE) ]
+    UInt32     SerialNumber;
+    [ SMS_Report (FALSE) ]
+    String     Status;
+    [ SMS_Report (FALSE) ]
+    UInt16     StatusInfo;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsDiskQuotas;
+    [ SMS_Report (FALSE) ]
+    Boolean     SupportsFileBasedCompression;
+    [ SMS_Report (FALSE) ]
+    String     SystemCreationClassName;
+    [ SMS_Report (FALSE) ]
+    String     SystemName;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("CCM_WebAppInstallInfo"),
+  SMS_Class_ID ("MICROSOFT|WEBAPP_APPLICATION|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\ccm\\\\cimodels") ]
+class CCM_WebAppInstallInfo : SMS_Class_Template
+{
+    [ SMS_Report (FALSE), key ]
+    String     AppDeliveryTypeId;
+    [ SMS_Report (FALSE), key ]
+    UInt32     AppDtRevision;
+    [ SMS_Report (FALSE), key ]
+    String     TargetURL;
+    [ SMS_Report (FALSE), key ]
+    String     UserSID;
+    [ SMS_Report (FALSE) ]
+    String     URLFileName;
+    [ SMS_Report (FALSE) ]
+    String     URLPath;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("SMS_Windows8Application"),
+  SMS_Class_ID ("MICROSOFT|WINDOWS8_APPLICATION|1.0"),
+  Namespace ("root\\\\cimv2\\\\sms") ]
+class SMS_Windows8Application : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     FullName;
+    [ SMS_Report (TRUE) ]
+    String     ApplicationName;
+    [ SMS_Report (TRUE) ]
+    String     Architecture;
+    [ SMS_Report (TRUE) ]
+    Boolean     ConfigMgrManaged;
+    [ SMS_Report (TRUE) ]
+    String     DependencyApplicationNames;
+    [ SMS_Report (TRUE) ]
+    String     FamilyName;
+    [ SMS_Report (TRUE) ]
+    String     InstalledLocation;
+    [ SMS_Report (TRUE) ]
+    Boolean     IsFramework;
+    [ SMS_Report (TRUE) ]
+    String     Publisher;
+    [ SMS_Report (TRUE) ]
+    String     PublisherId;
+    [ SMS_Report (TRUE) ]
+    String     Version;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("SMS_Windows8ApplicationUserInfo"),
+  SMS_Class_ID ("MICROSOFT|WINDOWS8_APPLICATION_USER_INFO|1.0"),
+  Namespace ("root\\\\cimv2\\\\sms") ]
+class SMS_Windows8ApplicationUserInfo : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     FullName;
+    [ SMS_Report (TRUE), key ]
+    String     UserSecurityId;
+    [ SMS_Report (TRUE) ]
+    String     InstallState;
+    [ SMS_Report (TRUE) ]
+    String     UserAccountName;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Windows Update"),
+  SMS_Class_ID ("MICROSOFT|WINDOWSUPDATE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2") ]
+class Win32Reg_SMSWindowsUpdate : SMS_Class_Template
+{
+    [ SMS_Report (TRUE), key ]
+    String     InstanceKey;
+    [ SMS_Report (FALSE) ]
+    UInt32     AUOptions;
+    [ SMS_Report (FALSE) ]
+    UInt32     NoAutoUpdate;
+    [ SMS_Report (TRUE) ]
+    UInt32     UseWUServer;
+};
+
+[ SMS_Report (TRUE),
+  SMS_Group_Name ("Windows Update Agent Version"),
+  SMS_Class_ID ("MICROSOFT|WINDOWSUPDATEAGENTVERSION|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2\\\\sms") ]
+class Win32_WindowsUpdateAgentVersion : SMS_Class_Template
+{
+    [ SMS_Report (TRUE) ]
+    String     Version;
+};
+
+[ SMS_Report (FALSE),
+  SMS_Group_Name ("Write Filter State"),
+  SMS_Class_ID ("MICROSOFT|WRITE_FILTER_STATE|1.0"),
+  Namespace ("\\\\\\\\.\\\\root\\\\cimv2\\\\sms") ]
+class CCM_WriteFilterState : SMS_Class_Template
+{
+    [ SMS_Report (FALSE) ]
+    Boolean     WriteFilterEnabled;
+};
+
