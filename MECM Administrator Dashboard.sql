@@ -2,115 +2,115 @@
 USE [master]
 GO
 
-/****** Object:  Database [SCCM_PBI_Reporting] ******/
-CREATE DATABASE [SCCM_PBI_Reporting]
+/****** Object:  Database [MECM_PBI_Reporting] ******/
+CREATE DATABASE [MECM_PBI_Reporting]
  CONTAINMENT = NONE
  ON  PRIMARY 
-( NAME = N'SCCM_PBI_Reporting', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\SCCM_PBI_Reporting.mdf' , SIZE = 5242880KB , MAXSIZE = UNLIMITED, FILEGROWTH = 2%)
+( NAME = N'MECM_PBI_Reporting', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\MECM_PBI_Reporting.mdf' , SIZE = 5242880KB , MAXSIZE = UNLIMITED, FILEGROWTH = 2%)
  LOG ON 
-( NAME = N'SCCM_PBI_Reporting_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\SCCM_PBI_Reporting_log.ldf' , SIZE = 532480KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+( NAME = N'MECM_PBI_Reporting_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\MECM_PBI_Reporting_log.ldf' , SIZE = 532480KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET COMPATIBILITY_LEVEL = 130
+ALTER DATABASE [MECM_PBI_Reporting] SET COMPATIBILITY_LEVEL = 130
 GO
 
 IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
 begin
-EXEC [SCCM_PBI_Reporting].[dbo].[sp_fulltext_database] @action = 'enable'
+EXEC [MECM_PBI_Reporting].[dbo].[sp_fulltext_database] @action = 'enable'
 end
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET ANSI_NULL_DEFAULT OFF 
+ALTER DATABASE [MECM_PBI_Reporting] SET ANSI_NULL_DEFAULT OFF 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET ANSI_NULLS ON 
+ALTER DATABASE [MECM_PBI_Reporting] SET ANSI_NULLS ON 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET ANSI_PADDING ON 
+ALTER DATABASE [MECM_PBI_Reporting] SET ANSI_PADDING ON 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET ANSI_WARNINGS ON 
+ALTER DATABASE [MECM_PBI_Reporting] SET ANSI_WARNINGS ON 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET ARITHABORT ON 
+ALTER DATABASE [MECM_PBI_Reporting] SET ARITHABORT ON 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET AUTO_CLOSE OFF 
+ALTER DATABASE [MECM_PBI_Reporting] SET AUTO_CLOSE OFF 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET AUTO_SHRINK OFF 
+ALTER DATABASE [MECM_PBI_Reporting] SET AUTO_SHRINK OFF 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET AUTO_UPDATE_STATISTICS ON 
+ALTER DATABASE [MECM_PBI_Reporting] SET AUTO_UPDATE_STATISTICS ON 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET CURSOR_CLOSE_ON_COMMIT OFF 
+ALTER DATABASE [MECM_PBI_Reporting] SET CURSOR_CLOSE_ON_COMMIT OFF 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET CURSOR_DEFAULT  GLOBAL 
+ALTER DATABASE [MECM_PBI_Reporting] SET CURSOR_DEFAULT  GLOBAL 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET CONCAT_NULL_YIELDS_NULL ON 
+ALTER DATABASE [MECM_PBI_Reporting] SET CONCAT_NULL_YIELDS_NULL ON 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET NUMERIC_ROUNDABORT OFF 
+ALTER DATABASE [MECM_PBI_Reporting] SET NUMERIC_ROUNDABORT OFF 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET QUOTED_IDENTIFIER ON 
+ALTER DATABASE [MECM_PBI_Reporting] SET QUOTED_IDENTIFIER ON 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET RECURSIVE_TRIGGERS ON 
+ALTER DATABASE [MECM_PBI_Reporting] SET RECURSIVE_TRIGGERS ON 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET  ENABLE_BROKER 
+ALTER DATABASE [MECM_PBI_Reporting] SET  ENABLE_BROKER 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+ALTER DATABASE [MECM_PBI_Reporting] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET DATE_CORRELATION_OPTIMIZATION OFF 
+ALTER DATABASE [MECM_PBI_Reporting] SET DATE_CORRELATION_OPTIMIZATION OFF 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET TRUSTWORTHY ON 
+ALTER DATABASE [MECM_PBI_Reporting] SET TRUSTWORTHY ON 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET ALLOW_SNAPSHOT_ISOLATION ON 
+ALTER DATABASE [MECM_PBI_Reporting] SET ALLOW_SNAPSHOT_ISOLATION ON 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET PARAMETERIZATION SIMPLE 
+ALTER DATABASE [MECM_PBI_Reporting] SET PARAMETERIZATION SIMPLE 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET READ_COMMITTED_SNAPSHOT ON 
+ALTER DATABASE [MECM_PBI_Reporting] SET READ_COMMITTED_SNAPSHOT ON 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET HONOR_BROKER_PRIORITY ON 
+ALTER DATABASE [MECM_PBI_Reporting] SET HONOR_BROKER_PRIORITY ON 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET RECOVERY SIMPLE 
+ALTER DATABASE [MECM_PBI_Reporting] SET RECOVERY SIMPLE 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET  MULTI_USER 
+ALTER DATABASE [MECM_PBI_Reporting] SET  MULTI_USER 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET PAGE_VERIFY CHECKSUM  
+ALTER DATABASE [MECM_PBI_Reporting] SET PAGE_VERIFY CHECKSUM  
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET DB_CHAINING OFF 
+ALTER DATABASE [MECM_PBI_Reporting] SET DB_CHAINING OFF 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+ALTER DATABASE [MECM_PBI_Reporting] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+ALTER DATABASE [MECM_PBI_Reporting] SET TARGET_RECOVERY_TIME = 60 SECONDS 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET DELAYED_DURABILITY = DISABLED 
+ALTER DATABASE [MECM_PBI_Reporting] SET DELAYED_DURABILITY = DISABLED 
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET QUERY_STORE = OFF
+ALTER DATABASE [MECM_PBI_Reporting] SET QUERY_STORE = OFF
 GO
 
-USE [SCCM_PBI_Reporting]
+USE [MECM_PBI_Reporting]
 GO
 
 ALTER DATABASE SCOPED CONFIGURATION SET LEGACY_CARDINALITY_ESTIMATION = OFF;
@@ -125,7 +125,7 @@ GO
 ALTER DATABASE SCOPED CONFIGURATION SET QUERY_OPTIMIZER_HOTFIXES = OFF;
 GO
 
-ALTER DATABASE [SCCM_PBI_Reporting] SET  READ_WRITE 
+ALTER DATABASE [MECM_PBI_Reporting] SET  READ_WRITE 
 GO
 
 
@@ -137,7 +137,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_UpdateReport_Servers](
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_UpdateReport_Servers](
 	[UpdateName] [nvarchar](513) NULL,
 	[Status] [nvarchar](255) NOT NULL,
 	[ResourceID] [int] NOT NULL
@@ -151,7 +151,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_UpdateReport_Workstations](
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_UpdateReport_Workstations](
 	[UpdateName] [nvarchar](513) NULL,
 	[Status] [nvarchar](255) NOT NULL,
 	[ResourceID] [int] NOT NULL
@@ -165,7 +165,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_UpdateReport_Other](
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_UpdateReport_Other](
 	[UpdateName] [nvarchar](513) NULL,
 	[Status] [nvarchar](255) NOT NULL,
 	[ResourceID] [int] NOT NULL
@@ -179,7 +179,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_WUStat_Servers](
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_WUStat_Servers](
 	[Collection_Name] [nvarchar](255) NOT NULL,
 	[UpdateName] [nvarchar](513) NULL,
 	[Total] [int] NULL,
@@ -195,7 +195,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_WUStat_Workstations](
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_WUStat_Workstations](
 	[Collection_Name] [nvarchar](255) NOT NULL,
 	[UpdateName] [nvarchar](513) NULL,
 	[Total] [int] NULL,
@@ -212,7 +212,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_WUStat_Other](
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_WUStat_Other](
 	[Collection_Name] [nvarchar](255) NOT NULL,
 	[UpdateName] [nvarchar](513) NULL,
 	[Total] [int] NULL,
@@ -222,7 +222,7 @@ CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_WUStat_Other](
 GO
 
 --Creates procedure for workstations
-USE [SCCM_PBI_Reporting]
+USE [MECM_PBI_Reporting]
 GO
 SET ANSI_NULLS ON
 GO
@@ -232,10 +232,10 @@ GO
 CREATE PROCEDURE [dbo].usp_PBI_SoftwareUpdates_byCollections_Workstations AS
 BEGIN
 
-truncate table [SCCM_PBI_Reporting].dbo.ust_UpdateReport_Workstations
-truncate table [SCCM_PBI_Reporting].dbo.ust_WUStat_Workstations
+truncate table [MECM_PBI_Reporting].dbo.ust_UpdateReport_Workstations
+truncate table [MECM_PBI_Reporting].dbo.ust_WUStat_Workstations
 
-Insert into [SCCM_PBI_Reporting].dbo.ust_UpdateReport_Workstations
+Insert into [MECM_PBI_Reporting].dbo.ust_UpdateReport_Workstations
 select distinct
        vui.Title UpdateName,
        vsn.StateName Status,
@@ -253,7 +253,7 @@ where
 	   vui.title not like '%Windows Server%'
 
 
-Insert Into [SCCM_PBI_Reporting].dbo.ust_WUStat_Workstations
+Insert Into [MECM_PBI_Reporting].dbo.ust_WUStat_Workstations
 select
 	vC.Name,
     uur.UpdateName,
@@ -279,7 +279,7 @@ order by
 	vC.Name,
 	UpdateName
 
-Select * from [SCCM_PBI_Reporting].dbo.ust_WUStat_Workstations
+Select * from [MECM_PBI_Reporting].dbo.ust_WUStat_Workstations
 
 
 
@@ -289,7 +289,7 @@ END
 GO
 
 --Creates procedure for server collections
-USE [SCCM_PBI_Reporting]
+USE [MECM_PBI_Reporting]
 GO
 SET ANSI_NULLS ON
 GO
@@ -298,10 +298,10 @@ GO
 CREATE PROCEDURE dbo.usp_PBI_SoftwareUpdates_byCollections_Servers AS
 BEGIN
 
-truncate table [SCCM_PBI_Reporting].dbo.ust_UpdateReport_Servers
-truncate table [SCCM_PBI_Reporting].dbo.ust_WUStat_Servers
+truncate table [MECM_PBI_Reporting].dbo.ust_UpdateReport_Servers
+truncate table [MECM_PBI_Reporting].dbo.ust_WUStat_Servers
 
-Insert into [SCCM_PBI_Reporting].dbo.ust_UpdateReport_Servers
+Insert into [MECM_PBI_Reporting].dbo.ust_UpdateReport_Servers
 select distinct
        vui.Title UpdateName,
        vsn.StateName Status,
@@ -317,7 +317,7 @@ join [CM_Nov].dbo.v_StateNames vSN
 where 
        vui.title like '%Server%'
 
-Insert Into [SCCM_PBI_Reporting].dbo.ust_WUStat_Servers
+Insert Into [MECM_PBI_Reporting].dbo.ust_WUStat_Servers
 select
 	vC.Name,
     uur.UpdateName,
@@ -343,7 +343,7 @@ order by
 	vC.Name,
 	UpdateName
 
-Select * from [SCCM_PBI_Reporting].dbo.ust_WUStat_Servers
+Select * from [MECM_PBI_Reporting].dbo.ust_WUStat_Servers
 
 	SET NOCOUNT ON;
 
@@ -351,7 +351,7 @@ END
 GO
 
 --Creates procedure for Other collections
-USE [SCCM_PBI_Reporting]
+USE [MECM_PBI_Reporting]
 GO
 SET ANSI_NULLS ON
 GO
@@ -360,8 +360,8 @@ GO
 CREATE PROCEDURE dbo.usp_PBI_SoftwareUpdates_byCollections_Other AS
 BEGIN
 
-truncate table [SCCM_PBI_Reporting].dbo.ust_UpdateReport_Other
-truncate table [SCCM_PBI_Reporting].dbo.ust_WUStat_Other
+truncate table [MECM_PBI_Reporting].dbo.ust_UpdateReport_Other
+truncate table [MECM_PBI_Reporting].dbo.ust_WUStat_Other
 
 Insert into ust_UpdateReport_Other
 select distinct
@@ -380,7 +380,7 @@ where
        (vui.title not like '%Server%' and
 	   vui.title not like '%Windows 10%') 
 
-Insert Into [SCCM_PBI_Reporting].dbo.ust_WUStat_Other
+Insert Into [MECM_PBI_Reporting].dbo.ust_WUStat_Other
 select
 	vC.Name,
     uur.UpdateName,
@@ -405,16 +405,16 @@ order by
 	vC.Name,
 	UpdateName
 
-Select * from [SCCM_PBI_Reporting].dbo.ust_WUStat_Other
+Select * from [MECM_PBI_Reporting].dbo.ust_WUStat_Other
 
 	SET NOCOUNT ON;
 
 END
 GO
 
-exec [SCCM_PBI_Reporting].dbo.usp_PBI_SoftwareUpdates_byCollections_Workstations
-exec [SCCM_PBI_Reporting].dbo.usp_PBI_SoftwareUpdates_byCollections_Servers
-exec [SCCM_PBI_Reporting].dbo.usp_PBI_SoftwareUpdates_byCollections_Other
+exec [MECM_PBI_Reporting].dbo.usp_PBI_SoftwareUpdates_byCollections_Workstations
+exec [MECM_PBI_Reporting].dbo.usp_PBI_SoftwareUpdates_byCollections_Servers
+exec [MECM_PBI_Reporting].dbo.usp_PBI_SoftwareUpdates_byCollections_Other
 
 /******End of Patching data******/
 
@@ -426,7 +426,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_clientHealth]
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_clientHealth]
 (
 	[Name0] [nvarchar](255) NULL,
 	[Client_Version0] [nvarchar](255) NULL,
@@ -445,7 +445,7 @@ CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_clientHealth]
 ) ON [PRIMARY]
 GO
 
-USE [SCCM_PBI_Reporting]
+USE [MECM_PBI_Reporting]
 GO
 SET ANSI_NULLS ON
 GO
@@ -457,9 +457,9 @@ CREATE PROCEDURE dbo.usp_clientHealth
 AS
 BEGIN
 
-truncate table [SCCM_PBI_Reporting].dbo.[ust_clientHealth]
+truncate table [MECM_PBI_Reporting].dbo.[ust_clientHealth]
 
-Insert into [SCCM_PBI_Reporting].dbo.[ust_clientHealth]
+Insert into [MECM_PBI_Reporting].dbo.[ust_clientHealth]
 Select 
 	vrs.Name0, 
 	vrs.Client_Version0,
@@ -511,14 +511,14 @@ group by
 	vcc.LastHW,
 	vcc.LastSW
 
-Select * from [SCCM_PBI_Reporting].dbo.[ust_clientHealth]
+Select * from [MECM_PBI_Reporting].dbo.[ust_clientHealth]
 
 SET NOCOUNT ON;
 
 END
 GO
 
-exec [SCCM_PBI_Reporting].dbo.usp_clientHealth
+exec [MECM_PBI_Reporting].dbo.usp_clientHealth
 /******End of Client Health******/
 
 /******Start of Installed Server Roles******/
@@ -529,14 +529,14 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_installedserverroles]
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_installedserverroles]
 (
 	[Server_Name] [nvarchar](255) NULL,
 	[Server_Roles_Installed] [nvarchar](255) NULL,
 ) ON [PRIMARY]
 GO
 
-USE [SCCM_PBI_Reporting]
+USE [MECM_PBI_Reporting]
 GO
 SET ANSI_NULLS ON
 GO
@@ -547,9 +547,9 @@ GO
 CREATE PROCEDURE dbo.usp_installedserverroles
 AS
 BEGIN
-truncate table [SCCM_PBI_Reporting].dbo.ust_installedserverroles
+truncate table [MECM_PBI_Reporting].dbo.ust_installedserverroles
 
-Insert into [SCCM_PBI_Reporting].dbo.ust_installedserverroles
+Insert into [MECM_PBI_Reporting].dbo.ust_installedserverroles
 select
 	Netbios_Name0,
 	REPLACE(ConfigurationItemName, 'Installed Server Roles - ', '')
@@ -560,30 +560,30 @@ where ConfigurationItemName in(
 	where displayname like 'Installed Server Roles - %' and DisplayName not in('Installed Server Roles - File Server', 'Installed Server Roles - Storage Services'))
 order by Netbios_Name0
 
-Select * from [SCCM_PBI_Reporting].dbo.ust_installedserverroles
+Select * from [MECM_PBI_Reporting].dbo.ust_installedserverroles
 
 SET NOCOUNT ON;
 END
 GO
 
-exec [SCCM_PBI_Reporting].dbo.usp_installedserverroles
+exec [MECM_PBI_Reporting].dbo.usp_installedserverroles
 /******End of Installed Server Roles******/
 
-/******Start of Installed SCCM Roles******/
+/******Start of Installed MECM Roles******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_installedsccmroles]
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_installedMECMroles]
 (
-	[SCCM_Server] [nvarchar](255) NULL,
-	[SCCM_Roles_Installed] [nvarchar](255) NULL,
+	[MECM_Server] [nvarchar](255) NULL,
+	[MECM_Roles_Installed] [nvarchar](255) NULL,
 ) ON [PRIMARY]
 GO
 
-USE [SCCM_PBI_Reporting]
+USE [MECM_PBI_Reporting]
 GO
 SET ANSI_NULLS ON
 GO
@@ -591,26 +591,26 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-CREATE PROCEDURE dbo.usp_installedsccmroles
+CREATE PROCEDURE dbo.usp_installedMECMroles
 AS
 BEGIN
-truncate table [SCCM_PBI_Reporting].dbo.ust_installedsccmroles
+truncate table [MECM_PBI_Reporting].dbo.ust_installedMECMroles
 
-Insert into [SCCM_PBI_Reporting].dbo.ust_installedsccmroles
+Insert into [MECM_PBI_Reporting].dbo.ust_installedMECMroles
 select Distinct
 Replace(Left(SiteSystem,CHARINDEX('\"]MSWNET:["SMS_SITE=',SiteSystem)-1),'["Display=\\',''),
        Role
 from [CM_Nov].dbo.V_sitesystemSummarizer
 
 
-Select * from [SCCM_PBI_Reporting].dbo.ust_installedsccmroles
+Select * from [MECM_PBI_Reporting].dbo.ust_installedMECMroles
 
 SET NOCOUNT ON;
 END
 GO
 
-exec [SCCM_PBI_Reporting].dbo.usp_installedsccmroles
-/******End of Installed SCCM Roles******/
+exec [MECM_PBI_Reporting].dbo.usp_installedMECMroles
+/******End of Installed MECM Roles******/
 
 /******Start of OS Versions******/
 SET ANSI_NULLS ON
@@ -619,7 +619,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_OSVersions]
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_OSVersions]
 (
 	[Name] [nvarchar](255) NULL,
 	[OSVersion] [nvarchar](255) NULL,
@@ -627,7 +627,7 @@ CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_OSVersions]
 ) ON [PRIMARY]
 GO
 
-USE [SCCM_PBI_Reporting]
+USE [MECM_PBI_Reporting]
 GO
 SET ANSI_NULLS ON
 GO
@@ -638,9 +638,9 @@ GO
 CREATE PROCEDURE dbo.usp_OSVersions
 AS
 BEGIN
-truncate table [SCCM_PBI_Reporting].dbo.[ust_OSVersions]
+truncate table [MECM_PBI_Reporting].dbo.[ust_OSVersions]
 
-Insert into [SCCM_PBI_Reporting].dbo.[ust_OSVersions]
+Insert into [MECM_PBI_Reporting].dbo.[ust_OSVersions]
 select
 	vrs.name0,
 	gos.caption0,
@@ -650,13 +650,13 @@ join [CM_Nov].dbo.v_GS_OPERATING_SYSTEM gos
 	on vrs.ResourceID = gos.ResourceID
 
 
-Select * from [SCCM_PBI_Reporting].dbo.[ust_OSVersions]
+Select * from [MECM_PBI_Reporting].dbo.[ust_OSVersions]
 
 SET NOCOUNT ON;
 END
 GO
 
-exec [SCCM_PBI_Reporting].dbo.usp_OSVersions
+exec [MECM_PBI_Reporting].dbo.usp_OSVersions
 /******End of OS Versions******/
 
 /******Start of  SystemSecurity******/
@@ -666,7 +666,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_SystemSecurity]
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_SystemSecurity]
 (
 	[System] [nvarchar](max) NULL,
 	[Make] [nvarchar](max) NULL,
@@ -684,7 +684,7 @@ CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_SystemSecurity]
 ) ON [PRIMARY]
 GO
 
-USE [SCCM_PBI_Reporting]
+USE [MECM_PBI_Reporting]
 GO
 SET ANSI_NULLS ON
 GO
@@ -695,9 +695,9 @@ GO
 CREATE PROCEDURE dbo.usp_SystemSecurity
 AS
 BEGIN
-truncate table [SCCM_PBI_Reporting].dbo.[ust_SystemSecurity]
+truncate table [MECM_PBI_Reporting].dbo.[ust_SystemSecurity]
 
-Insert into [SCCM_PBI_Reporting].dbo.[ust_SystemSecurity]
+Insert into [MECM_PBI_Reporting].dbo.[ust_SystemSecurity]
 SELECT DISTINCT
     Sys.Netbios_Name0 as 'System', 
     CASE
@@ -767,13 +767,13 @@ FROM
 where 
 	CCCS.CIVersion = (select Distinct max(CIVersion) from [CM_Nov].dbo.vCICurrentComplianceStatus where CI_ID in (SELECT CI_ID FROM CM_NOV.dbo.v_CISettings where SettingName = 'TPMDigestAlgID'))
 
-Select * from [SCCM_PBI_Reporting].dbo.[ust_SystemSecurity]
+Select * from [MECM_PBI_Reporting].dbo.[ust_SystemSecurity]
 
 SET NOCOUNT ON;
 END
 GO
 
-exec [SCCM_PBI_Reporting].dbo.usp_SystemSecurity
+exec [MECM_PBI_Reporting].dbo.usp_SystemSecurity
 
 /******End of SystemSecurity******/
 
@@ -784,7 +784,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_BitlockerData]
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_BitlockerData]
 (
 	[System] [nvarchar](max) NULL,
 	[DriveLetter] [nvarchar](max) NULL,
@@ -797,7 +797,7 @@ CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_BitlockerData]
 ) ON [PRIMARY]
 GO
 
-USE [SCCM_PBI_Reporting]
+USE [MECM_PBI_Reporting]
 GO
 SET ANSI_NULLS ON
 GO
@@ -808,9 +808,9 @@ GO
 CREATE PROCEDURE dbo.usp_BitlockerData
 AS
 BEGIN
-truncate table [SCCM_PBI_Reporting].dbo.[ust_BitlockerData]
+truncate table [MECM_PBI_Reporting].dbo.[ust_BitlockerData]
 
-Insert into [SCCM_PBI_Reporting].dbo.[ust_BitlockerData]
+Insert into [MECM_PBI_Reporting].dbo.[ust_BitlockerData]
 SELECT 
 	vrs.name0 'System',
     [DriveLetter0] 'DriveLetter',
@@ -864,13 +864,13 @@ group by
 	ConversionStatus0,
 	CCSD.CurrentValue
 
-Select * from [SCCM_PBI_Reporting].dbo.[ust_BitlockerData]
+Select * from [MECM_PBI_Reporting].dbo.[ust_BitlockerData]
 
 SET NOCOUNT ON;
 END
 GO
 
-exec [SCCM_PBI_Reporting].dbo.usp_BitlockerData
+exec [MECM_PBI_Reporting].dbo.usp_BitlockerData
 
 /******End of Bitlocker******/
 
@@ -881,7 +881,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_CollectionsSchedules]
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_CollectionsSchedules]
 (
 	SiteCode [nvarchar](3),
 	Name [nvarchar](255) NULL,
@@ -894,7 +894,7 @@ CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_CollectionsSchedules]
 ) ON [PRIMARY]
 GO
 
-USE [SCCM_PBI_Reporting]
+USE [MECM_PBI_Reporting]
 GO
 SET ANSI_NULLS ON
 GO
@@ -905,9 +905,9 @@ GO
 CREATE PROCEDURE dbo.usp_CollectionsSchedules
 AS
 BEGIN
-truncate table [SCCM_PBI_Reporting].dbo.ust_CollectionsSchedules
+truncate table [MECM_PBI_Reporting].dbo.ust_CollectionsSchedules
 
-Insert into [SCCM_PBI_Reporting].dbo.ust_CollectionsSchedules
+Insert into [MECM_PBI_Reporting].dbo.ust_CollectionsSchedules
 SELECT LEFT(CollectionID,3) 'SiteCode', 
        Name, 
        MemberCount, 
@@ -923,13 +923,13 @@ SELECT LEFT(CollectionID,3) 'SiteCode',
 FROM   [CM_Nov].dbo.v_Collection
 WHERE  CollectionID NOT LIKE 'SMS%'
 
-Select * from [SCCM_PBI_Reporting].dbo.ust_CollectionsSchedules
+Select * from [MECM_PBI_Reporting].dbo.ust_CollectionsSchedules
 
 SET NOCOUNT ON;
 END
 GO
 
-exec [SCCM_PBI_Reporting].dbo.usp_CollectionsSchedules
+exec [MECM_PBI_Reporting].dbo.usp_CollectionsSchedules
 /******End of Collections Schedules******/
 
 /****** Object:  Table [dbo].[ust_CollectionTopModifier]******/
@@ -939,7 +939,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_CollectionTopModifier]
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_CollectionTopModifier]
 (
 	Total int null,
 	Mod nvarchar(max) null
@@ -947,7 +947,7 @@ CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_CollectionTopModifier]
 ) ON [PRIMARY]
 GO
 
-USE [SCCM_PBI_Reporting]
+USE [MECM_PBI_Reporting]
 GO
 SET ANSI_NULLS ON
 GO
@@ -958,9 +958,9 @@ GO
 CREATE PROCEDURE dbo.usp_CollectionTopModifier
 AS
 BEGIN
-truncate table [SCCM_PBI_Reporting].dbo.ust_CollectionTopModifier
+truncate table [MECM_PBI_Reporting].dbo.ust_CollectionTopModifier
 
-Insert into [SCCM_PBI_Reporting].dbo.ust_CollectionTopModifier
+Insert into [MECM_PBI_Reporting].dbo.ust_CollectionTopModifier
 SELECT DISTINCT TOP (1) 
 	Count(stat.RecordID) AS Total,
 	UPPER(ins.InsStrValue) As Mod                       
@@ -977,13 +977,13 @@ WHERE
 	ins.InsStrValue LIKE '%\%'
 GROUP BY ins.InsStrValue
 
-Select * from [SCCM_PBI_Reporting].dbo.ust_CollectionTopModifier
+Select * from [MECM_PBI_Reporting].dbo.ust_CollectionTopModifier
 
 SET NOCOUNT ON;
 END
 GO
 
-exec [SCCM_PBI_Reporting].dbo.usp_CollectionTopModifier
+exec [MECM_PBI_Reporting].dbo.usp_CollectionTopModifier
 /******End of Collections Top Modifier******/
 
 /****** Object:  Table [dbo].[ust_Collectionsunder10seconds]******/
@@ -993,7 +993,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_Collectionsunder10seconds]
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_Collectionsunder10seconds]
 (
 	CollectionID [int], 
 	SiteID [nvarchar](8),
@@ -1009,7 +1009,7 @@ CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_Collectionsunder10seconds]
 ) ON [PRIMARY]
 GO
 
-USE [SCCM_PBI_Reporting]
+USE [MECM_PBI_Reporting]
 GO
 SET ANSI_NULLS ON
 GO
@@ -1020,9 +1020,9 @@ GO
 CREATE PROCEDURE dbo.usp_Collectionsunder10seconds
 AS
 BEGIN
-truncate table [SCCM_PBI_Reporting].dbo.ust_Collectionsunder10seconds
+truncate table [MECM_PBI_Reporting].dbo.ust_Collectionsunder10seconds
 
-Insert into [SCCM_PBI_Reporting].dbo.ust_Collectionsunder10seconds
+Insert into [MECM_PBI_Reporting].dbo.ust_Collectionsunder10seconds
 Select TOP 100 
 	T1.CollectionID, 
 	T2.SiteID,
@@ -1058,13 +1058,13 @@ WHERE
 	(CAST(T1.EvaluationLength as float)/1000) < 10
 
 
-Select * from [SCCM_PBI_Reporting].dbo.ust_Collectionsunder10seconds
+Select * from [MECM_PBI_Reporting].dbo.ust_Collectionsunder10seconds
 
 SET NOCOUNT ON;
 END
 GO
 
-exec [SCCM_PBI_Reporting].dbo.usp_Collectionsunder10seconds
+exec [MECM_PBI_Reporting].dbo.usp_Collectionsunder10seconds
 /******End of Collections Under 10 Seconds******/
 
 
@@ -1075,7 +1075,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_Collectionsbetween10and20seconds]
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_Collectionsbetween10and20seconds]
 (
 	CollectionID [int], 
 	SiteID [nvarchar](8),
@@ -1091,7 +1091,7 @@ CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_Collectionsbetween10and20seconds]
 ) ON [PRIMARY]
 GO
 
-USE [SCCM_PBI_Reporting]
+USE [MECM_PBI_Reporting]
 GO
 SET ANSI_NULLS ON
 GO
@@ -1102,9 +1102,9 @@ GO
 CREATE PROCEDURE dbo.usp_Collectionsbetween10and20seconds
 AS
 BEGIN
-truncate table [SCCM_PBI_Reporting].dbo.ust_Collectionsbetween10and20seconds
+truncate table [MECM_PBI_Reporting].dbo.ust_Collectionsbetween10and20seconds
 
-Insert into [SCCM_PBI_Reporting].dbo.ust_Collectionsbetween10and20seconds
+Insert into [MECM_PBI_Reporting].dbo.ust_Collectionsbetween10and20seconds
 Select 
 	T1.CollectionID, 
 	T2.SiteID,
@@ -1140,13 +1140,13 @@ WHERE
 	(CAST(T1.EvaluationLength as float)/1000) BETWEEN 10 AND 20
 
 
-Select * from [SCCM_PBI_Reporting].dbo.ust_Collectionsbetween10and20seconds
+Select * from [MECM_PBI_Reporting].dbo.ust_Collectionsbetween10and20seconds
 
 SET NOCOUNT ON;
 END
 GO
 
-exec [SCCM_PBI_Reporting].dbo.usp_Collectionsbetween10and20seconds
+exec [MECM_PBI_Reporting].dbo.usp_Collectionsbetween10and20seconds
 /******End of Collectionsbetween10and20seconds******/
 
 /****** Object:  Table [dbo].[ust_Collectionsover20seconds]******/
@@ -1156,7 +1156,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_Collectionsover20seconds]
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_Collectionsover20seconds]
 (
 	CollectionID [int], 
 	SiteID [nvarchar](8),
@@ -1172,7 +1172,7 @@ CREATE TABLE [SCCM_PBI_Reporting].[dbo].[ust_Collectionsover20seconds]
 ) ON [PRIMARY]
 GO
 
-USE [SCCM_PBI_Reporting]
+USE [MECM_PBI_Reporting]
 GO
 SET ANSI_NULLS ON
 GO
@@ -1183,9 +1183,9 @@ GO
 CREATE PROCEDURE dbo.usp_Collectionsover20seconds
 AS
 BEGIN
-truncate table [SCCM_PBI_Reporting].dbo.ust_Collectionsover20seconds
+truncate table [MECM_PBI_Reporting].dbo.ust_Collectionsover20seconds
 
-Insert into [SCCM_PBI_Reporting].dbo.ust_Collectionsover20seconds
+Insert into [MECM_PBI_Reporting].dbo.ust_Collectionsover20seconds
 Select 
 	T1.CollectionID, 
 	T2.SiteID,
@@ -1220,23 +1220,23 @@ INNER JOIN [CM_Nov].dbo.v_SC_SiteDefinition AS SC
 WHERE 
 	(CAST(T1.EvaluationLength as float)/1000) > 20
 
-Select * from [SCCM_PBI_Reporting].dbo.ust_Collectionsover20seconds
+Select * from [MECM_PBI_Reporting].dbo.ust_Collectionsover20seconds
 
 SET NOCOUNT ON;
 END
 GO
 
-exec [SCCM_PBI_Reporting].dbo.usp_Collectionsover20seconds
+exec [MECM_PBI_Reporting].dbo.usp_Collectionsover20seconds
 /******End of Collectionsover20seconds******/
 
---Uninstall SCCM PBI_Reporting database
+--Uninstall MECM PBI_Reporting database
 /*
 --Sets database to single user mode so it drops all other connections
 USE [master]
 GO
-ALTER DATABASE [SCCM_PBI_Reporting] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
+ALTER DATABASE [MECM_PBI_Reporting] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
 GO
 
 --Deletes the database from SQL Server
-Drop database [SCCM_PBI_Reporting]
+Drop database [MECM_PBI_Reporting]
 */
