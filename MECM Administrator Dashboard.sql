@@ -6,9 +6,9 @@ GO
 CREATE DATABASE [MECM_PBI_Reporting]
  CONTAINMENT = NONE
  ON  PRIMARY 
-( NAME = N'MECM_PBI_Reporting', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\MECM_PBI_Reporting.mdf' , SIZE = 5242880KB , MAXSIZE = UNLIMITED, FILEGROWTH = 2%)
+( NAME = N'MECM_PBI_Reporting', FILENAME = N'C:\SQLData\DATA\MECM_PBI_Reporting.mdf' , SIZE = 5242880KB , MAXSIZE = UNLIMITED, FILEGROWTH = 2%)
  LOG ON 
-( NAME = N'MECM_PBI_Reporting_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\MECM_PBI_Reporting_log.ldf' , SIZE = 532480KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+( NAME = N'MECM_PBI_Reporting_log', FILENAME = N'C:\SQLData\LOG\MECM_PBI_Reporting_log.ldf' , SIZE = 532480KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
 GO
 
 ALTER DATABASE [MECM_PBI_Reporting] SET COMPATIBILITY_LEVEL = 130
@@ -551,14 +551,25 @@ truncate table [MECM_PBI_Reporting].dbo.ust_installedserverroles
 
 Insert into [MECM_PBI_Reporting].dbo.ust_installedserverroles
 select
-	Netbios_Name0,
-	REPLACE(ConfigurationItemName, 'Installed Server Roles - ', '')
-from [CM_Nov].dbo.v_CIComplianceStatusDetail a
-where ConfigurationItemName in(
-	select distinct displayname
-	from [CM_Nov].dbo.v_LocalizedCIProperties
-	where displayname like 'Installed Server Roles - %' and DisplayName not in('Installed Server Roles - File Server', 'Installed Server Roles - Storage Services'))
-order by Netbios_Name0
+	vrs.name0 as Endpoint,
+	gsf.Name0 as ServerFeature
+from [CM_Nov].dbo.v_GS_SERVER_FEATURE gsf
+join [CM_Nov].dbo.v_r_system vrs
+	on gsf.ResourceID = vrs.ResourceID
+union
+select 
+	vrs.name0 as Endpoint,
+	gs.DisplayName0 as ServerFeature
+from [CM_Nov].dbo.v_GS_SERVICE gs
+join [CM_Nov].dbo.v_r_system vrs
+	on gs.ResourceID = vrs.ResourceID
+where 
+	gs.DisplayName0 like '%SQLSERVER%' or
+	gs.DisplayName0 like '%Mcafee%' or
+	gs.DisplayName0 like '%Defender%'
+order by
+	vrs.name0,
+	[ServerFeature]
 
 Select * from [MECM_PBI_Reporting].dbo.ust_installedserverroles
 
@@ -598,8 +609,9 @@ truncate table [MECM_PBI_Reporting].dbo.ust_installedMECMroles
 
 Insert into [MECM_PBI_Reporting].dbo.ust_installedMECMroles
 select Distinct
-Replace(Left(SiteSystem,CHARINDEX('\"]MSWNET:["SMS_SITE=',SiteSystem)-1),'["Display=\\',''),
-       Role
+	Replace(Left(SiteSystem,CHARINDEX('\"]MSWNET:["SMS_SITE=',SiteSystem)-1),'["Display=\\','') as 'MECM_Server',
+    Replace(
+		Replace(Role,'SMS ',''), 'AI ', '') as 'MECM_Roles_Installed'
 from [CM_Nov].dbo.V_sitesystemSummarizer
 
 
@@ -697,56 +709,65 @@ AS
 BEGIN
 truncate table [MECM_PBI_Reporting].dbo.[ust_SystemSecurity]
 
+;with CCCSitemkey (itemkey, LastComplianceMessageTime) as (
+	select Distinct itemkey,max(LastComplianceMessageTime)
+			from [CM_Nov].dbo.vCICurrentComplianceStatus
+			where CI_ID in (Select Distinct CI_ID 
+						from [CM_Nov].dbo.v_LocalizedCIProperties 
+						where Displayname = 'Dashboard Workstation Configuration Item - SHA256')
+			group by itemkey,CI_ID) 
+
+
 Insert into [MECM_PBI_Reporting].dbo.[ust_SystemSecurity]
 SELECT DISTINCT
     Sys.Netbios_Name0 as 'System', 
     CASE
-            When CS.Manufacturer0 = 'HP' THEN 'HP'
-        When CS.Manufacturer0 = 'Hewlett-Packard' THEN 'HP'
-            When CS.Manufacturer0 = 'Dell Inc.' Then 'Dell'
-            When CS.Manufacturer0 = 'VMware, Inc.' Then 'VMware'
-            When CS.Manufacturer0 = 'Microsoft Corporation' Then 'Microsoft'
-            Else CS.Manufacturer0
+		When CS.Manufacturer0 = 'HP' THEN 'HP'
+		When CS.Manufacturer0 = 'Hewlett-Packard' THEN 'HP'
+		When CS.Manufacturer0 = 'Dell Inc.' Then 'Dell'
+		When CS.Manufacturer0 = 'VMware, Inc.' Then 'VMware'
+		When CS.Manufacturer0 = 'Microsoft Corporation' Then 'Microsoft'
+		Else CS.Manufacturer0
     END as 'Make',
    CS.Model0 as 'Model', 
     CASE
-           When tpm.SpecVersion0 like '1.2%' Then '1.2'
-            When tpm.SpecVersion0 like '2.0%' Then '2.0'
-            else 'Not Available'
+		When tpm.SpecVersion0 like '1.2%' Then '1.2'
+		When tpm.SpecVersion0 like '2.0%' Then '2.0'
+		else 'Not Available'
     END as 'TPM Version',
     CASE
-            When tpm.IsEnabled_InitialValue0 = '1' Then 'Yes'
-            else 'No'
+		When tpm.IsEnabled_InitialValue0 = '1' Then 'Yes'
+		else 'No'
     END as 'TPM Enabled',
     CASE
-            When frm.UEFI0 = '0' Then 'BIOS Legacy'
-            When frm.UEFI0 = '1' Then 'UEFI'
-            Else 'Not Available'
+		When frm.UEFI0 = '0' Then 'BIOS Legacy'
+		When frm.UEFI0 = '1' Then 'UEFI'
+		Else 'Not Available'
     END as 'UEFI Enabled',
     CASE
-            When frm.SecureBoot0 = '0' Then 'Off'
-            When frm.SecureBoot0 = '1' Then 'On'
-            Else 'Not Available'
+		When frm.SecureBoot0 = '0' Then 'Off'
+		When frm.SecureBoot0 = '1' Then 'On'
+		Else 'Not Available'
     END as 'Secure Boot',
     CASE
-            When Cred.VirtualizationBasedSecurityS0 = '0' then 'VBS not enabled'
-            When Cred.VirtualizationBasedSecurityS0 = '1' then 'VBS enabled but not running'
-            When Cred.VirtualizationBasedSecurityS0 = '2' then 'VBS enabled and running'
+		When Cred.VirtualizationBasedSecurityS0 = '0' then 'VBS not enabled'
+		When Cred.VirtualizationBasedSecurityS0 = '1' then 'VBS enabled but not running'
+		When Cred.VirtualizationBasedSecurityS0 = '2' then 'VBS enabled and running'
         Else 'Not Available'
     END as 'VBS Status',
     CASE
-            When Cred.SecurityServicesConfigured0 like '%0%' then 'No'
-            When Cred.SecurityServicesConfigured0 like '%1%' then 'Yes'
-            Else 'Not Available'
+		When Cred.SecurityServicesConfigured0 like '%0%' then 'No'
+		When Cred.SecurityServicesConfigured0 like '%1%' then 'Yes'
+		Else 'Not Available'
     END as 'Cred Guard Enabled',
     CASE
-            When Cred.SecurityServicesRunning0 like '%0%' then 'No'
-            When Cred.SecurityServicesRunning0 like '%1%' then 'Yes'
-            Else 'Not Available'
+		When Cred.SecurityServicesRunning0 like '%0%' then 'No'
+		When Cred.SecurityServicesRunning0 like '%1%' then 'Yes'
+		Else 'Not Available'
     END as 'Cred Guard Running',
     CASE 
-            When EV.ProtectionStatus0 = 1 THEN 'Yes'
-            Else 'No'
+		When EV.[DriveLetter0] = 'C:' THEN 'Yes'
+		Else 'No'
     END as 'BitLocker Enabled',
     hw.LastHWScan,
 	Case
@@ -755,17 +776,28 @@ SELECT DISTINCT
 	End as 'SHA256 Enabled'
 FROM 
     [CM_Nov].dbo.v_GS_OPERATING_SYSTEM OS 
-    join [CM_Nov].dbo.v_R_System_Valid Sys on Sys.resourceid = OS.ResourceID and Operating_System_Name_and0 like '%Workstation%'
-    left join [CM_Nov].dbo.v_GS_TPM tpm on tpm.ResourceID = Sys.ResourceID
-    left join [CM_Nov].dbo.v_GS_ENCRYPTABLE_VOLUME ev on ev.ResourceID = Sys.ResourceID and [PersistentVolumeID0] <> ''
-    left join [CM_Nov].dbo.v_GS_COMPUTER_SYSTEM CS on CS.ResourceID = Sys.ResourceID
-    left join [CM_Nov].dbo.v_GS_FIRMWARE FRM on FRM.ResourceID = Sys.ResourceID
-    left join [CM_Nov].dbo.v_GS_DEVICE_GUARD Cred on Cred.ResourceID = Sys.ResourceID
-    join [CM_Nov].dbo.v_FullCollectionMembership fcm on fcm.Resourceid=Sys.Resourceid
-    left join [CM_Nov].dbo.v_GS_WORKSTATION_STATUS hw on hw.ResourceID=Sys.ResourceID
-	join [CM_Nov].dbo.vCICurrentComplianceStatus CCCS on Sys.ResourceID=CCCS.ItemKey and CCCS.CompliantRulesCount = 1
+    join [CM_Nov].dbo.v_R_System_Valid Sys
+		on Sys.resourceid = OS.ResourceID and Operating_System_Name_and0 like '%Workstation%'
+    left join [CM_Nov].dbo.v_GS_TPM tpm
+		on tpm.ResourceID = Sys.ResourceID
+    left join [CM_Nov].dbo.v_GS_ENCRYPTABLE_VOLUME EV
+		on EV.ResourceID = Sys.ResourceID and EV.DriveLetter0 = 'c:'
+    left join [CM_Nov].dbo.v_GS_COMPUTER_SYSTEM CS
+		on CS.ResourceID = Sys.ResourceID
+    left join [CM_Nov].dbo.v_GS_FIRMWARE FRM
+		on FRM.ResourceID = Sys.ResourceID
+    left join [CM_Nov].dbo.v_GS_DEVICE_GUARD Cred	
+		on Cred.ResourceID = Sys.ResourceID
+    join [CM_Nov].dbo.v_FullCollectionMembership fcm
+		on fcm.Resourceid=Sys.Resourceid
+    left join [CM_Nov].dbo.v_GS_WORKSTATION_STATUS hw
+		on hw.ResourceID=Sys.ResourceID
+	join [CM_Nov].dbo.vCICurrentComplianceStatus CCCS
+		on Sys.ResourceID=CCCS.ItemKey
+	join CCCSitemkey CCCSIK
+		on CCCSIK.itemkey = CCCS.ItemKey and CCCSIK.LastComplianceMessageTime = CCCS.LastComplianceMessageTime
 where 
-	CCCS.CIVersion = (select Distinct max(CIVersion) from [CM_Nov].dbo.vCICurrentComplianceStatus where CI_ID in (SELECT CI_ID FROM CM_NOV.dbo.v_CISettings where SettingName = 'TPMDigestAlgID'))
+	CCCS.CIVersion = (select Distinct max(CIVersion) from [CM_Nov].dbo.vCICurrentComplianceStatus where CI_ID in (Select Distinct CI_ID from [CM_Nov].dbo.v_LocalizedCIProperties where Displayname = 'Dashboard Workstation Configuration Item - SHA256'))
 
 Select * from [MECM_PBI_Reporting].dbo.[ust_SystemSecurity]
 
@@ -787,13 +819,12 @@ GO
 CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_BitlockerData]
 (
 	[System] [nvarchar](max) NULL,
-	[DriveLetter] [nvarchar](max) NULL,
-	[EncryptionMethod] [nvarchar](max) NULL,
-	[IsAutoUnlockEnabled] [nvarchar](max) NULL,
-	[ProtectionStatus] [nvarchar](max) NULL,
-	[Encryption Status] [nvarchar](max) NULL,
-	[ConversionStatus] [nvarchar](max) NULL,
-	[civersion] int NULL
+	[Conversion_Status] [nvarchar](max) NULL,
+	[Encryption_Method] [nvarchar](max) NULL,
+	[Protection_Status] [nvarchar](max) NULL,
+	[civersion1] int NULL,
+	[civersion2] int NULL,
+	[civersion3] int NULL
 ) ON [PRIMARY]
 GO
 
@@ -811,58 +842,26 @@ BEGIN
 truncate table [MECM_PBI_Reporting].dbo.[ust_BitlockerData]
 
 Insert into [MECM_PBI_Reporting].dbo.[ust_BitlockerData]
-SELECT 
-	vrs.name0 'System',
-    [DriveLetter0] 'DriveLetter',
-    case
-		when [EncryptionMethod0] = 0 then 'None'
-		when [EncryptionMethod0] = 1 then 'AES_128_WITH_DIFFUSER'
-		when [EncryptionMethod0] = 2 then 'AES_256_WITH_DIFFUSER'
-		when [EncryptionMethod0] = 3 then 'AES_128'
-		when [EncryptionMethod0] = 4 then 'AES 256'
-		when [EncryptionMethod0] = 5 then 'HARDWARE_ENCRYPTION'
-		when [EncryptionMethod0] = 6 then 'XTS_AES_128'
-		when [EncryptionMethod0] = 7 then 'XTS_AES_256'
-	else 'Not Available' 
-	end as 'EncryptionMethod',
-	case
-		when [IsAutoUnlockEnabled0] = 0 then 'Disabled'
-		when [IsAutoUnlockEnabled0] = 1 then 'Enabled'
-	else 'Not Available'
-	end as 'IsAutoUnlockEnabled',
-    case
-		when [ProtectionStatus0] = 0 then 'Protection Off'
-		when [ProtectionStatus0] = 1 then 'Protection On'
-	else 'Protection Unknown'
-	end as 'ProtectionStatus',
-	case 
-		when [ConversionStatus0] = 0 then 'Fully Decrypted'
-		when [ConversionStatus0] = 1 then 'Fully Encrypted'
-		when [ConversionStatus0] = 2 then 'Encryption InProgress'
-		when [ConversionStatus0] = 3 then 'Decryption InProgress'
-		when [ConversionStatus0] = 4 then 'Encryption Paused'
-		when [ConversionStatus0] = 5 then 'Decryption Paused'
-	else 'Encryption Unknown'
-	end as 'Encryption Status',
-	case
-		when CCSD.CurrentValue = 'Used Space Only Encrypted' then 'Used Space Only Encrypted'
-		when CCSD.CurrentValue = 'Fully Encrypted' then 'Fully Encrypted' 
-	else 'Unknown'
-	end as 'Conversion Status',
-	max(civersion) 'civersion'
-FROM [CM_Nov].dbo.[v_GS_BITLOCKER_DETAILS] bit
-join [CM_Nov].dbo.v_r_system vrs
-	on bit.ResourceID = vrs.ResourceID
-left join [CM_Nov].dbo.v_CIComplianceStatusDetail CCSD
-	on vrs.ResourceID=CCSD.ResourceID and ConfigurationItemName = 'Bitlocker Conversion Status' and [DriveLetter0] = 'c:'
-group by
-	vrs.Name0,
-	DriveLetter0,
-	EncryptionMethod0,
-	IsAutoUnlockEnabled0,
-	ProtectionStatus0,
-	ConversionStatus0,
-	CCSD.CurrentValue
+select
+	vrs.name0 as 'System',
+	ccsd1.CurrentValue as 'Conversion_Status',
+	ccsd2.CurrentValue as 'Encryption_Method',
+	ccsd3.CurrentValue as 'Protection_Status',
+	max(ccsd1.civersion) 'civersion1',
+	max(ccsd2.civersion) 'civersion2',
+	max(ccsd3.civersion) 'civersion3'
+from [CM_Nov].dbo.v_r_system vrs
+join [CM_Nov].dbo.v_CIComplianceStatusDetail ccsd1
+	on ccsd1.ResourceID = vrs.ResourceID and ccsd1.ConfigurationItemName = 'Dashboard Workstation Configuration Item - Bitlocker Conversion Status'
+join [CM_Nov].dbo.v_CIComplianceStatusDetail ccsd2
+	on ccsd2.ResourceID = vrs.ResourceID and ccsd2.ConfigurationItemName = 'Dashboard Workstation Configuration Item - Bitlocker Encryption Method' 
+join [CM_Nov].dbo.v_CIComplianceStatusDetail ccsd3
+	on ccsd3.ResourceID = vrs.ResourceID and ccsd3.ConfigurationItemName = 'Dashboard Workstation Configuration Item - Bitlocker Protection Status'
+group by 
+	vrs.name0,
+	ccsd1.CurrentValue,
+	ccsd2.CurrentValue,
+	ccsd3.CurrentValue
 
 Select * from [MECM_PBI_Reporting].dbo.[ust_BitlockerData]
 
@@ -1229,6 +1228,301 @@ GO
 exec [MECM_PBI_Reporting].dbo.usp_Collectionsover20seconds
 /******End of Collectionsover20seconds******/
 
+/****** Object:  Table [dbo].[ust_hardwareinventoryenabled]******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_hardwareinventoryenabled]
+(
+	ClassName varchar(max),
+	InvClassName varchar(max),
+	InvHistoryClassName varchar(max)
+) ON [PRIMARY]
+GO
+
+USE [MECM_PBI_Reporting]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE dbo.usp_hardwareinventoryenabled
+AS
+BEGIN
+truncate table [MECM_PBI_Reporting].dbo.ust_hardwareinventoryenabled
+
+Insert into [MECM_PBI_Reporting].dbo.ust_hardwareinventoryenabled
+select  Distinct
+	IRC.ClassName,
+	GM.InvClassName,
+	GM.InvHistoryClassName
+from [CM_Nov].dbo.v_InventoryReportClass IRC
+join [CM_Nov].dbo.v_InventoryClass IC
+	on IRC.ClassName = IC.ClassName
+join [CM_Nov].dbo.v_GroupMap GM
+	on GM.DisplayName = IC.SMSGroupName
+
+Select * from [MECM_PBI_Reporting].dbo.ust_hardwareinventoryenabled
+
+SET NOCOUNT ON;
+END
+GO
+
+exec [MECM_PBI_Reporting].dbo.usp_hardwareinventoryenabled
+/******End of hardwareinventoryenabled******/
+
+/****** Object:  Table [dbo].[ust_customhardwareinventory]******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_customhardwareinventory]
+(
+	Classname varchar(max),
+	PropertyName varchar(max),
+	SettingName varchar(max),
+	CollectionName varchar(max)
+) ON [PRIMARY]
+GO
+
+USE [MECM_PBI_Reporting]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE dbo.usp_customhardwareinventory
+AS
+BEGIN
+truncate table [MECM_PBI_Reporting].dbo.ust_customhardwareinventory
+
+Insert into [MECM_PBI_Reporting].dbo.ust_customhardwareinventory
+select     
+	IRC.Classname,
+    IRC.PropertyName,
+    CIR.SettingName,
+    C.CollectionName
+from [CM_Nov].dbo.v_InventoryReportClass IRC
+join [CM_Nov].dbo.v_CustomInventoryReport CIR
+    on IRC.InventoryReportID = CIR.InventoryReportID
+join [CM_Nov].dbo.Collections C
+	on c.SiteID = CIR.CollectionID
+
+Select * from [MECM_PBI_Reporting].dbo.ust_customhardwareinventory
+
+SET NOCOUNT ON;
+END
+GO
+
+exec [MECM_PBI_Reporting].dbo.usp_customhardwareinventory
+/******End of customhardwareinventory******/
+
+/****** Object:  Table [dbo].[ust_baselineanditems]******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_baselineanditems]
+(
+	CollectionName varchar(max),
+	[Configuration Baseline] varchar(max),
+	[Configuration Item] varchar(max)
+) ON [PRIMARY]
+GO
+
+USE [MECM_PBI_Reporting]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE dbo.usp_baselineanditems
+AS
+BEGIN
+truncate table [MECM_PBI_Reporting].dbo.ust_baselineanditems
+
+Insert into [MECM_PBI_Reporting].dbo.ust_baselineanditems
+select distinct
+	CollectionName,
+	LP.DisplayName as 'Configuration Baseline',
+	CI.DisplayName as 'Configuration Item'
+from [CM_Nov].dbo.vSMS_BaselineAssignment SBA
+join [CM_Nov].dbo.v_CIAssignmentToCI CTC
+	on SBA.AssignmentID = CTC.AssignmentID
+join [CM_Nov].dbo.v_LocalizedCIProperties LP
+	on CTC.CI_ID = LP.CI_ID
+join [CM_Nov].dbo.vDCMDeploymentCIs DDC
+	on DDC.BL_ID = lp.ci_id
+join (
+		select distinct
+			lcp.DisplayName, 
+			sca.CI_ID
+		from [CM_Nov].dbo.vSMS_ConfigurationItems_All sca
+		join [CM_Nov].dbo.v_LocalizedCIProperties lcp
+			on sca.CI_ID = lcp.CI_ID
+		where CIType_ID = 3 and inuse = 1) CI
+	on CI.CI_ID = ddc.CI_ID
+order by 
+	CollectionName, LP.DisplayName, CI.DisplayName
+
+Select * from [MECM_PBI_Reporting].dbo.ust_baselineanditems
+
+SET NOCOUNT ON;
+END
+GO
+
+exec [MECM_PBI_Reporting].dbo.usp_baselineanditems
+/******End of baselineanditems******/
+
+/****** Object:  Table [dbo].[ust_MaintenanceTasks]******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_MaintenanceTasks]
+(
+	SiteCode nvarchar(3),
+	TaskName varchar(max),
+	TaskType int,
+	IsEnabled int,
+	BeginTime int,
+	LatestBeginTime int,
+	DeleteOlderThan int,
+	DaysOfWeek varchar(max),
+	LastStartTime datetime,
+	LastCompletionTime datetime,
+	CompletionStatus int,
+	RunNow int
+) ON [PRIMARY]
+GO
+
+USE [MECM_PBI_Reporting]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE dbo.usp_MaintenanceTasks
+AS
+BEGIN
+truncate table [MECM_PBI_Reporting].dbo.ust_MaintenanceTasks
+
+Insert into [MECM_PBI_Reporting].dbo.ust_MaintenanceTasks
+SELECT 
+	SiteCode,
+	TaskName,
+	TaskType,
+	IsEnabled,
+	BeginTime,
+	LatestBeginTime,
+	DeleteOlderThan,
+	case
+		when [DaysOfWeek] = 1 then 'Sunday'
+		when [DaysOfWeek] = 2 then 'Monday'
+		when [DaysOfWeek] = 4 then 'Tuesday'
+		when [DaysOfWeek] = 8 then 'Wednesday'
+		when [DaysOfWeek] = 16 then 'Thursday'
+		when [DaysOfWeek] = 32 then 'Friday'
+		when [DaysOfWeek] = 62 then 'Weekdays'
+		when [DaysOfWeek] = 64 then 'Saturday'
+		when [DaysOfWeek] = 65 then 'Weekends'
+		when [DaysOfWeek] = 127 then 'Daily'
+		else 'Custom'
+	end as [DaysOfWeek],
+	LastStartTime,
+	LastCompletionTime,
+	CompletionStatus,
+	RunNow
+FROM CM_Nov.dbo.vSMS_SQLTaskStatus
+WHERE IsEnabled= 1
+
+Select * from [MECM_PBI_Reporting].dbo.ust_MaintenanceTasks
+
+SET NOCOUNT ON;
+END
+GO
+
+exec [MECM_PBI_Reporting].dbo.usp_MaintenanceTasks
+/******End of MaintenanceTasks******/
+
+/****** Object:  Table [dbo].[ust_ApplicationDeploymentSummary]******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_ApplicationDeploymentSummary]
+(
+	[Application] varchar(max),
+	DeploymentCollection varchar(max),
+	CollectionName varchar(max),
+	DeploymentTime datetime,
+	InProgress int,
+	RequirementsNotMet int,
+	Success int,
+	Error int,
+	SuccessRate [decimal]
+) ON [PRIMARY]
+GO
+
+USE [MECM_PBI_Reporting]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE dbo.usp_ApplicationDeploymentSummary
+AS
+BEGIN
+truncate table [MECM_PBI_Reporting].dbo.ust_ApplicationDeploymentSummary
+
+Insert into [MECM_PBI_Reporting].dbo.ust_ApplicationDeploymentSummary
+select
+	vapp.Descript as 'Application',
+	vapp.TargetCollectionID as 'Deployment Collection',
+	vc.Name as CollectionName,
+	vapp.DeploymentTime,
+	vapp.InProgress,
+	vapp.RequirementsNotMet,
+	vapp.Success,
+	vapp.Error,
+	CASE
+	When vapp.Success > 0 then CAST(Round(((vapp.Success/CAST(vapp.InProgress+vapp.RequirementsNotMet+vapp.Success+vapp.Error as decimal(18,2))) *100) , 2,2) as Decimal(18,2))
+	Else 0
+	End as 'SuccessRate'
+from CM_Nov.dbo.v_AppDeploymentSummary vapp
+join CM_Nov.dbo.v_collection vc
+	on vc.CollectionID = vapp.TargetCollectionID
+
+Select * from [MECM_PBI_Reporting].dbo.ust_ApplicationDeploymentSummary
+
+SET NOCOUNT ON;
+END
+GO
+
+exec [MECM_PBI_Reporting].dbo.usp_ApplicationDeploymentSummary
+/******End of ApplicationDeploymentSummary******/
+
 --Uninstall MECM PBI_Reporting database
 /*
 --Sets database to single user mode so it drops all other connections
@@ -1236,7 +1530,6 @@ USE [master]
 GO
 ALTER DATABASE [MECM_PBI_Reporting] SET SINGLE_USER WITH ROLLBACK IMMEDIATE
 GO
-
 --Deletes the database from SQL Server
 Drop database [MECM_PBI_Reporting]
 */
