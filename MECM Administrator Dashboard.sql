@@ -1523,6 +1523,142 @@ GO
 exec [MECM_PBI_Reporting].dbo.usp_ApplicationDeploymentSummary
 /******End of ApplicationDeploymentSummary******/
 
+/****** Object:  Table [dbo].[ust_SoftwareInventory]******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_SoftwareInventory]
+(
+	SystemName varchar(max),
+	Product varchar(max),
+	Publisher varchar(max),
+	Version nvarchar(max),
+) ON [PRIMARY]
+GO
+
+USE [MECM_PBI_Reporting]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE dbo.usp_SoftwareInventory
+AS
+BEGIN
+truncate table [MECM_PBI_Reporting].dbo.ust_SoftwareInventory
+
+;with AddRemovePrograms (Resourceid, Displayname0, Publisher0, Version0) as
+(
+select Resourceid, Displayname0, Publisher0, Version0 from CM_Nov.dbo.v_GS_ADD_REMOVE_PROGRAMS
+union
+select Resourceid, Displayname0, Publisher0, Version0 from CM_Nov.dbo.v_GS_ADD_REMOVE_PROGRAMS_64
+)
+
+Insert into [MECM_PBI_Reporting].dbo.ust_SoftwareInventory
+select
+	vrs.Name0 'SystemName',
+	Displayname0 'Product', 
+	Publisher0 'Publisher', 
+	Version0 'Version'
+from AddRemovePrograms arp
+join CM_Nov.dbo.v_r_system vrs
+	on vrs.ResourceID = arp.Resourceid
+
+Select * from [MECM_PBI_Reporting].dbo.ust_SoftwareInventory
+
+SET NOCOUNT ON;
+END
+GO
+
+exec [MECM_PBI_Reporting].dbo.usp_SoftwareInventory
+/******End of ust_SoftwareInventory******/
+
+/****** Object:  Table [dbo].[ust_HardwareInventory]******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_HardwareInventory]
+(
+	SystemName varchar(Max),
+	Manufacturer varchar(Max),
+	Model varchar(Max),
+	Processor varchar(Max),
+	[PhyicalMemory(GB)] int,
+	[VirtualMemory(GB)] int,
+	DriveType varchar(max),
+	DriveLetter varchar(max),
+	[Capacity(MB)] int,
+	[FreeSpace(MB)] int,
+	InstallDate datetime,
+	LastBootupTime datetime,
+	SerialNumber nvarchar(max),
+) ON [PRIMARY]
+GO
+
+USE [MECM_PBI_Reporting]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE dbo.usp_HardwareInventory
+AS
+BEGIN
+truncate table [MECM_PBI_Reporting].dbo.ust_HardwareInventory
+
+Insert into [MECM_PBI_Reporting].dbo.ust_HardwareInventory
+select
+	vrs.Name0 'SystemName',
+	vgcs.Manufacturer0 'Manufacturer',
+	vgcs.Model0 'Model',
+	vgp.Name0 'Processor',
+	isnull((vgcs.TotalPhysicalMemory0)+1,0) 'PhysicalMemory',
+	(vgos.TotalVisibleMemorySize0/1024)+1 'VirtualMemory',
+	case
+		when vgs.DriveType0 = 0 then 'Unknown'
+		when vgs.DriveType0 = 1 then 'No Root Directory'
+		when vgs.DriveType0 = 2 then 'Removable Disk'
+		when vgs.DriveType0 = 3 then 'StorageDrive'
+		when vgs.DriveType0 = 4 then 'Network Drive'
+		when vgs.DriveType0 = 5 then 'Compact Disc'
+		when vgs.DriveType0 = 6 then 'RAM Disk'
+		Else 'Unknown'
+	end 'DriveType',
+	isnull(vgs.DriveLetter0,'None') 'DriveLetter',
+	isnull(vgs.Capacity0 ,0) 'Capacity',
+	isnull(vgs.FreeSpace0,0) 'FreeSpace',
+	vgos.InstallDate0 'InstallDate',
+	vgos.LastBootUpTime0 'LastBootupTime',
+	vgos.SerialNumber0 'SerialNumber'
+from CM_Nov.dbo.v_GS_COMPUTER_SYSTEM vgcs
+join CM_Nov.dbo.v_r_system vrs
+	on vrs.ResourceID = vgcs.ResourceID
+join CM_Nov.dbo.v_GS_PROCESSOR vgp
+	on vgcs.ResourceID = vgp.ResourceID
+join CM_Nov.dbo.v_GS_OPERATING_SYSTEM vgos
+	on vgos.ResourceID = vrs.ResourceID
+join CM_Nov.dbo.v_GS_VOLUME vgs
+	on vgs.ResourceID = vrs.ResourceID
+
+Select * from [MECM_PBI_Reporting].dbo.ust_HardwareInventory
+
+SET NOCOUNT ON;
+END
+GO
+
+exec [MECM_PBI_Reporting].dbo.usp_HardwareInventory
+/******End of ust_HardwareInventory******/
+
 --Uninstall MECM PBI_Reporting database
 /*
 --Sets database to single user mode so it drops all other connections
