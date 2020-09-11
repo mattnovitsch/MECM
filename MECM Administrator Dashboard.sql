@@ -1335,9 +1335,11 @@ GO
 
 CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_baselineanditems]
 (
-	CollectionName varchar(max),
-	[Configuration Baseline] varchar(max),
-	[Configuration Item] varchar(max)
+	[Configuration Baseline] varchar(max), 
+	[Baseline ComplianceState] varchar(max),
+	[Configuration Item] varchar(max),
+	[ItemComplianceState] varchar(max),
+	[SystemName] varchar(max)
 ) ON [PRIMARY]
 GO
 
@@ -1354,16 +1356,50 @@ AS
 BEGIN
 truncate table [MECM_PBI_Reporting].dbo.ust_baselineanditems
 
-Insert into [MECM_PBI_Reporting].dbo.ust_baselineanditems
-select distinct
-	CollectionName,
-	LP.DisplayName as 'Configuration Baseline',
-	CI.DisplayName as 'Configuration Item'
+;with Baseline ([Configuration Baseline], [Baseline ComplianceState],[SystemName])as 
+(select Distinct 
+	LP.DisplayName 'Configuration Baseline',
+	case 
+		when CCCS.ComplianceState = 1 then 'Compliant'
+		when CCCS.ComplianceState = 2 then 'Non-Compliant'
+		when CCCS.ComplianceState = 3 then 'Error'
+		else 'Unknown'
+	end	'Baseline ComplianceState',
+	vrs.Name0 'SystemName'
 from [CM_Nov].dbo.vSMS_BaselineAssignment SBA
 join [CM_Nov].dbo.v_CIAssignmentToCI CTC
 	on SBA.AssignmentID = CTC.AssignmentID
 join [CM_Nov].dbo.v_LocalizedCIProperties LP
 	on CTC.CI_ID = LP.CI_ID
+join [CM_Nov].dbo.vDCMDeploymentCIs DDC
+	on DDC.BL_ID = lp.ci_id
+join [CM_Nov].dbo.v_CIComplianceSummary CCS
+	on DDC.BL_ID = CCS.CI_ID
+join [CM_Nov].dbo.v_CICurrentComplianceStatus CCCS
+	on LP.CI_ID = CCCS.CI_ID
+join [CM_Nov].dbo.v_r_system vrs
+	on vrs.ResourceID = CCCS.ResourceID
+)
+
+Insert into [MECM_PBI_Reporting].dbo.ust_baselineanditems
+select Distinct 
+	b.[Configuration Baseline], 
+	b.[Baseline ComplianceState],
+	CI.DisplayName 'Configuration Item',
+	case 
+		when CCCS.ComplianceState = 1 then 'Compliant'
+		when CCCS.ComplianceState = 2 then 'Non-Compliant'
+		when CCCS.ComplianceState = 3 then 'Error'
+		else 'Unknown'
+	end	'ItemComplianceState',
+	b.[SystemName]
+from Baseline b
+join [CM_Nov].dbo.v_LocalizedCIProperties LP
+	on b.[Configuration Baseline] = LP.DisplayName
+join [CM_Nov].dbo.v_CIAssignmentToCI CTC
+	on CTC.CI_ID = LP.CI_ID
+join [CM_Nov].dbo.vSMS_BaselineAssignment SBA
+	on SBA.AssignmentID = CTC.AssignmentID
 join [CM_Nov].dbo.vDCMDeploymentCIs DDC
 	on DDC.BL_ID = lp.ci_id
 join (
@@ -1375,8 +1411,16 @@ join (
 			on sca.CI_ID = lcp.CI_ID
 		where CIType_ID = 3 and inuse = 1) CI
 	on CI.CI_ID = ddc.CI_ID
+join [CM_Nov].dbo.[v_CICurrentComplianceStatus] CCCS
+	on CI.CI_ID = CCCS.CI_ID
+join [CM_Nov].dbo.v_r_system vrs
+	on vrs.ResourceID = CCCS.ResourceID
 order by 
-	CollectionName, LP.DisplayName, CI.DisplayName
+	b.[Configuration Baseline],
+	CI.DisplayName,
+	b.[SystemName]
+
+
 
 Select * from [MECM_PBI_Reporting].dbo.ust_baselineanditems
 
@@ -1560,7 +1604,7 @@ select Resourceid, Displayname0, Publisher0, Version0 from CM_Nov.dbo.v_GS_ADD_R
 )
 
 Insert into [MECM_PBI_Reporting].dbo.ust_SoftwareInventory
-select
+select 
 	vrs.Name0 'SystemName',
 	Displayname0 'Product', 
 	Publisher0 'Publisher', 
@@ -1658,6 +1702,56 @@ GO
 
 exec [MECM_PBI_Reporting].dbo.usp_HardwareInventory
 /******End of ust_HardwareInventory******/
+
+/****** Object:  Table [dbo].[ust_SoftwareUsage]******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_SoftwareUsage]
+(
+	SystemName varchar(max),
+	UserName varchar(max),
+	FileName varchar(max),
+	ProductName varchar(max),
+	ProductVersion nvarchar(max),
+) ON [PRIMARY]
+GO
+
+USE [MECM_PBI_Reporting]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+CREATE PROCEDURE dbo.usp_SoftwareUsage
+AS
+BEGIN
+truncate table [MECM_PBI_Reporting].dbo.ust_SoftwareUsage
+
+Insert into [MECM_PBI_Reporting].dbo.ust_SoftwareUsage
+Select Distinct
+	vrs.name0 'SystemName',
+	sud.UserName,
+	sud.FileName,
+	sud.ProductName,
+	sud.ProductVersion
+from CM_Nov.dbo.v_gs_softwareusagedata sud
+join CM_Nov.dbo.v_r_system vrs
+	on vrs.ResourceID = sud.ResourceID
+
+Select * from [MECM_PBI_Reporting].dbo.ust_SoftwareUsage
+
+SET NOCOUNT ON;
+END
+GO
+
+exec [MECM_PBI_Reporting].dbo.usp_SoftwareUsage
+/******End of ust_SoftwareUsage******/
 
 --Uninstall MECM PBI_Reporting database
 /*
