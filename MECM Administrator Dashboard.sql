@@ -1303,22 +1303,24 @@ GO
 CREATE PROCEDURE dbo.usp_customhardwareinventory
 AS
 BEGIN
-truncate table [MECM_PBI_Reporting].dbo.ust_customhardwareinventory
+IF EXISTS (SELECT 1 FROM CM_NOV.sys.views WHERE Name='v_CustomInventoryReport')
+	BEGIN
+		truncate table [MECM_PBI_Reporting].dbo.ust_customhardwareinventory
 
-Insert into [MECM_PBI_Reporting].dbo.ust_customhardwareinventory
-select     
-	IRC.Classname,
-    IRC.PropertyName,
-    CIR.SettingName,
-    C.CollectionName
-from [CM_Nov].dbo.v_InventoryReportClass IRC
-join [CM_Nov].dbo.v_CustomInventoryReport CIR
-    on IRC.InventoryReportID = CIR.InventoryReportID
-join [CM_Nov].dbo.Collections C
-	on c.SiteID = CIR.CollectionID
+		Insert into [MECM_PBI_Reporting].dbo.ust_customhardwareinventory
+		select     
+			IRC.Classname,
+			IRC.PropertyName,
+		   CIR.SettingName,
+		    C.CollectionName
+		from [CM_Nov].dbo.v_InventoryReportClass IRC
+		join [CM_Nov].dbo.v_CustomInventoryReport CIR
+		   on IRC.InventoryReportID = CIR.InventoryReportID
+		join [CM_Nov].dbo.Collections C
+			on c.SiteID = CIR.CollectionID
+	END
 
 Select * from [MECM_PBI_Reporting].dbo.ust_customhardwareinventory
-
 SET NOCOUNT ON;
 END
 GO
