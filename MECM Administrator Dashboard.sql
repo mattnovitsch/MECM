@@ -240,12 +240,12 @@ select distinct
        vui.Title UpdateName,
        vsn.StateName Status,
        vuc.ResourceID
-from  [CM_Nov].dbo.v_UpdateState_Combined vuc
-join [CM_Nov].dbo.v_CIAssignmentToCI vCIA
+from  [CM_NOV].dbo.v_UpdateState_Combined vuc
+join [CM_NOV].dbo.v_CIAssignmentToCI vCIA
        on vCIA.CI_ID = vuc.CI_ID
-join [CM_Nov].dbo.v_UpdateInfo vUI
+join [CM_NOV].dbo.v_UpdateInfo vUI
        on vCIA.CI_ID = vUI.CI_ID
-join [CM_Nov].dbo.v_StateNames vSN
+join [CM_NOV].dbo.v_StateNames vSN
        on vSN.StateID = vuc.StateID and vsn.TopicType =vuc.StateType
 --This is where you would add the title of the update if you want them filtered.
 where 
@@ -260,12 +260,12 @@ select
     Count(uur.UpdateName) Total,
     uur.Status,
 	vFCM.Name SystemName
-from [CM_Nov].dbo.v_r_system vrs
+from [CM_NOV].dbo.v_r_system vrs
 join ust_UpdateReport_Workstations uur
 	on vrs.ResourceID = uur.ResourceID
-join [CM_Nov].dbo.v_FullCollectionMembership vFCM
+join [CM_NOV].dbo.v_FullCollectionMembership vFCM
 	on vFCM.ResourceID = vrs.ResourceID
-join [CM_Nov].dbo.v_Collection vC
+join [CM_NOV].dbo.v_Collection vC
 	on vC.CollectionID = vFCM.CollectionID
 where vrs.client0 = 1
        and vrs.Operating_System_Name_and0 like '%Workstation%'
@@ -306,12 +306,12 @@ select distinct
        vui.Title UpdateName,
        vsn.StateName Status,
        vuc.ResourceID
-from [CM_Nov].dbo.v_UpdateState_Combined vuc
-join [CM_Nov].dbo.v_CIAssignmentToCI vCIA
+from [CM_NOV].dbo.v_UpdateState_Combined vuc
+join [CM_NOV].dbo.v_CIAssignmentToCI vCIA
        on vCIA.CI_ID = vuc.CI_ID
-join [CM_Nov].dbo.v_UpdateInfo vUI
+join [CM_NOV].dbo.v_UpdateInfo vUI
        on vCIA.CI_ID = vUI.CI_ID
-join [CM_Nov].dbo.v_StateNames vSN
+join [CM_NOV].dbo.v_StateNames vSN
        on vSN.StateID = vuc.StateID and vsn.TopicType =vuc.StateType
 --This is where you would add the title of the update if you want them filtered.
 where 
@@ -324,12 +324,12 @@ select
     Count(uur.UpdateName) Total,
     uur.Status,
 	vfcm.Name SystemName
-from [CM_Nov].dbo.v_r_system vrs
+from [CM_NOV].dbo.v_r_system vrs
 join ust_UpdateReport_Servers uur
 	on vrs.ResourceID = uur.ResourceID
-join [CM_Nov].dbo.v_FullCollectionMembership vFCM
+join [CM_NOV].dbo.v_FullCollectionMembership vFCM
 	on vFCM.ResourceID = vrs.ResourceID
-join [CM_Nov].dbo.v_Collection vC
+join [CM_NOV].dbo.v_Collection vC
 	on vC.CollectionID = vFCM.CollectionID
 where vrs.client0 = 1
        and vrs.Operating_System_Name_and0 like '%Server%'
@@ -368,12 +368,12 @@ select distinct
        vui.Title UpdateName,
        vsn.StateName Status,
        vuc.ResourceID
-from [CM_Nov].dbo.v_UpdateState_Combined vuc
-join [CM_Nov].dbo.v_CIAssignmentToCI vCIA
+from [CM_NOV].dbo.v_UpdateState_Combined vuc
+join [CM_NOV].dbo.v_CIAssignmentToCI vCIA
        on vCIA.CI_ID = vuc.CI_ID
-join [CM_Nov].dbo.v_UpdateInfo vUI
+join [CM_NOV].dbo.v_UpdateInfo vUI
        on vCIA.CI_ID = vUI.CI_ID
-join [CM_Nov].dbo.v_StateNames vSN
+join [CM_NOV].dbo.v_StateNames vSN
        on vSN.StateID = vuc.StateID and vsn.TopicType =vuc.StateType
 --This is where you would add the title of the update if you want them filtered.
 where 
@@ -387,12 +387,12 @@ select
     Count(uur.UpdateName) Total,
     uur.Status,
 	vfcm.Name SystemName
-from [CM_Nov].dbo.v_r_system vrs
+from [CM_NOV].dbo.v_r_system vrs
 join ust_UpdateReport_Other uur
 	on vrs.ResourceID = uur.ResourceID
-join [CM_Nov].dbo.v_FullCollectionMembership vFCM
+join [CM_NOV].dbo.v_FullCollectionMembership vFCM
 	on vFCM.ResourceID = vrs.ResourceID
-join [CM_Nov].dbo.v_Collection vC
+join [CM_NOV].dbo.v_Collection vC
 	on vC.CollectionID = vFCM.CollectionID
 where vrs.client0 = 1
 	   and vFCM.CollectionID in ('SMSDM003')
@@ -493,8 +493,8 @@ Select
 			when vcc.LastEvaluationHealthy = 1 then 'Healthy'
 		else 'Unhealthy'
 	end as LastHealthEvaluationStatus
-from [CM_Nov].dbo.[v_r_system] vrs
-join [CM_Nov].dbo.[v_CH_ClientHealth] vcc
+from [CM_NOV].dbo.[v_r_system] vrs
+join [CM_NOV].dbo.[v_CH_ClientHealth] vcc
 	on vrs.ResourceID = vcc.MachineID
 where 
 	vrs.Client0 = 1
@@ -553,15 +553,15 @@ Insert into [MECM_PBI_Reporting].dbo.ust_installedserverroles
 select
 	vrs.name0 as Endpoint,
 	gsf.Name0 as ServerFeature
-from [CM_Nov].dbo.v_GS_SERVER_FEATURE gsf
-join [CM_Nov].dbo.v_r_system vrs
+from [CM_NOV].dbo.v_GS_SERVER_FEATURE gsf
+join [CM_NOV].dbo.v_r_system vrs
 	on gsf.ResourceID = vrs.ResourceID
 union
 select 
 	vrs.name0 as Endpoint,
 	gs.DisplayName0 as ServerFeature
-from [CM_Nov].dbo.v_GS_SERVICE gs
-join [CM_Nov].dbo.v_r_system vrs
+from [CM_NOV].dbo.v_GS_SERVICE gs
+join [CM_NOV].dbo.v_r_system vrs
 	on gs.ResourceID = vrs.ResourceID
 where 
 	gs.DisplayName0 like '%SQLSERVER%' or
@@ -612,7 +612,7 @@ select Distinct
 	Replace(Left(SiteSystem,CHARINDEX('\"]MSWNET:["SMS_SITE=',SiteSystem)-1),'["Display=\\','') as 'MECM_Server',
     Replace(
 		Replace(Role,'SMS ',''), 'AI ', '') as 'MECM_Roles_Installed'
-from [CM_Nov].dbo.V_sitesystemSummarizer
+from [CM_NOV].dbo.V_sitesystemSummarizer
 
 
 Select * from [MECM_PBI_Reporting].dbo.ust_installedMECMroles
@@ -657,8 +657,8 @@ select
 	vrs.name0,
 	gos.caption0,
 	gos.BuildNumber0
-from [CM_Nov].dbo.v_R_System vrs
-join [CM_Nov].dbo.v_GS_OPERATING_SYSTEM gos
+from [CM_NOV].dbo.v_R_System vrs
+join [CM_NOV].dbo.v_GS_OPERATING_SYSTEM gos
 	on vrs.ResourceID = gos.ResourceID
 
 
@@ -711,9 +711,9 @@ truncate table [MECM_PBI_Reporting].dbo.[ust_SystemSecurity]
 
 ;with CCCSitemkey (itemkey, LastComplianceMessageTime) as (
 	select Distinct itemkey,max(LastComplianceMessageTime)
-			from [CM_Nov].dbo.vCICurrentComplianceStatus
+			from [CM_NOV].dbo.vCICurrentComplianceStatus
 			where CI_ID in (Select Distinct CI_ID 
-						from [CM_Nov].dbo.v_LocalizedCIProperties 
+						from [CM_NOV].dbo.v_LocalizedCIProperties 
 						where Displayname = 'Dashboard Workstation Configuration Item - SHA256')
 			group by itemkey,CI_ID) 
 
@@ -775,29 +775,29 @@ SELECT DISTINCT
 		Else 'No' 
 	End as 'SHA256 Enabled'
 FROM 
-    [CM_Nov].dbo.v_GS_OPERATING_SYSTEM OS 
-    join [CM_Nov].dbo.v_R_System_Valid Sys
+    [CM_NOV].dbo.v_GS_OPERATING_SYSTEM OS 
+    join [CM_NOV].dbo.v_R_System_Valid Sys
 		on Sys.resourceid = OS.ResourceID and Operating_System_Name_and0 like '%Workstation%'
-    left join [CM_Nov].dbo.v_GS_TPM tpm
+    left join [CM_NOV].dbo.v_GS_TPM tpm
 		on tpm.ResourceID = Sys.ResourceID
-    left join [CM_Nov].dbo.v_GS_ENCRYPTABLE_VOLUME EV
+    left join [CM_NOV].dbo.v_GS_ENCRYPTABLE_VOLUME EV
 		on EV.ResourceID = Sys.ResourceID and EV.DriveLetter0 = 'c:'
-    left join [CM_Nov].dbo.v_GS_COMPUTER_SYSTEM CS
+    left join [CM_NOV].dbo.v_GS_COMPUTER_SYSTEM CS
 		on CS.ResourceID = Sys.ResourceID
-    left join [CM_Nov].dbo.v_GS_FIRMWARE FRM
+    left join [CM_NOV].dbo.v_GS_FIRMWARE FRM
 		on FRM.ResourceID = Sys.ResourceID
-    left join [CM_Nov].dbo.v_GS_DEVICE_GUARD Cred	
+    left join [CM_NOV].dbo.v_GS_DEVICE_GUARD Cred	
 		on Cred.ResourceID = Sys.ResourceID
-    join [CM_Nov].dbo.v_FullCollectionMembership fcm
+    join [CM_NOV].dbo.v_FullCollectionMembership fcm
 		on fcm.Resourceid=Sys.Resourceid
-    left join [CM_Nov].dbo.v_GS_WORKSTATION_STATUS hw
+    left join [CM_NOV].dbo.v_GS_WORKSTATION_STATUS hw
 		on hw.ResourceID=Sys.ResourceID
-	join [CM_Nov].dbo.vCICurrentComplianceStatus CCCS
+	join [CM_NOV].dbo.vCICurrentComplianceStatus CCCS
 		on Sys.ResourceID=CCCS.ItemKey
 	join CCCSitemkey CCCSIK
 		on CCCSIK.itemkey = CCCS.ItemKey and CCCSIK.LastComplianceMessageTime = CCCS.LastComplianceMessageTime
 where 
-	CCCS.CIVersion = (select Distinct max(CIVersion) from [CM_Nov].dbo.vCICurrentComplianceStatus where CI_ID in (Select Distinct CI_ID from [CM_Nov].dbo.v_LocalizedCIProperties where Displayname = 'Dashboard Workstation Configuration Item - SHA256'))
+	CCCS.CIVersion = (select Distinct max(CIVersion) from [CM_NOV].dbo.vCICurrentComplianceStatus where CI_ID in (Select Distinct CI_ID from [CM_NOV].dbo.v_LocalizedCIProperties where Displayname = 'Dashboard Workstation Configuration Item - SHA256'))
 
 Select * from [MECM_PBI_Reporting].dbo.[ust_SystemSecurity]
 
@@ -850,12 +850,12 @@ select
 	max(ccsd1.civersion) 'civersion1',
 	max(ccsd2.civersion) 'civersion2',
 	max(ccsd3.civersion) 'civersion3'
-from [CM_Nov].dbo.v_r_system vrs
-join [CM_Nov].dbo.v_CIComplianceStatusDetail ccsd1
+from [CM_NOV].dbo.v_r_system vrs
+join [CM_NOV].dbo.v_CIComplianceStatusDetail ccsd1
 	on ccsd1.ResourceID = vrs.ResourceID and ccsd1.ConfigurationItemName = 'Dashboard Workstation Configuration Item - Bitlocker Conversion Status'
-join [CM_Nov].dbo.v_CIComplianceStatusDetail ccsd2
+join [CM_NOV].dbo.v_CIComplianceStatusDetail ccsd2
 	on ccsd2.ResourceID = vrs.ResourceID and ccsd2.ConfigurationItemName = 'Dashboard Workstation Configuration Item - Bitlocker Encryption Method' 
-join [CM_Nov].dbo.v_CIComplianceStatusDetail ccsd3
+join [CM_NOV].dbo.v_CIComplianceStatusDetail ccsd3
 	on ccsd3.ResourceID = vrs.ResourceID and ccsd3.ConfigurationItemName = 'Dashboard Workstation Configuration Item - Bitlocker Protection Status'
 group by 
 	vrs.name0,
@@ -919,7 +919,7 @@ SELECT LEFT(CollectionID,3) 'SiteCode',
 	   LastChangeTime,
 	   LastRefreshTime,
 	   LastMemberChangeTime
-FROM   [CM_Nov].dbo.v_Collection
+FROM   [CM_NOV].dbo.v_Collection
 WHERE  CollectionID NOT LIKE 'SMS%'
 
 Select * from [MECM_PBI_Reporting].dbo.ust_CollectionsSchedules
@@ -963,10 +963,10 @@ Insert into [MECM_PBI_Reporting].dbo.ust_CollectionTopModifier
 SELECT DISTINCT TOP (1) 
 	Count(stat.RecordID) AS Total,
 	UPPER(ins.InsStrValue) As Mod                       
-FROM [CM_Nov].dbo.v_statusmessage AS stat 
-LEFT JOIN [CM_Nov].dbo.v_statmsginsstrings AS ins 
+FROM [CM_NOV].dbo.v_statusmessage AS stat 
+LEFT JOIN [CM_NOV].dbo.v_statmsginsstrings AS ins 
 	ON stat.recordid = ins.recordid 
-LEFT JOIN [CM_Nov].dbo.v_statmsgattributes AS att1
+LEFT JOIN [CM_NOV].dbo.v_statmsgattributes AS att1
 	ON stat.recordid = att1.recordid 
 WHERE
 	stat.messagetype = 768 AND
@@ -1044,14 +1044,14 @@ Select TOP 100
 	END 'Current_Status',
 	(CAST(T1.EvaluationLength as float)/1000) as 'Time_Spent_On_Eval',
 	SC.SiteCode
-FROM [CM_Nov].dbo.Collections_L as T1
-INNER JOIN [CM_Nov].dbo.Collections_G as T2
+FROM [CM_NOV].dbo.Collections_L as T1
+INNER JOIN [CM_NOV].dbo.Collections_G as T2
 	ON T2.CollectionID = T1.CollectionID
-INNER JOIN [CM_Nov].dbo.v_Collections AS vc
+INNER JOIN [CM_NOV].dbo.v_Collections AS vc
 	ON vc.CollectionID = T1.CollectionID 
-INNER JOIN [CM_Nov].dbo.Collection_Rules_SQL crs
+INNER JOIN [CM_NOV].dbo.Collection_Rules_SQL crs
 	ON crs.CollectionID = T1.CollectionID
-INNER JOIN [CM_Nov].dbo.v_SC_SiteDefinition AS SC
+INNER JOIN [CM_NOV].dbo.v_SC_SiteDefinition AS SC
 	ON SC.SiteNumber = T1.SiteNumber
 WHERE 
 	(CAST(T1.EvaluationLength as float)/1000) < 10
@@ -1126,14 +1126,14 @@ Select
 	END 'Current Status',
 	(CAST(T1.EvaluationLength as float)/1000) as 'TimeSpentOnEval',
 	SC.SiteCode
-FROM [CM_Nov].dbo.Collections_L as T1
-INNER JOIN [CM_Nov].dbo.Collections_G as T2 
+FROM [CM_NOV].dbo.Collections_L as T1
+INNER JOIN [CM_NOV].dbo.Collections_G as T2 
 	ON T2.CollectionID = T1.CollectionID
-INNER JOIN [CM_Nov].dbo.v_Collections AS vc 
+INNER JOIN [CM_NOV].dbo.v_Collections AS vc 
 	ON vc.CollectionID = T1.CollectionID 
-INNER JOIN [CM_Nov].dbo.Collection_Rules_SQL crs 
+INNER JOIN [CM_NOV].dbo.Collection_Rules_SQL crs 
 	ON crs.CollectionID = T1.CollectionID
-INNER JOIN [CM_Nov].dbo.v_SC_SiteDefinition AS SC 
+INNER JOIN [CM_NOV].dbo.v_SC_SiteDefinition AS SC 
 	ON SC.SiteNumber = T1.SiteNumber
 WHERE 
 	(CAST(T1.EvaluationLength as float)/1000) BETWEEN 10 AND 20
@@ -1207,14 +1207,14 @@ Select
 	END 'Current Status',
 	(CAST(T1.EvaluationLength as float)/1000) as 'TimeSpentOnEval',
 	SC.SiteCode
-FROM [CM_Nov].dbo.Collections_L as T1
-INNER JOIN [CM_Nov].dbo.Collections_G as T2 
+FROM [CM_NOV].dbo.Collections_L as T1
+INNER JOIN [CM_NOV].dbo.Collections_G as T2 
 	ON T2.CollectionID = T1.CollectionID
-INNER JOIN [CM_Nov].dbo.v_Collections AS vc 
+INNER JOIN [CM_NOV].dbo.v_Collections AS vc 
 	ON vc.CollectionID = T1.CollectionID 
-INNER JOIN [CM_Nov].dbo.Collection_Rules_SQL crs 
+INNER JOIN [CM_NOV].dbo.Collection_Rules_SQL crs 
 	ON crs.CollectionID = T1.CollectionID
-INNER JOIN [CM_Nov].dbo.v_SC_SiteDefinition AS SC 
+INNER JOIN [CM_NOV].dbo.v_SC_SiteDefinition AS SC 
 	ON SC.SiteNumber = T1.SiteNumber
 WHERE 
 	(CAST(T1.EvaluationLength as float)/1000) > 20
@@ -1261,10 +1261,10 @@ select  Distinct
 	IRC.ClassName,
 	GM.InvClassName,
 	GM.InvHistoryClassName
-from [CM_Nov].dbo.v_InventoryReportClass IRC
-join [CM_Nov].dbo.v_InventoryClass IC
+from [CM_NOV].dbo.v_InventoryReportClass IRC
+join [CM_NOV].dbo.v_InventoryClass IC
 	on IRC.ClassName = IC.ClassName
-join [CM_Nov].dbo.v_GroupMap GM
+join [CM_NOV].dbo.v_GroupMap GM
 	on GM.DisplayName = IC.SMSGroupName
 
 Select * from [MECM_PBI_Reporting].dbo.ust_hardwareinventoryenabled
@@ -1303,24 +1303,22 @@ GO
 CREATE PROCEDURE dbo.usp_customhardwareinventory
 AS
 BEGIN
-IF EXISTS (SELECT 1 FROM CM_NOV.sys.views WHERE Name='v_CustomInventoryReport')
-	BEGIN
-		truncate table [MECM_PBI_Reporting].dbo.ust_customhardwareinventory
+truncate table [MECM_PBI_Reporting].dbo.ust_customhardwareinventory
 
-		Insert into [MECM_PBI_Reporting].dbo.ust_customhardwareinventory
-		select     
-			IRC.Classname,
-			IRC.PropertyName,
-		   CIR.SettingName,
-		    C.CollectionName
-		from [CM_Nov].dbo.v_InventoryReportClass IRC
-		join [CM_Nov].dbo.v_CustomInventoryReport CIR
-		   on IRC.InventoryReportID = CIR.InventoryReportID
-		join [CM_Nov].dbo.Collections C
-			on c.SiteID = CIR.CollectionID
-	END
+Insert into [MECM_PBI_Reporting].dbo.ust_customhardwareinventory
+select     
+	IRC.Classname,
+    IRC.PropertyName,
+    CIR.SettingName,
+    C.CollectionName
+from [CM_NOV].dbo.v_InventoryReportClass IRC
+join [CM_NOV].dbo.v_CustomInventoryReport CIR
+    on IRC.InventoryReportID = CIR.InventoryReportID
+join [CM_NOV].dbo.Collections C
+	on c.SiteID = CIR.CollectionID
 
 Select * from [MECM_PBI_Reporting].dbo.ust_customhardwareinventory
+
 SET NOCOUNT ON;
 END
 GO
@@ -1341,7 +1339,9 @@ CREATE TABLE [MECM_PBI_Reporting].[dbo].[ust_baselineanditems]
 	[Baseline ComplianceState] varchar(max),
 	[Configuration Item] varchar(max),
 	[ItemComplianceState] varchar(max),
-	[SystemName] varchar(max)
+	[SystemName] varchar(max),
+	Criteria varchar(max),
+	CurrentValue varchar(max)
 ) ON [PRIMARY]
 GO
 
@@ -1368,18 +1368,18 @@ truncate table [MECM_PBI_Reporting].dbo.ust_baselineanditems
 		else 'Unknown'
 	end	'Baseline ComplianceState',
 	vrs.Name0 'SystemName'
-from [CM_Nov].dbo.vSMS_BaselineAssignment SBA
-join [CM_Nov].dbo.v_CIAssignmentToCI CTC
+from [CM_NOV].dbo.vSMS_BaselineAssignment SBA
+join [CM_NOV].dbo.v_CIAssignmentToCI CTC
 	on SBA.AssignmentID = CTC.AssignmentID
-join [CM_Nov].dbo.v_LocalizedCIProperties LP
+join [CM_NOV].dbo.v_LocalizedCIProperties LP
 	on CTC.CI_ID = LP.CI_ID
-join [CM_Nov].dbo.vDCMDeploymentCIs DDC
+join [CM_NOV].dbo.vDCMDeploymentCIs DDC
 	on DDC.BL_ID = lp.ci_id
-join [CM_Nov].dbo.v_CIComplianceSummary CCS
+join [CM_NOV].dbo.v_CIComplianceSummary CCS
 	on DDC.BL_ID = CCS.CI_ID
-join [CM_Nov].dbo.v_CICurrentComplianceStatus CCCS
+join [CM_NOV].dbo.v_CICurrentComplianceStatus CCCS
 	on LP.CI_ID = CCCS.CI_ID
-join [CM_Nov].dbo.v_r_system vrs
+join [CM_NOV].dbo.v_r_system vrs
 	on vrs.ResourceID = CCCS.ResourceID
 )
 
@@ -1394,35 +1394,37 @@ select Distinct
 		when CCCS.ComplianceState = 3 then 'Error'
 		else 'Unknown'
 	end	'ItemComplianceState',
-	b.[SystemName]
+	b.[SystemName],
+	CCSD.Criteria,
+	CCSD.CurrentValue
 from Baseline b
-join [CM_Nov].dbo.v_LocalizedCIProperties LP
+join [CM_NOV].dbo.v_LocalizedCIProperties LP
 	on b.[Configuration Baseline] = LP.DisplayName
-join [CM_Nov].dbo.v_CIAssignmentToCI CTC
+join [CM_NOV].dbo.v_CIAssignmentToCI CTC
 	on CTC.CI_ID = LP.CI_ID
-join [CM_Nov].dbo.vSMS_BaselineAssignment SBA
+join [CM_NOV].dbo.vSMS_BaselineAssignment SBA
 	on SBA.AssignmentID = CTC.AssignmentID
-join [CM_Nov].dbo.vDCMDeploymentCIs DDC
+join [CM_NOV].dbo.vDCMDeploymentCIs DDC
 	on DDC.BL_ID = lp.ci_id
 join (
 		select distinct
 			lcp.DisplayName, 
 			sca.CI_ID
-		from [CM_Nov].dbo.vSMS_ConfigurationItems_All sca
-		join [CM_Nov].dbo.v_LocalizedCIProperties lcp
+		from [CM_NOV].dbo.vSMS_ConfigurationItems_All sca
+		join [CM_NOV].dbo.v_LocalizedCIProperties lcp
 			on sca.CI_ID = lcp.CI_ID
 		where CIType_ID = 3 and inuse = 1) CI
 	on CI.CI_ID = ddc.CI_ID
-join [CM_Nov].dbo.[v_CICurrentComplianceStatus] CCCS
+join [CM_NOV].dbo.[v_CICurrentComplianceStatus] CCCS
 	on CI.CI_ID = CCCS.CI_ID
-join [CM_Nov].dbo.v_r_system vrs
+join [CM_NOV].dbo.v_r_system vrs
 	on vrs.ResourceID = CCCS.ResourceID
+Left join [CM_NOV].dbo.v_CIComplianceStatusDetail CCSD
+	on  vrs.ResourceID = CCSD.ResourceID and CCSD.CI_ID = CCCS.CI_ID
 order by 
 	b.[Configuration Baseline],
 	CI.DisplayName,
 	b.[SystemName]
-
-
 
 Select * from [MECM_PBI_Reporting].dbo.ust_baselineanditems
 
@@ -1496,7 +1498,7 @@ SELECT
 	LastCompletionTime,
 	CompletionStatus,
 	RunNow
-FROM CM_Nov.dbo.vSMS_SQLTaskStatus
+FROM CM_NOV.dbo.vSMS_SQLTaskStatus
 WHERE IsEnabled= 1
 
 Select * from [MECM_PBI_Reporting].dbo.ust_MaintenanceTasks
@@ -1556,8 +1558,8 @@ select
 	When vapp.Success > 0 then CAST(Round(((vapp.Success/CAST(vapp.InProgress+vapp.RequirementsNotMet+vapp.Success+vapp.Error as decimal(18,2))) *100) , 2,2) as Decimal(18,2))
 	Else 0
 	End as 'SuccessRate'
-from CM_Nov.dbo.v_AppDeploymentSummary vapp
-join CM_Nov.dbo.v_collection vc
+from CM_NOV.dbo.v_AppDeploymentSummary vapp
+join CM_NOV.dbo.v_collection vc
 	on vc.CollectionID = vapp.TargetCollectionID
 
 Select * from [MECM_PBI_Reporting].dbo.ust_ApplicationDeploymentSummary
@@ -1600,9 +1602,9 @@ truncate table [MECM_PBI_Reporting].dbo.ust_SoftwareInventory
 
 ;with AddRemovePrograms (Resourceid, Displayname0, Publisher0, Version0) as
 (
-select Resourceid, Displayname0, Publisher0, Version0 from CM_Nov.dbo.v_GS_ADD_REMOVE_PROGRAMS
+select Resourceid, Displayname0, Publisher0, Version0 from CM_NOV.dbo.v_GS_ADD_REMOVE_PROGRAMS
 union
-select Resourceid, Displayname0, Publisher0, Version0 from CM_Nov.dbo.v_GS_ADD_REMOVE_PROGRAMS_64
+select Resourceid, Displayname0, Publisher0, Version0 from CM_NOV.dbo.v_GS_ADD_REMOVE_PROGRAMS_64
 )
 
 Insert into [MECM_PBI_Reporting].dbo.ust_SoftwareInventory
@@ -1612,7 +1614,7 @@ select
 	Publisher0 'Publisher', 
 	Version0 'Version'
 from AddRemovePrograms arp
-join CM_Nov.dbo.v_r_system vrs
+join CM_NOV.dbo.v_r_system vrs
 	on vrs.ResourceID = arp.Resourceid
 
 Select * from [MECM_PBI_Reporting].dbo.ust_SoftwareInventory
@@ -1686,14 +1688,14 @@ select
 	vgos.InstallDate0 'InstallDate',
 	vgos.LastBootUpTime0 'LastBootupTime',
 	vgos.SerialNumber0 'SerialNumber'
-from CM_Nov.dbo.v_GS_COMPUTER_SYSTEM vgcs
-join CM_Nov.dbo.v_r_system vrs
+from CM_NOV.dbo.v_GS_COMPUTER_SYSTEM vgcs
+join CM_NOV.dbo.v_r_system vrs
 	on vrs.ResourceID = vgcs.ResourceID
-join CM_Nov.dbo.v_GS_PROCESSOR vgp
+join CM_NOV.dbo.v_GS_PROCESSOR vgp
 	on vgcs.ResourceID = vgp.ResourceID
-join CM_Nov.dbo.v_GS_OPERATING_SYSTEM vgos
+join CM_NOV.dbo.v_GS_OPERATING_SYSTEM vgos
 	on vgos.ResourceID = vrs.ResourceID
-join CM_Nov.dbo.v_GS_VOLUME vgs
+join CM_NOV.dbo.v_GS_VOLUME vgs
 	on vgs.ResourceID = vrs.ResourceID
 
 Select * from [MECM_PBI_Reporting].dbo.ust_HardwareInventory
@@ -1742,8 +1744,8 @@ Select Distinct
 	sud.FileName,
 	sud.ProductName,
 	sud.ProductVersion
-from CM_Nov.dbo.v_gs_softwareusagedata sud
-join CM_Nov.dbo.v_r_system vrs
+from CM_NOV.dbo.v_gs_softwareusagedata sud
+join CM_NOV.dbo.v_r_system vrs
 	on vrs.ResourceID = sud.ResourceID
 
 Select * from [MECM_PBI_Reporting].dbo.ust_SoftwareUsage
