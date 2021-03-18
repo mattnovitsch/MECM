@@ -75,16 +75,16 @@ Get-AppxPackage Microsoft.MixedReality.Portal | Remove-AppxPackage
 
 #Microsoft.Xbox.TCUI
 Get-AppxPackage Microsoft.Xbox.TCUI | Remove-AppxPackage
-                        
+
 #Microsoft.XboxApp
 Get-AppxPackage Microsoft.XboxApp | Remove-AppxPackage
-                          
+
 #Microsoft.XboxGameOverlay
 Get-AppxPackage Microsoft.XboxGameOverlay | Remove-AppxPackage
-                  
+
 #Microsoft.XboxGamingOverlay
 Get-AppxPackage Microsoft.XboxGamingOverlay | Remove-AppxPackage
-                
+
 #Microsoft.XboxSpeechToTextOverlay
 Get-AppxPackage Microsoft.XboxSpeechToTextOverlay | Remove-AppxPackage
 
